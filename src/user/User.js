@@ -16,5 +16,6 @@ const getUserInfo = async () => {
     const userInfo = await response.json();
     console.log(userInfo);  // 사용자 정보 출력
     // 그 외 로직 처리...
+    //
   };
   
