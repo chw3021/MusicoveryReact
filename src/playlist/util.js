@@ -12,6 +12,7 @@ export const getFormattedDate = (targetDate) =>{
     return `${year}-${month}-${date}`;
 };
 
+
 export const getMonthRangeByDate = (date) =>{
     const beginTimeStamp = new Date(
         date.getFullYear(),
@@ -26,4 +27,5 @@ export const getMonthRangeByDate = (date) =>{
         59,
         59
     ).getTime
+    return {beginTimeStamp, endTimeStamp};
 }

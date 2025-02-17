@@ -6,7 +6,7 @@ import Header from "./Header";
 import ReadMoreList from "./ReadMoreList";
 import { useContext, useEffect, useState } from "react";
 import { ReadMoreStateContext } from "../App";
-import { getMonthRangeByDate} from "../util";
+import { getMonthRangeByDate} from "./util";
 
 const Home = () =>{
     const data = useContext(ReadMoreStateContext);
