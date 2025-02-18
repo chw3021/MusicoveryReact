@@ -13,6 +13,7 @@
     width: 260px; /* 로고 크기 조정 */
     height: auto;
     margin-left: 20px; /* 좌측 상단으로 이동 */
+   
 }
 
 .nav {
@@ -41,8 +42,8 @@
 }
 
 .nav a:hover {
-    background-color: #1db954;
-    color: #121212;
+    background-color: #0092e0;
+    color: white;
 }
 
 .section_midnight{
