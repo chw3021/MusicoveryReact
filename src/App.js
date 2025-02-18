@@ -1,5 +1,6 @@
 import {Route, Routes, Link} from "react-router-dom";
 import Home from "./pages/Home";
+import PostPage from "./pages/PostPage";
 // import Create from "./playlist/Create";
 // import Edit from "./playlist/Edit";
 // import ReadMore from "./playlist/ReadMore";
@@ -137,6 +138,7 @@ if(!isDataLoaded){
   <div className="App">
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/post" element={<PostPage />} />
       {/* <Route path="/Create" element={<Create />} />
       <Route path="/ReadMore/:id" element={<ReadMore />} />
       <Route path="/Edit" element={<Edit />} /> */}

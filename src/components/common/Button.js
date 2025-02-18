@@ -1,9 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/Button.css";
 
-
-const Button = ({text, type='default', onClick})=>{
-    return <button className="button">{text}</button>;
+const Button = ({ text, link }) => {
+    return (
+        <Link to={link} className="button">
+            {text}
+        </Link>
+    );
 };
 
 export default Button;

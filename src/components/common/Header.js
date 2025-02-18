@@ -8,9 +8,9 @@ const Header = () => {
         <div className="header">
             <img src={logo} alt="Musicovery Logo" className="logo" />
             <div className="nav">
-                <Button text={"홈"} />
-                <Button text={"소셜"} />
-                <Button text={"게시판"} />
+                <Button text={"홈"} link={"/"} />
+                <Button text={"소셜"} link={"/social"} />
+                <Button text={"게시판"} link={"/post"} />
             </div>
         </div>
     );
