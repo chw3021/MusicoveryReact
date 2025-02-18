@@ -1,0 +1,79 @@
+/* MusicSearch.css */
+.music-search {
+    padding: 10px;
+    background-color: #282828;
+    color: #fff;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.music-search form {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.music-search input {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.music-search button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1db954;
+    color: #fff;
+    cursor: pointer;
+}
+
+.music-search button:hover {
+    background-color: #1ed760;
+}
+
+.search-results {
+    margin-top: 10px;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.track-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.track-info {
+    flex: 1;
+}
+
+.track-info h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.track-info p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #b3b3b3;
+}
+
+.track-item button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1db954;
+    color: #fff;
+    cursor: pointer;
+}
+
+.track-item button:hover {
+    background-color: #1ed760;
+}

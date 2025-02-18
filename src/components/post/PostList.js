@@ -2,7 +2,7 @@ import React from "react";
 import PostItem from "./PostItem";
 import "../../styles/PostList.css";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, onSelectPost }) => {
     return (
         <div className="post-list">
             <div className="post-list-header">
@@ -14,7 +14,7 @@ const PostList = ({ posts }) => {
                 <div className="post-report">신고</div>
             </div>
             {posts.map((post) => (
-                <PostItem key={post.number} post={post} />
+                <PostItem key={post.id} post={post} onSelectPost={onSelectPost} />
             ))}
         </div>
     );
