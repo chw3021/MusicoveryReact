@@ -1,0 +1,43 @@
+/* Header.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #282828;
+}
+
+.logo {
+    width: 200px; /* 로고 크기 조정 */
+    height: auto;
+    margin-left: 20px; /* 좌측 상단으로 이동 */
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* 우측 상단으로 이동 */
+}
+
+.nav ul {
+    display: flex;
+}
+
+.nav li {
+    margin-left: 15px; /* 버튼 간격 조정 */
+}
+
+.nav a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 10px 20px; /* 버튼 크기 조정 */
+    border-radius: 20px;
+    background-color: #fff; /* 버튼 배경 흰색 */
+    color: #000; /* 버튼 텍스트 색상 */
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav a:hover {
+    background-color: #1db954;
+    color: #121212;
+}
