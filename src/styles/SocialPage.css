@@ -1,7 +1,13 @@
 /* SocialPage.css */
 .header-container {
-    margin: 0 auto; /* 헤더를 가운데 정렬 */
-    padding: 20px;  /* 헤더 주변 여백 추가 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+
+
+    height: 80px; /* 고정 높이 추가 */
+    width: 100%;
 }
 
 .social-content {
