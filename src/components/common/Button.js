@@ -1,13 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/Button.css";
 
-
-const Button = ({text, type='default', onClick})=>{
-    const btnType = ["insertType", "cancelType", "pageType", "socialType", "boardType"].includes(type) ? type : "default";
-
-    return(
-    <button className={["Button",`Button_${btnType}`].join(" ")}
-     onClick={onClick}>{text}</button>
+const Button = ({ text, link }) => {
+    return (
+        <Link to={link} className="button">
+            {text}
+        </Link>
     );
 };
 

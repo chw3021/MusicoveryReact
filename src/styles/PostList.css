@@ -1,0 +1,42 @@
+/* PostList.css */
+.post-list {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.post-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    border-bottom: 2px solid #444;
+}
+
+.post-list-header div {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.post-list-header .post-number {
+    flex: 0.5;
+    text-align: center;
+}
+
+.post-list-header .post-title {
+    flex: 3;
+    text-align: center;
+}
+
+.post-list-header .post-author,
+.post-list-header .post-date,
+.post-list-header .post-views {
+    flex: 1;
+    text-align: center;
+}
+
+.post-list-header .post-report {
+    flex: 0.5;
+    text-align: center;
+}

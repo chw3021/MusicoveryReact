@@ -1,0 +1,51 @@
+/* PostPage.css */
+.post-page {
+    padding: 20px;
+}
+
+.post-list-container {
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.page-button {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.page-button:hover {
+    background-color: #1ed760;
+}
+
+.page-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.write-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.write-button:hover {
+    background-color: #1ed760;
+}

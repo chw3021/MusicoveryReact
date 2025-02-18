@@ -1,0 +1,48 @@
+/* PostItem.css */
+.post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.post-item div {
+    flex: 1;
+    text-align: center;
+}
+
+.post-item .post-number {
+    flex: 0.5;
+    text-align: center;
+}
+
+.post-item .post-title {
+    flex: 3;
+    text-align: center;
+}
+
+.post-item .post-author,
+.post-item .post-date,
+.post-item .post-views {
+    flex: 1;
+    text-align: center;
+}
+
+.post-item .post-report {
+    flex: 0.5;
+    text-align: center;
+}
+
+.report-button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.report-button:hover {
+    background-color: #ff6666;
+}
