@@ -21,7 +21,7 @@ const MusicSearch = () => {
 
     const handlePlay = async (trackId) => {
         try {
-            await axios.post(`/api/spotify/play?musicId=${trackId}`);
+            await axiosInstance.post(`/music/play?musicId=${trackId}`);
             setPlayingTrack(trackId);
         } catch (error) {
             console.error("Failed to play music", error);
