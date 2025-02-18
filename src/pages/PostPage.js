@@ -43,25 +43,25 @@ const PostPage = () => {
     };
 
     return (
-        <Layout>
             <div className="post-page">
                 <Header />
-                <SocialHeader />
-                <div className="post-list-container">
-                    <PostBody posts={posts} onCreate={handleCreatePost} />
-                </div>
-                <div className="pagination">
-                    <button className="page-button" onClick={handlePreviousPage} disabled={page === 0}>
-                        이전
-                    </button>
-                    <span className="page-number">{page + 1}</span>
-                    <button className="page-button" onClick={handleNextPage} disabled={page === totalPages - 1}>
-                        다음
-                    </button>
-                </div>
-                <button className="write-button" onClick={() => setIsCreating(true)}>작성</button>
+                <Layout>
+                     <SocialHeader />
+                    <div className="post-list-container">
+                            <PostBody posts={posts} onCreate={handleCreatePost} />
+                    </div>
+                    <div className="pagination">
+                        <button className="page-button" onClick={handlePreviousPage} disabled={page === 0}>
+                            이전
+                        </button>
+                        <span className="page-number">{page + 1}</span>
+                        <button className="page-button" onClick={handleNextPage} disabled={page === totalPages - 1}>
+                            다음
+                        </button>
+                        <button className="write-button" onClick={() => setIsCreating(true)}>작성</button>
+                    </div>
+                </Layout>
             </div>
-        </Layout>
     );
 };
 

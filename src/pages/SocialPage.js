@@ -6,8 +6,9 @@ import "../styles/SocialPage.css";
 const SocialPage = () => {
     return (
         <div>
-            {/* 기존의 header 클래스는 Header 컴포넌트로 대체 */}
-            <Header />
+            <div className="header-container">
+                <Header />
+            </div>
             <div className="social-content">
                 <h1>소셜 페이지</h1>
                 <p>친구들과 소통하고 다양한 소셜 기능을 이용해 보세요.</p>

@@ -143,12 +143,12 @@ if(!isDataLoaded){
   <div className="App">
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/post" element={<PostPage />} />
+      <Route path="/social" element={<SocialPage />} />
 
       <Route path="/Create" element={<Create />} />
        {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
-=======
-      <Route path="/post" element={<PostPage />} />
-      <Route path="/social" element={<SocialPage />} />  {/* 소셜 페이지 추가 */}
+=======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
       {/* <Route path="/Create" element={<Create />} />
       <Route path="/ReadMore/:id" element={<ReadMore />} />
