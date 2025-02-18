@@ -1,0 +1,18 @@
+/* Button.css */
+.button {
+    font-size: 1.0rem;
+    font-weight: 600;
+    padding: 5px 10px; /* 버튼 크기 조정 */
+    border: none;
+    border-radius: 10px;
+    background-color: #fff; /* 버튼 배경 흰색 */
+    color: #000; /* 버튼 텍스트 색상 */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 15px; /* 버튼 간격 조정 */
+}
+
+.button:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}

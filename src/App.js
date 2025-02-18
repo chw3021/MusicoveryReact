@@ -1,9 +1,10 @@
 import {Route, Routes, Link} from "react-router-dom";
-import Home from "./playlist/Home";
-import Create from "./playlist/Create";
-import Edit from "./playlist/Edit";
-import ReadMore from "./playlist/ReadMore";
+import Home from "./pages/Home";
+// import Create from "./playlist/Create";
+// import Edit from "./playlist/Edit";
+// import ReadMore from "./playlist/ReadMore";
 import React ,{ useEffect, useReducer, useRef, useState } from "react";
+import "./App.css";
 
 
 
@@ -136,9 +137,9 @@ if(!isDataLoaded){
   <div className="App">
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Create" element={<Create />} />
+      {/* <Route path="/Create" element={<Create />} />
       <Route path="/ReadMore/:id" element={<ReadMore />} />
-      <Route path="/Edit" element={<Edit />} />
+      <Route path="/Edit" element={<Edit />} /> */}
     </Routes>
     {/* <div>
       <Link to={"/"}>Home</Link>
