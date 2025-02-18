@@ -27,16 +27,17 @@ const Home = () =>{
             <section className="section_midnight"></section>
             <div className="hero">
                 <div className="hero-content">
-                    <h1> 환영합니다 </h1>
-                    <p>Explore curated playlists, discover new artists, and expand your musical horizons.</p>
-                    <a href="#" className="hero-button">Login</a>
-                    <a href="#" className="hero-button">Login</a>
+                    <h1>Heading</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                    <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <a href="#" className="hero-button1">로그인</a>
+                    <a href="#" className="hero-button2">회원가입</a>
                 {/* <PlaylistPage onClick={goPlaylistPage} />     */}
                 </div>
             </div>
             {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
             <Button link={"/PlaylistPage"} 
-                text={"내라이브러리로 가기"} />
+                text={"내라이브러리로 가기화면보려고만든거예여삭제하면안대여!!!"} />
         </div>
   
     );
