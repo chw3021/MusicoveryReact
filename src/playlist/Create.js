@@ -1,6 +1,6 @@
 //플레이리스트 수정하기
 import { useEffect, useState } from "react";
-import { getFormattedDate } from "./util";
+import { getFormattedDate } from "../util";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 
@@ -86,9 +86,9 @@ useEffect(() =>{
  
 
   return (
-  
+  <div className="forBackgroundColor">
       <div className="Create">
-        <h5>플레이리스트 생성화면</h5>
+        <h5>플레이리스트 생성화면</h5>.
            <div className="create_section">
             <div className="main_text">
             <h5>플레이리스트 선택</h5>
@@ -199,7 +199,7 @@ useEffect(() =>{
               
             </div>
       </div>
-          
+      </div>  
       );
   }
 export default Create;
