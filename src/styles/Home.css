@@ -42,7 +42,7 @@
 
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://cdn.pixabay.com/photo/2022/06/21/21/15/audio-7276511_1280.jpg') center/cover no-repeat;
-    min-height: 785px;
+    min-height: 828px;
     width: 1920px;
     display: flex;
 
@@ -50,10 +50,11 @@
     padding: 50px 20px;
     position: relative;
 
-    padding: 100px 20px 50px; /* 헤더 높이만큼 추가 */
+     /*padding: 100px 20px 50px; 헤더 높이만큼 추가 */
     display: flex;               /* Flexbox를 사용 */
     justify-content: center;     /* 가로 중앙 정렬 */
     align-items: center;         /* 세로 중앙 정렬 */
+    
 }
 
 .hero-content {
@@ -67,6 +68,7 @@
     font-weight: 700;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+
 }
 
 
