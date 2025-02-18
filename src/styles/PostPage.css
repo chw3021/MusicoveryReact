@@ -1,6 +1,7 @@
 /* PostPage.css */
 .post-page {
     padding: 20px;
+    margin: 0 auto; /* 헤더를 가운데 정렬 */
 }
 
 .post-list-container {
