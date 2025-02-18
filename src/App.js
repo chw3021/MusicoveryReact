@@ -7,6 +7,8 @@ import SocialPage from "./pages/SocialPage"; // SocialPage 임포트
 // import ReadMore from "./playlist/ReadMore";
 import React ,{ useEffect, useReducer, useRef, useState } from "react";
 import "./App.css";
+import PlaylistPage from "./pages/PlaylistPage";
+import Create from "./components/playlist/Create";
 
 import UserReport from "./components/social/UserReport"; // UserReport 임포트
 
@@ -142,11 +144,17 @@ if(!isDataLoaded){
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/post" element={<PostPage />} />
-      <Route path="/social" element={<SocialPage />} />  {/* 소셜 페이지 추가 */}
+      <Route path="/social" element={<SocialPage />} />
+
+      <Route path="/Create" element={<Create />} />
+       {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
+=======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
       {/* <Route path="/Create" element={<Create />} />
       <Route path="/ReadMore/:id" element={<ReadMore />} />
+>>>>>>> c9de4cdead68a872181f83ede7abfb42dbc58624
       <Route path="/Edit" element={<Edit />} /> */}
+      <Route path="/playlistPage" element={<PlaylistPage />} />
     </Routes>
 
   </div>

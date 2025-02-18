@@ -5,6 +5,7 @@ const MusicPlayer = ({ trackId }) => {
     return (
         <div className="music-player">
             <iframe
+                title={`Spotify track ${trackId}`}
                 src={`https://open.spotify.com/embed/track/${trackId}`}
                 width="300"
                 height="80"
