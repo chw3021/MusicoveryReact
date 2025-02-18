@@ -11,6 +11,7 @@
     align-items: center;
     padding: 20px 0;
     border-bottom: 1px solid #282828;
+    height: 80px; /* 고정 높이 추가 */
 }
 
 .logo {
@@ -49,6 +50,8 @@
     text-align: center;
     padding: 50px 20px;
     position: relative;
+
+    padding: 100px 20px 50px; /* 헤더 높이만큼 추가 */
 }
 
 .hero-content {

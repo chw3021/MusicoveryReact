@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/common/Header";
 import SocialHeader from "../components/common/SocialHeader";
 import PostBody from "../components/post/PostBody";
+import Layout from "../components/common/Layout";
 import axiosInstance from "../api/axiosInstance";
 import "../styles/PostPage.css";
 
@@ -42,23 +43,25 @@ const PostPage = () => {
     };
 
     return (
-        <div className="post-page">
-            <Header />
-            <SocialHeader />
-            <div className="post-list-container">
-                <PostBody posts={posts} onCreate={handleCreatePost} />
+        <Layout>
+            <div className="post-page">
+                <Header />
+                <SocialHeader />
+                <div className="post-list-container">
+                    <PostBody posts={posts} onCreate={handleCreatePost} />
+                </div>
+                <div className="pagination">
+                    <button className="page-button" onClick={handlePreviousPage} disabled={page === 0}>
+                        이전
+                    </button>
+                    <span className="page-number">{page + 1}</span>
+                    <button className="page-button" onClick={handleNextPage} disabled={page === totalPages - 1}>
+                        다음
+                    </button>
+                </div>
+                <button className="write-button" onClick={() => setIsCreating(true)}>작성</button>
             </div>
-            <div className="pagination">
-                <button className="page-button" onClick={handlePreviousPage} disabled={page === 0}>
-                    이전
-                </button>
-                <span className="page-number">{page + 1}</span>
-                <button className="page-button" onClick={handleNextPage} disabled={page === totalPages - 1}>
-                    다음
-                </button>
-            </div>
-            <button className="write-button" onClick={() => setIsCreating(true)}>작성</button>
-        </div>
+        </Layout>
     );
 };
 
