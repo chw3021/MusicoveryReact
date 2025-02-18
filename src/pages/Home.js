@@ -24,7 +24,7 @@ const Home = () =>{
             <Header />  
             {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
 
-            <section className="section_midnight"></section>
+            
             <div className="hero">
                 <div className="hero-content">
                 <Button link={"/PlaylistPage"} 

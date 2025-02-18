@@ -5,7 +5,8 @@ import logo from "../../assets/logo.png"; // 로고 이미지 경로
 
 const Header = () => {
     return (
-        <div className="header">
+        <div className="headerMain">
+              <div className="header">
             {/* <img src={logo} alt="Musicovery Logo" className="logo" /> */}
             <img src={logo} alt="Musicovery Logo" className="logo" />
             <div className="nav">
@@ -13,7 +14,12 @@ const Header = () => {
                 <Button text={"소셜"} link={"/social"} />
                 <Button text={"게시판"} link={"/post"} />
             </div>
+            </div>
+            <div className="blueLine">
+         <section className="section_midnight"></section>
+            </div>
         </div>
+        
     );
 }
 
