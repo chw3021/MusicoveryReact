@@ -9,6 +9,7 @@ import { ReadMoreStateContext } from "../App";
 import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
+import "../styles/PlaylistPage.css";
 
 
 const PlaylistPage = () =>{
@@ -39,17 +40,20 @@ const PlaylistPage = () =>{
 
 
     return ( 
-        <div className="container">
+        <div className="container1">
             <Header />  
             {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
         
             <section className="section_midnight"></section>
-            <div className="hero">
-                <div className="hero-content">
-                    <button type="button">내 라이브러리</button>
+            <div className="background">
+                <div className="hero-content1">
+                    <div className="grayBackground">
+                        <div className="Textplace">
+                    <div id="libText">내 라이브러리</div>
+                    </div>
                     <ReadMoreList data={filteredData} />
                    <div>
-            
+                   </div>
                     </div>
                 </div>
             </div>
