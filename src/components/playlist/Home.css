@@ -1,0 +1,20 @@
+.text {
+  color : white;
+ 
+}
+
+.forBackground{
+    background-color: black;
+  width:2000px;
+    height: 1000px; 
+  }
+
+.section_midnight{
+  background-color: rgb(28, 28, 140);
+  width: 2000px;
+  height: 35px;
+  margin-top: 50px;
+}
+.text.btnColor{
+  color: midnightblue;
+}

@@ -9,38 +9,53 @@ import { ReadMoreStateContext } from "../App";
 import { getMonthRangeByDate} from "../utils/util";
 import "../styles/Home.css";
 
+
 const Home = () =>{
     const data = useContext(ReadMoreStateContext);
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
-    const listArray = `${pivotDate.getFullYear()}년 ${pivotDate.getMonth() + 1}월`;
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        if (data.length >= 1) {
-            const { beginTimeStamp, endTimeStamp } = getMonthRangeByDate(pivotDate);
+
+    
+    const listArray = `${pivotDate.getFullYear()}년
+                        ${pivotDate.getMonth()+1}월`;
+  
+
+    useEffect (()=>{
+        if(data.length >=1){
+            const {beginTimeStamp, endTimeStamp} = getMonthRangeByDate(pivotDate);
             setFilteredData(
-                data.filter((it) => beginTimeStamp <= it.data && it.data <= endTimeStamp)
+                data.filter(
+                    (it) => beginTimeStamp <= it.data && it.data <= endTimeStamp
+                )
             );
+        }else{
+            setFilteredData([]);
         }
-    }, [data, pivotDate]);
+    }, [data,pivotDate]);
     
 
-    const goHome = () =>{
 
-    }
     return ( 
         <div className="container">
-            <Header title={"Musicovery"} leftChild={<Button text={"홈"} />} />
+            <Header title={listArray} />  
+            {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
+
+            <section className="section_midnight"></section>
             <div className="hero">
                 <div className="hero-content">
-                    <h1>Find Your Next Favorite Song</h1>
+                    <h1> 환영합니다 </h1>
                     <p>Explore curated playlists, discover new artists, and expand your musical horizons.</p>
-                    <a href="#" className="hero-button">Start Exploring</a>
+                    <a href="#" className="hero-button">Login</a>
+                    <a href="#" className="hero-button">Login</a>
+                    
                 </div>
             </div>
-            <ReadMoreList data={filteredData} />
+            {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
+
         </div>
-    // , <Button text={"소셜"} />, <Button text={"게시판"} 
+  
     );
 }
 export default Home;
