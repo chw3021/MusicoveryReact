@@ -154,7 +154,8 @@ if(!isDataLoaded){
       <Route path="/ReadMore/:id" element={<ReadMore />} />
 >>>>>>> c9de4cdead68a872181f83ede7abfb42dbc58624
       <Route path="/Edit" element={<Edit />} /> */}
-      <Route path="/playlistPage" element={<PlaylistPage />} />
+      
+      <Route path="/PlaylistPage" element={<PlaylistPage />} />
     </Routes>
 
   </div>

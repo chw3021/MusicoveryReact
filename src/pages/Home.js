@@ -8,14 +8,14 @@ import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
 // import useReadMore from "../hooks/useReadMore.js";
 // import useReadMore from "../hooks/"
-import PlaylistPage from "./PlaylistPage";
+// import PlaylistPage from "./PlaylistPage";
 
 const Home = () =>{
     const navigate = useNavigate();
 
-    const onClickHere = () =>{
-        navigate("/playlistPage");
-    }
+    // const onClickHere = () =>{
+    //     navigate("/playlistPage");
+    // }
    
 
 
@@ -35,8 +35,8 @@ const Home = () =>{
                 </div>
             </div>
             {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
-            <Button type={"pageType"} 
-                text={"내라이브러리로 가기"} onClick={onClickHere} />
+            <Button link={"/PlaylistPage"} 
+                text={"내라이브러리로 가기"} />
         </div>
   
     );

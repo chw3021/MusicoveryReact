@@ -195,7 +195,7 @@ useEffect(() =>{
                     <div className="Edit_Btn">
                        
               <Button text="취소" onClick={handleCancel}/>
-              <Button text="생성하기" type={"insertType"} onClick={handleSubmit} />
+              <Button text="생성하기" link={"/PlaylistPage"} onClick={handleSubmit} />
                     </div>
                 </div>
               
