@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "./Button";
+import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import ReadMoreItem from "./ReadMoreItem";
 //홈 상단화면
