@@ -143,12 +143,7 @@ if(!isDataLoaded){
       <Route path="/ReadMore/:id" element={<ReadMore />} />
       <Route path="/Edit" element={<Edit />} /> */}
     </Routes>
-    {/* <div>
-      <Link to={"/"}>Home</Link>
-      <Link to={"/Create"}>Create</Link>
-      <Link to={"/Edit"}>Edit</Link>
-      <Link to={"/ReadMore"}>ReadMore</Link>
-    </div> */}
+
   </div>
   </ReadMoreDispatchContext.Provider>
   </ReadMoreStateContext.Provider>
