@@ -46,15 +46,21 @@ const PlaylistPage = () =>{
         
             <section className="section_midnight"></section>
             <div className="background">
-                <div className="hero-content1">
-                    <div className="grayBackground">
-                        <div className="Textplace">
-                    <div id="libText">내 라이브러리</div>
-                    </div>
-                    <ReadMoreList data={filteredData} />
-                   <div>
-                   </div>
-                    </div>
+              
+
+                        <div className="grayBackground">
+                            
+                            <div className="Textplace">
+                        <div id="libText">내 라이브러리</div>
+                        </div>
+
+                        <div className="list">
+                        <ReadMoreList data={filteredData} />
+                        </div>
+                        
+                        </div>
+                        <div>
+                    
                 </div>
             </div>
             

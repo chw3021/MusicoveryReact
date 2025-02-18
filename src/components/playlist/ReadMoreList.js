@@ -45,40 +45,41 @@ const ReadMoreList = ({data}) =>{
 
     return (
     <div className="ReadMoreList">
-        <div className="ListArray">
+          
 
-        <div className="goCreateView">
-                <Button link={"/Create"} 
-                text={"새로 만들기"} onClick={onClickCreate} />
-            </div>
+                <div className="goCreateView">
+                        <Button link={"/Create"} 
+                        text={"새로 만들기"} onClick={onClickCreate} />
+                </div>
 
-            <div className="searchText">
-        <input
-                  type="text"
-                  className="form-control"
-                  name="searchList"
-                  placeholder="플레이리스트 검색"
-                />
-            </div>
-            </div>
-        <div className="ListArray_section">
+
+    <div className="searchText">
+            <input
+                    type="text"
+                    className="form-control"
+                    name="searchList"
+                    placeholder="플레이리스트 검색"
+                    />
                 {/* 정렬 선택(가나다순 아직 안함) */}
-            <select value={sortType} onChange={onChangeSortType}>
-            {sortOptionList.map((it, idx) => (
-            <option key={idx} value={it.value}>
-            {it.name}
-            </option>
-            ))}
-            </select>     
-            </div>
-            <div className="list_lower">
-                {sortedData.map((it) => (
-                    <ReadMoreItem key={it.id} {...it} />
+                <select  value={sortType} onChange={onChangeSortType}>
+                    {sortOptionList.map((it, idx) => (
+                    <option key={idx} value={it.value}>
+                    {it.name}
+                 </option>
                 ))}
-            
-        </div>
-        
+                </select>     
     </div>
+      
+
+          
+                <div className="list_lower">
+                    {sortedData.map((it) => (
+                        <ReadMoreItem key={it.id} {...it} />
+                    ))}
+                
+                </div>
+        
+</div>
     );
 }
 

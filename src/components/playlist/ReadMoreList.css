@@ -6,4 +6,13 @@
     margin-top: 50px;
     margin:auto;
     width: 1300px;
+    display: flex;         /* flexbox 사용 */
+    align-items: center;   /* 수직 중앙 정렬 */
+    gap: 10px;             /* 두 요소 사이의 간격 */
+}
+.form-control {
+    flex-grow: 1;          /* input이 가능한 만큼 공간을 차지하도록 설정 */
+}
+select {
+    flex-shrink: 0;        /* select 박스가 축소되지 않도록 설정 */
 }

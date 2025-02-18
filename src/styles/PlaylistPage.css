@@ -5,6 +5,8 @@
     margin-left: 55px;
     margin-top: 35px;
 }
+
+/* 내 라이브러리 */
 #libText{
     background-color: white;
     color: black;
@@ -12,7 +14,9 @@
     width: 150px;
     text-justify: auto;
 }
-.Textplace{
-    margin-left: 830px;
 
+
+.Textplace{     
+    margin-left: 830px;
+    
 }
