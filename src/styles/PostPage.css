@@ -1,7 +1,7 @@
 /* PostPage.css */
 .post-page {
-    padding: 20px;
-    margin: 0 auto; /* 헤더를 가운데 정렬 */
+    height: 100px; /* 헤더 높이 고정 */
+    width: 100%; /* 헤더 너비 100% */
     
 }
 
