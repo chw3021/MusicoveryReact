@@ -3,7 +3,7 @@ import "../../styles/Button.css";
 
 
 const Button = ({text, type='default', onClick})=>{
-    const btnType = ["insertType", "cancelType", "homeType", "socialType", "boardType"].includes(type) ? type : "default";
+    const btnType = ["insertType", "cancelType", "pageType", "socialType", "boardType"].includes(type) ? type : "default";
 
     return(
     <button className={["Button",`Button_${btnType}`].join(" ")}

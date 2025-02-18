@@ -5,7 +5,7 @@ import Button from "./Button";
 import { getFormattedDate } from "../util";
 import Header from "./Header";
 import Viewer from "./Viewer";
-import useReadMore from "../hooks/useReadMore,js";
+import useReadMore from "../hooks/useReadMore.js";
 
 
 const ReadMore = () =>{

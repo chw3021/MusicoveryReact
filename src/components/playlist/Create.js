@@ -1,8 +1,9 @@
-//플레이리스트 수정하기
+//플레이리스트 생성화면
 import { useEffect, useState } from "react";
-import { getFormattedDate } from "../util";
-import Button from "./Button";
+import { getFormattedDate } from "../../utils/util";
+import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
+import Header from "../common/Header";
 
 
 const Create = ({initData, onSubmit}) => {
@@ -42,11 +43,11 @@ useEffect(() =>{
   
   // 폼 필드의 값을 상태로 업데이트하는 함수
   const handleChangeDate = (e) => {
-      // const { name, value, type, checked } = e.target;
-      // setState((prev) => ({
-      //   ...prev,
-      //   [name]: type === 'checkbox' ? checked : value,
-      // }));
+      const { name, value, type, checked } = e.target;
+      setState((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
       setState({
           ...state,
           playlistDate:getFormattedDate(new Date(e.target.value)),
@@ -88,7 +89,8 @@ useEffect(() =>{
   return (
   <div className="forBackgroundColor">
       <div className="Create">
-        <h5>플레이리스트 생성화면</h5>.
+        <h5>플레이리스트 생성화면</h5>
+        <Header />
            <div className="create_section">
             <div className="main_text">
             <h5>플레이리스트 선택</h5>

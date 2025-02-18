@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 // import ReadMore from "./playlist/ReadMore";
 import React ,{ useEffect, useReducer, useRef, useState } from "react";
 import "./App.css";
-
+import PlaylistPage from "./pages/PlaylistPage";
+import Create from "./components/playlist/Create";
 
 
 
@@ -137,9 +138,10 @@ if(!isDataLoaded){
   <div className="App">
     <Routes>
       <Route path="/" element={<Home />} />
-      {/* <Route path="/Create" element={<Create />} />
-      <Route path="/ReadMore/:id" element={<ReadMore />} />
+      <Route path="/Create" element={<Create />} />
+       {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
       <Route path="/Edit" element={<Edit />} /> */}
+      <Route path="/playlistPage" element={<PlaylistPage />} />
     </Routes>
 
   </div>
