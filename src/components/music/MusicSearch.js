@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MusicPlayer from "./MusicPlayer";
+import WebPlayback from "./WebPlayback";
 import "../../styles/MusicSearch.css";
 import axiosInstance from "../../api/axiosInstance";
+import { play } from "./spotifyPlayer";
 
 const MusicSearch = () => {
     const [keyword, setKeyword] = useState("");
     const [results, setResults] = useState([]);
     const [playingTrack, setPlayingTrack] = useState(null);
+    const [audioPlayer, setAudioPlayer] = useState(new Audio());
+    const [isPremium, setIsPremium] = useState(false);
+    const [player, setPlayer] = useState(null);
+
+    // Premium 상태 확인
+    useEffect(() => {
+        const checkPremiumStatus = async () => {
+            try {
+                const response = await axiosInstance.get('/api/spotify/userInfo');
+                setIsPremium(response.data.product === 'premium');
+            } catch (error) {
+                console.error("Failed to check premium status", error);
+            }
+        };
+        checkPremiumStatus();
+    }, []);
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -18,17 +36,38 @@ const MusicSearch = () => {
         }
     };
 
-    const handlePlay = async (trackId) => {
+    const handlePlay = async (track) => {
         try {
-            await axiosInstance.get(`/music/play?musicId=${trackId}`);
-            setPlayingTrack(trackId);
+            if (isPremium) {
+                await play({
+                    spotify_uri: `spotify:track:${track.id}`,
+                    deviceId: player?.deviceId,
+                });
+                setPlayingTrack(track.id);
+            } else {
+                window.open(track.external_urls.spotify, '_blank');
+            }
         } catch (error) {
-            console.error("Failed to play music", error);
+            if (error.response?.status === 403) {
+                alert('Premium 계정이 필요한 기능입니다.');
+                setIsPremium(false);
+            } else {
+                console.error("Failed to play music", error);
+            }
         }
     };
 
+    // 컴포넌트 언마운트 시 정리
+    useEffect(() => {
+        return () => {
+            audioPlayer.pause();
+            audioPlayer.src = '';
+        };
+    }, []);
+
     return (
         <div className="music-search">
+            {isPremium && <WebPlayback />}
             <form onSubmit={handleSearch}>
                 <input
                     type="text"
@@ -46,11 +85,16 @@ const MusicSearch = () => {
                             <h4>{track.name}</h4>
                             <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
                         </div>
-                        <button onClick={() => handlePlay(track.id)}>재생</button>
+                        <button 
+                            onClick={() => handlePlay(track)}
+                            className={isPremium ? 'premium-play' : 'spotify-link'}
+                        >
+                            {isPremium ? '재생' : 'Spotify에서 듣기'}
+                        </button>
                     </div>
                 ))}
             </div>
-            {playingTrack && <MusicPlayer trackId={playingTrack} />}
+            {isPremium && <div className="premium-badge">Premium</div>}
         </div>
     );
 };

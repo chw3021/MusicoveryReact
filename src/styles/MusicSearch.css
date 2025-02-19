@@ -77,3 +77,43 @@
 .track-item button:hover {
     background-color: #1ed760;
 }
+
+.track-item button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.track-item button:disabled:hover {
+    background-color: #cccccc;
+}
+.premium-play {
+    background-color: #1DB954;
+}
+
+.premium-play:hover {
+    background-color: #1ed760;
+}
+
+.premium-badge {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 5px 10px;
+    background-color: #1DB954;
+    color: white;
+    border-radius: 15px;
+    font-weight: bold;
+}
+.spotify-link {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.spotify-link:hover {
+    background-color: #1ed760;
+}

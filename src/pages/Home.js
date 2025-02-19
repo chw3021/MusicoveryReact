@@ -46,14 +46,15 @@ const Home = () =>{
                     <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <a href="#" className="hero-button1">로그인</a>
                     <a href="#" className="hero-button2">회원가입</a>
-                    <button className="hero-button1" onClick={handleLoginClick}>임시 로그인</button>
+                    <hr></hr>
+                    <button className="hero-button1" onClick={handleLoginClick}>임시 로그인(스포티파이로 로그인)</button>
                     <button className="hero-button2" onClick={handleLogoutClick}>
                         임시 로그아웃
                     </button>
+                    {showOAuth && <OAuth />}
                 {/* <PlaylistPage onClick={goPlaylistPage} />     */}
                 </div>
             </div>
-            {showOAuth && <OAuth />}
             {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
             
         </div>

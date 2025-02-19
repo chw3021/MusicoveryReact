@@ -13,7 +13,7 @@ const PostList = ({ posts, onSelectPost }) => {
                 <div className="post-views">조회수</div>
                 <div className="post-report">신고</div>
             </div>
-            {posts.map((post) => (
+            {posts.map((post, index) => (
                 <PostItem key={post.id} post={post} onSelectPost={onSelectPost} />
             ))}
         </div>

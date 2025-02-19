@@ -1,16 +1,6 @@
 /* Home.css */
 
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-
-
-    height: 80px; /* 고정 높이 추가 */
-    width: 100%;
-}
 /* 
 .logo {
     font-size: 2.5rem;
@@ -43,7 +33,7 @@
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://cdn.pixabay.com/photo/2022/06/21/21/15/audio-7276511_1280.jpg') center/cover no-repeat;
     min-height: 828px;
-    width: 1920px;
+    width: 100%;
     display: flex;
 
     text-align: center;
