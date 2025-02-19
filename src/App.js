@@ -11,6 +11,7 @@ import PlaylistPage from "./pages/PlaylistPage";
 import Create from "./components/playlist/Create";
 
 import UserReport from "./components/social/UserReport"; // UserReport 임포트
+import OAuthCallback from "./components/auth/OAuthCallback";
 
 
 
@@ -156,6 +157,9 @@ if(!isDataLoaded){
       <Route path="/Edit" element={<Edit />} /> */}
       
       <Route path="/PlaylistPage" element={<PlaylistPage />} />
+
+      <Route path="/oauth-callback" element={<OAuthCallback />} />
+
     </Routes>
 
   </div>
