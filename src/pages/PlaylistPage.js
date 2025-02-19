@@ -10,6 +10,8 @@ import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 import "../styles/PlaylistPage.css";
+import Button from "../components/common/Button";
+import PlaylistDetail from "../components/playlist/PlaylistDetail";
 
 
 const PlaylistPage = () =>{
@@ -55,7 +57,11 @@ const PlaylistPage = () =>{
                         <div className="list">
                         <ReadMoreList data={filteredData} />
                         </div>
-                        
+
+                        <div className="ofPlaylistDetail">
+                            <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
+                        </div>
+
                         </div>
                         <div>
                     
