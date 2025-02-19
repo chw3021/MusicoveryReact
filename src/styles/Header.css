@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    height: 100px; /* 헤더 높이 고정 */
+    height: 100%; /* 헤더 높이 고정 */
     width: 100%; /* 헤더 너비 100% */
 }
 
