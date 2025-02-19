@@ -1,18 +1,25 @@
-/* Button.css */
 .button {
-    font-size: 1.0rem;
-    font-weight: 600;
-    padding: 5px 10px; /* 버튼 크기 조정 */
-    border: none;
-    border-radius: 10px;
-    background-color: #fff; /* 버튼 배경 흰색 */
-    color: #000; /* 버튼 텍스트 색상 */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-left: 15px; /* 버튼 간격 조정 */
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .button:hover {
-    background-color: #1ed760;
-    transform: translateY(-2px);
+    background-color: #bdbdbd;
+    border-color: #181717;
+}
+
+.custom-color {
+    color: #4b4949;
+}
+
+.custom-color:hover {
+    background-color: #333;
+    border-color: #333;
 }

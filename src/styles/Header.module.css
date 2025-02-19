@@ -1,25 +1,27 @@
-/* Header.css */
+.headerMain {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    height: 100%; /* 헤더 높이 고정 */
-    width: 100%; /* 헤더 너비 100% */
+    width: 100%;
 }
 
-
 .logo {
-    width: 260px; /* 로고 크기 조정 */
+    width: 260px;
     height: auto;
-    margin-left: 20px; /* 좌측 상단으로 이동 */
-   
+    margin-left: 20px;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    margin-right: 20px; /* 우측 상단으로 이동 */
+    margin-right: 20px;
 }
 
 .nav ul {
@@ -27,18 +29,20 @@
 }
 
 .nav li {
-    margin-left: 15px; /* 버튼 간격 조정 */
+    margin-left: 15px;
 }
 
 .nav a {
     font-size: 1.1rem;
     font-weight: 600;
-    padding: 10px 20px; /* 버튼 크기 조정 */
+    padding: 10px 20px;
     border-radius: 20px;
-    background-color: rgb(28, 28, 140); /* 버튼 배경 흰색 */
-    color: #ffffff; /* 버튼 텍스트 색상 */
+    border-color: blue;
+    background-color: rgb(157, 210, 235);
+    color: #000000;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-top: 40px;
+    margin-left: 10px;
 }
 
 .nav a:hover {
@@ -46,9 +50,9 @@
     color: white;
 }
 
-.section_midnight{
+.section_midnight {
     background-color: rgb(28, 28, 140);
     width: 100%;
     height: 35px;
     margin-top: 10px;
-  }
+}

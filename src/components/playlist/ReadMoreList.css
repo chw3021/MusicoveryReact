@@ -1,18 +1,36 @@
-.goCreateView{
-    margin-left: 1500px;
-    
+.ReadMoreList {
+    padding: 20px;
+    background-color: #f9f9f9;
 }
-.searchText{
-    margin-top: 50px;
-    margin:auto;
-    width: 1300px;
-    display: flex;         /* flexbox 사용 */
-    align-items: center;   /* 수직 중앙 정렬 */
-    gap: 10px;             /* 두 요소 사이의 간격 */
+
+.goCreateView {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
 }
-.form-control {
-    flex-grow: 1;          /* input이 가능한 만큼 공간을 차지하도록 설정 */
+
+.searchText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
-select {
-    flex-shrink: 0;        /* select 박스가 축소되지 않도록 설정 */
+
+.searchText input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.searchText select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.list_lower {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

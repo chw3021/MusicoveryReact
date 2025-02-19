@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import ReadMoreItem from "./ReadMoreItem";
-import "../playlist/ReadMoreList.css";
+import "./ReadMoreList.css";
 
 const sortOptionList = [
     { value: "latest", name: "최신순" },
@@ -60,7 +60,14 @@ const ReadMoreList = ({ data }) => {
 
             <div className="list_lower">
                 {sortedData.map((it) => (
-                    <ReadMoreItem key={it.id} {...it} />
+                    <ReadMoreItem 
+                        key={it.playlistId} 
+                        playlistId={it.playlistId}
+                        playlistTitle={it.playlistTitle}
+                        playlistComment={it.playlistComment}
+                        playlistPhoto={it.playlistPhoto}
+                        playlistDate={it.playlistDate}
+                    />
                 ))}
             </div>
         </div>

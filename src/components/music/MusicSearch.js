@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MusicPlayer from "./MusicPlayer";
 import WebPlayback from "./WebPlayback";
 import "../../styles/MusicSearch.css";
 import axiosInstance from "../../api/axiosInstance";

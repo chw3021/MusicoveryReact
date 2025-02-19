@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from "react";
 import { ReadMoreStateContext } from "../App";
 import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate } from "react-router-dom";
-import "../styles/Home.css";
 import "../styles/PlaylistPage.css";
 import Button from "../components/common/Button";
 import PlaylistDetail from "../components/playlist/PlaylistDetail";
@@ -30,7 +29,7 @@ const PlaylistPage = () =>{
 
     const getPlaylistsByUserId = async (userId) => {
         try {
-            const response = await axiosInstance.get(`/playlists/${userId}`);
+            const response = await axiosInstance.get(`/playlist/user/${userId}`);
             return response.data;
         } catch (error) {
             console.error("Error fetching playlists", error);
@@ -70,17 +69,15 @@ const PlaylistPage = () =>{
     return ( 
         <div className="container1">
             <Header />
-            <div className="background">
-                <div className="grayBackground">
-                    <div className="Textplace">
-                        <div id="libText">내 라이브러리</div>
-                    </div>
-                    <div className="list">
-                        <ReadMoreList data={filteredData} />
-                    </div>
-                    <div className="ofPlaylistDetail">
-                        <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
-                    </div>
+            <div className="grayBackground">
+                <div className="Textplace">
+                    <div id="libText">내 라이브러리</div>
+                </div>
+                <div className="list">
+                    <ReadMoreList data={filteredData} />
+                </div>
+                <div className="ofPlaylistDetail">
+                    <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
                 </div>
             </div>
         </div>

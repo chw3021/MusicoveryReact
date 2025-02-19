@@ -3,6 +3,9 @@ import PostItem from "./PostItem";
 import "../../styles/PostList.css";
 
 const PostList = ({ posts, onSelectPost }) => {
+    if (!posts || posts.length === 0) {
+        return <div className="no-posts">게시글이 없습니다.</div>;
+    }
     return (
         <div className="post-list">
             <div className="post-list-header">
@@ -13,7 +16,7 @@ const PostList = ({ posts, onSelectPost }) => {
                 <div className="post-views">조회수</div>
                 <div className="post-report">신고</div>
             </div>
-            {posts.map((post, index) => (
+            {posts.map((post) => (
                 <PostItem key={post.id} post={post} onSelectPost={onSelectPost} />
             ))}
         </div>

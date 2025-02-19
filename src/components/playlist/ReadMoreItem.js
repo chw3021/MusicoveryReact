@@ -1,13 +1,23 @@
 import React from 'react';
-//import "../playlist/ReadMoreItem.css";
+import Button from "../common/Button";
+import "./ReadMoreItem.css";
 
-const ReadMoreItem = ({ playlist_id, playlist_title, playlist_comment, playlist_photo, playlist_date }) => {
+
+const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate }) => {
     return (
         <div className="ReadMoreItem">
-            <div className="playlistTitle">{playlist_title}</div>
-            <div className="playlistComment">{playlist_comment}</div>
-            <img src={playlist_photo} alt="Playlist" className="playlistPhoto" />
-            <div className="playlistDate">{new Date(playlist_date).toLocaleDateString()}</div>
+            <img src={playlistPhoto} alt="Playlist" className="playlistPhoto" />
+            <div className="playlistInfo">
+                <div className="playlistTitle">{playlistTitle}</div>
+                <div className="playlistComment">{playlistComment}</div>
+            </div>
+            <div className="playlistActions">
+                <div className="buttonGroup">
+                    <Button text="수정" link={`/edit/${playlistId}`} />
+                    <Button text="삭제" link={`/delete/${playlistId}`} />
+                </div>
+                <div className="playlistDate">{new Date(playlistDate).toLocaleDateString()}</div>
+            </div>
         </div>
     );
 };

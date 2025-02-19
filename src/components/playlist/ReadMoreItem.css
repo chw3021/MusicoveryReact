@@ -1,0 +1,62 @@
+.ReadMoreItem {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.playlistPhoto {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.playlistInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistTitle {
+    font-size: 1.5em;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.playlistComment {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.playlistActions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.playlistActions .button {
+    margin-bottom: 10px;
+}
+
+.playlistActions .button + .button {
+    margin-left: 10px;
+}
+.playlistDate {
+    font-size: 0.9em;
+    margin-top: 15px;
+    color: #999;
+}

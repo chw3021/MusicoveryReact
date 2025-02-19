@@ -1,7 +1,6 @@
 .grayBackground{
     background-color:rgb(37, 37, 37);
     height: 750px;
-    width: 1800px;
-    margin-left: 55px;
+    width: 100%;
     margin-top: 35px;
 }

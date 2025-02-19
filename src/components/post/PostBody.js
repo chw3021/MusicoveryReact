@@ -17,10 +17,12 @@ const PostBody = () => {
         try {
             setIsLoading(true);
             const response = await axiosInstance.get(`/post/list?page=${currentPage}&size=15`);
+            console.log(response);
+            
             
             // 새로운 페이지 데이터로 교체
-            setPosts(response.data.content);
-            setTotalPages(response.data.totalPages);
+            setPosts(response.data._embedded.playlistPostDTOList);
+            setTotalPages(response.data.page.totalPages);
         } catch (error) {
             console.error("Failed to fetch posts", error);
         } finally {
