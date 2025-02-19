@@ -3,9 +3,12 @@
 // import Edit from "./Edit";
 import Button from "../components/common/Button";
 import Header from "../components/common/Header";
+import React, { useState } from "react";
+import OAuth from "../components/auth/OAuth";
 
 import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../components/auth/auth";
 // import useReadMore from "../hooks/useReadMore.js";
 // import useReadMore from "../hooks/"
 // import PlaylistPage from "./PlaylistPage";
@@ -16,7 +19,16 @@ const Home = () =>{
     // const onClickHere = () =>{
     //     navigate("/playlistPage");
     // }
-   
+    const [showOAuth, setShowOAuth] = useState(false);
+
+
+    const handleLoginClick = () => {
+        setShowOAuth(true);
+    };
+
+    const handleLogoutClick = () => {
+        logout();
+    };
 
 
     return ( 
@@ -34,9 +46,14 @@ const Home = () =>{
                     <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <a href="#" className="hero-button1">로그인</a>
                     <a href="#" className="hero-button2">회원가입</a>
+                    <button className="hero-button1" onClick={handleLoginClick}>임시 로그인</button>
+                    <button className="hero-button2" onClick={handleLogoutClick}>
+                        임시 로그아웃
+                    </button>
                 {/* <PlaylistPage onClick={goPlaylistPage} />     */}
                 </div>
             </div>
+            {showOAuth && <OAuth />}
             {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
             
         </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import MusicSearch from "../music/MusicSearch";
-import "../../styles/Layout.css";
+import "../../styles/SidebarLayout.css";
 
-const Layout = ({ children }) => {
+const SidebarLayout = ({ children }) => {
     return (
         <div className="layout">
             <div className="sidebar">
@@ -15,4 +15,4 @@ const Layout = ({ children }) => {
     );
 };
 
-export default Layout;
+export default SidebarLayout;

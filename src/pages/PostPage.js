@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/common/Header";
 import SocialHeader from "../components/common/SocialHeader";
 import PostBody from "../components/post/PostBody";
-import Layout from "../components/common/Layout";
+import SidebarLayout from "../components/common/SidebarLayout";
 import axiosInstance from "../api/axiosInstance";
 import "../styles/PostPage.css";
 
@@ -46,7 +46,7 @@ const PostPage = () => {
         <div>
             <div className="post-page">
                 <Header />
-                <Layout>
+                <SidebarLayout>
                      <SocialHeader />
                     <div className="post-list-container">
                             <PostBody posts={posts} onCreate={handleCreatePost} />
@@ -61,7 +61,7 @@ const PostPage = () => {
                         </button>
                         <button className="write-button" onClick={() => setIsCreating(true)}>작성</button>
                     </div>
-                </Layout>
+                </SidebarLayout>
             </div>
         </div>
     );
