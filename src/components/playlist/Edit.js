@@ -1,9 +1,11 @@
-//플레이리스트 수정하기
+//플레이리스트 수정화면
 
 import { useEffect, useState } from "react";
-import { getFormattedDate } from "../util";
-import Button from "./Button";
+import { getFormattedDate } from "../../utils/util";
+import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
+import "../playlist/Edit.css";
+import Header from "../common/Header";
 
 
 const Edit = ({initData, onSubmit}) => {
@@ -13,11 +15,7 @@ const Edit = ({initData, onSubmit}) => {
         onSubmit(state);
       };
 
-     const handleCancel = () =>{
-        navigate(-1);
-     };
     
-
   const [state, setState] = useState({
           playlistTitle: '',
           playlistComment: '',
@@ -85,118 +83,26 @@ const Edit = ({initData, onSubmit}) => {
 
   return (
   
-      <div className="Edit">
-        <h5>플레이리스트 수정화면</h5>
-           <div className="edit_section">
-            <div className="main_text">
-            <h5>플레이리스트 선택</h5>
-            </div>
+<div className="container">
+  <Header />  
+    {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
+  <div className="background">
+    <div className="grayBackground">
+           
+          <div className="Edit_Btn">
+              <Button text="곡추가" link={"/PlusMusic"} />
+              <Button text="수정완료" link={"/Edit"} />
+              <Button text="취소" link={"/PlaylistPage"} />
+          </div>
 
-            <div className="edit_section">
-            <h5>생성일자</h5>
-             <input type="date" value={state.playlistDate}
-             onChange={handleChangeDate} />
-             </div>
+        </div>
+    <div>
+                
+</div>
+        </div>
+        
 
-
-             <div className="edit_section">
-              <input
-                  type="checkbox"
-                  name="musicCheckbox"
-                  id="musicCheckbox"
-                  checked={state.musicCheckbox}
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  className="form-control"
-                  name="selectedMusic"
-                  value={state.selectedMusic}
-                  placeholder="원하는 곡을 입력하세요..."
-                  onChange={handleChange}
-                />
-                </div>
-            <div className="edit_section">
-              <input
-                  type="checkbox"
-                  name="conceptCheckbox"
-                  id="conceptCheckbox"
-                  checked={state.conceptCheckbox}
-                  onChange={handleChange}
-                />
-
-              <select>
-              <option value="장르">장르</option>
-                <option value="발라드">발라드</option>
-                <option value="힙합">힙합</option>
-                <option value="록">록</option>
-              </select>
-              </div>
-
-              <div className="edit_section">
-              <input
-                  type="checkbox"
-                  name="bpmCheckbox"
-                  id="bpmCheckbox"
-                  checked={state.bpmCheckbox}
-                  onChange={handleChange}
-                />
-
-                <select>
-                  {options.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-                </div>
-
-                <div className="edit_section">
-                <label className="text_title">플레이리스트 제목</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="playlistTitle"
-                  value={state.playlistTitle}
-                  placeholder="제목을 입력하세요..."
-                  onChange={handleChange}
-                />
-                </div>
-
-                <div className="edit_section">
-                <label className="text_explain">플레이리스트 설명</label>
-                <textarea
-                  className="form-control board-textarea"
-                  rows="8"
-                  name="playlistComment"
-                  value={state.playlistComment} //playlistComment
-                  placeholder="설명을 입력하세요..."
-                  onChange={handleChangeContent}
-                ></textarea>
-                </div>
-
-
-                <div className="edit_section">
-                <label className="text_photo">플레이리스트 대표사진</label>
-                <input
-                  type="file"
-                  className="form-control"
-                  name="playlistPhoto"
-                  onChange={handleFileChange}
-                />
-                </div>
-
-
-                <div className="edit_section"> 
-                    <div className="Edit_Btn">
-                       
-              <Button text="취소" onClick={handleCancel}/>
-              <Button text="수정하기" type={"updateType"} onClick={handleSubmit} />
-                    </div>
-                </div>
-              
-            </div>
-      </div>
+    </div>
           
       );
   }
