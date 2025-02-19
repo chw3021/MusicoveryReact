@@ -4,6 +4,7 @@ import { getFormattedDate } from "../../utils/util";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import Header from "../common/Header";
+import "../playlist/Create.css";
 
 
 const Create = ({initData, onSubmit}) => {
@@ -86,122 +87,156 @@ useEffect(() =>{
   };
  
 
-  return (
-  <div className="forBackgroundColor">
-      <div className="Create">
-        <h5>플레이리스트 생성화면</h5>
-        <Header />
-           <div className="create_section">
-            <div className="main_text">
-            <h5>플레이리스트 선택</h5>
-            </div>
+return (
+<div className="select_section">
+    <Header />
+<div className="two_section">
+  <div className="BackgroundColor_section">
+    <div className="text_area">      
+        <div className="main_text">
+        
+          <h5 id="selectText">플레이리스트 생성</h5>
+        </div>
 
-            <div className="create_section">
-            <h5>생성일자</h5>
-             <input type="date" value={state.playlistDate}
-             onChange={handleChangeDate} />
-             </div>
-
-
-             <div className="create_section">
-              <input
-                  type="checkbox"
-                  name="musicCheckbox"
-                  id="musicCheckbox"
-                  checked={state.musicCheckbox}
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  className="form-control"
-                  name="selectedMusic"
-                  value={state.selectedMusic}
-                  placeholder="원하는 곡을 입력하세요..."
-                  onChange={handleChange}
-                />
-                </div>
-            <div className="create_section">
-              <input
-                  type="checkbox"
-                  name="conceptCheckbox"
-                  id="conceptCheckbox"
-                  checked={state.conceptCheckbox}
-                  onChange={handleChange}
-                />
-
-              <select>
-              <option value="장르">장르</option>
-                <option value="발라드">발라드</option>
-                <option value="힙합">힙합</option>
-                <option value="록">록</option>
-              </select>
-              </div>
-
-              <div className="create_section">
-              <input
-                  type="checkbox"
-                  name="bpmCheckbox"
-                  id="bpmCheckbox"
-                  checked={state.bpmCheckbox}
-                  onChange={handleChange}
-                />
-
-                <select>
-                  {options.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-                </div>
-
-                <div className="create_section">
-                <label className="text_title">플레이리스트 제목</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="playlistTitle"
-                  value={state.playlistTitle}
-                  placeholder="제목을 입력하세요..."
-                  onChange={handleChange}
-                />
-                </div>
-
-                <div className="create_section">
-                <label className="text_explain">플레이리스트 설명</label>
-                <textarea
-                  className="form-control board-textarea"
-                  rows="8"
-                  name="playlistComment"
-                  value={state.playlistComment} //playlistComment
-                  placeholder="설명을 입력하세요..."
-                  onChange={handleChangeContent}
-                ></textarea>
-                </div>
+      <div className="create_section">
+          <h5 id="textCreated">생성일자</h5>
+          <input 
+                type="date" 
+                value={state.playlistDate}
+                onChange={handleChangeDate} 
+                id="DateClick" />
+      </div>
 
 
-                <div className="create_section">
-                <label className="text_photo">플레이리스트 대표사진</label>
-                <input
+      <div className="create_section">
+        <input
+                type="checkbox"
+                name="musicCheckbox"
+                id="musicCheckbox"
+                checked={state.musicCheckbox}
+                onChange={handleChange}
+        />
+        <div className="selectedMusic_section">
+        <input
+                type="text"
+                className="form-control"
+                name="selectedMusic"
+                id="selectedMusic"
+                value={state.selectedMusic}
+                placeholder="원하는 곡을 입력하세요..."
+                onChange={handleChange}
+        />
+          </div>
+      </div>
+
+
+      <div className="create_section">
+        <input
+                type="checkbox"
+                name="conceptCheckbox"
+                id="conceptCheckbox"
+                checked={state.conceptCheckbox}
+                onChange={handleChange}
+        />
+        <select id="conceptCss">
+          <option value="장르">장르</option>
+          <option value="발라드">발라드</option>
+          <option value="힙합">힙합</option>
+          <option value="록">록</option>
+        </select>
+      </div>
+
+
+      <div className="create_section">
+        <input
+                type="checkbox"
+                name="bpmCheckbox"
+                id="bpmCheckbox"
+                checked={state.bpmCheckbox}
+                onChange={handleChange}
+        />
+        <select id="bpmchkbox">
+          {options.map((value) => (
+            <option 
+                    key={value}
+                    value={value}>
+                    {value}
+            </option>
+            ))}
+        </select>
+      </div>
+
+
+      <div className="create_section">
+
+          <div className="fileinputBtn">
+            <input
                   type="file"
                   className="form-control"
                   name="playlistPhoto"
                   onChange={handleFileChange}
-                />
-                </div>
-
-
-                <div className="create_section"> 
-                    <div className="Edit_Btn">
-                       
-              <Button text="취소" onClick={handleCancel}/>
-              <Button text="생성하기" type={"insertType"} onClick={handleSubmit} />
-                    </div>
-                </div>
-              
-            </div>
+            />
+          </div>
       </div>
-      </div>  
+
+
+      <div className="create_title_section">
+      
+          <input
+                type="text"
+                className="form-control"
+                name="playlistTitle"
+                value={state.playlistTitle}
+                placeholder="플레이리스트 제목을 입력하세요..."
+                onChange={handleChange}
+          />
+      </div>
+
+      <div className="create_explain_section">
+          <textarea
+                className="form-control board-textarea"
+                rows="8"
+                name="playlistComment"
+                value={state.playlistComment} 
+                placeholder="플레이리스트 설명을 입력하세요...[300자이내]"
+                onChange={handleChangeContent}
+                ></textarea>
+      </div>
+
+
+      
+
+
+      <div className="create_section2"> 
+        <div className="Edit_Btn">
+            <Button text="취소" link={"/PlaylistPage"} onClick={handleCancel}/>
+            <Button text="생성하기!" link={"/PlaylistPage"} onClick={handleSubmit} />
+        </div>
+      </div>
+                
+    </div>    
+  </div>
+
+
+    <div className="BackgroundColor_section2">
+      <div className="selectedMusic_section2">
+      <input
+                type="text"
+                className="form-control"
+                name="selectedMusic"
+                id="selectedMusic"
+                value={state.selectedMusic}
+                placeholder="검색한 음악명"
+                onChange={handleChange}
+        />
+      </div>
+    </div>
+
+    </div>
+</div>  
+
+ 
+
       );
   }
 export default Create;

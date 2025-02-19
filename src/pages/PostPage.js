@@ -43,6 +43,7 @@ const PostPage = () => {
     };
 
     return (
+        <div>
             <div className="post-page">
                 <Header />
                 <Layout>
@@ -62,6 +63,7 @@ const PostPage = () => {
                     </div>
                 </Layout>
             </div>
+        </div>
     );
 };
 

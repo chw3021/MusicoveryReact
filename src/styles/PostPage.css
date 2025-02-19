@@ -1,6 +1,8 @@
 /* PostPage.css */
 .post-page {
-    padding: 20px;
+    height: 100px; /* 헤더 높이 고정 */
+    width: 100%; /* 헤더 너비 100% */
+    
 }
 
 .post-list-container {

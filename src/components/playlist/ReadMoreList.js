@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import ReadMoreItem from "./ReadMoreItem";
+import "../playlist/ReadMoreList.css";
 //홈 상단화면
 
 const sortOptionList = [
@@ -44,36 +45,41 @@ const ReadMoreList = ({data}) =>{
 
     return (
     <div className="ReadMoreList">
-        <div className="ListArray">
-        <input
-                  type="text"
-                  className="form-control"
-                  name="searchList"
-                  placeholder="플레이리스트 검색"
-                />
-            </div>
-            <div className="goCreateView">
-                <Button type={"insertType"} 
-                text={"새로 만들기"} onClick={onClickCreate} />
-            </div>
-        <div className="ListArray_section">
+          
+
+                <div className="goCreateView">
+                        <Button link={"/Create"} 
+                        text={"새로 만들기"} onClick={onClickCreate} />
+                </div>
+
+
+    <div className="searchText">
+            <input
+                    type="text"
+                    className="form-control"
+                    name="searchList"
+                    placeholder="플레이리스트 검색"
+                    />
                 {/* 정렬 선택(가나다순 아직 안함) */}
-            <select value={sortType} onChange={onChangeSortType}>
-            {sortOptionList.map((it, idx) => (
-            <option key={idx} value={it.value}>
-            {it.name}
-            </option>
-            ))}
-            </select>     
-            </div>
-            <div className="list_lower">
-                {sortedData.map((it) => (
-                    <ReadMoreItem key={it.id} {...it} />
+                <select  value={sortType} onChange={onChangeSortType}>
+                    {sortOptionList.map((it, idx) => (
+                    <option key={idx} value={it.value}>
+                    {it.name}
+                 </option>
                 ))}
-            
-        </div>
-        
+                </select>     
     </div>
+      
+
+          
+                <div className="list_lower">
+                    {sortedData.map((it) => (
+                        <ReadMoreItem key={it.id} {...it} />
+                    ))}
+                
+                </div>
+        
+</div>
     );
 }
 
