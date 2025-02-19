@@ -104,6 +104,7 @@ return (
                 type="date" 
                 value={state.playlistDate}
                 onChange={handleChangeDate} 
+                name="playlistDate"
                 id="DateClick" />
       </div>
 

@@ -12,6 +12,7 @@ import "../styles/Home.css";
 import "../styles/PlaylistPage.css";
 import Button from "../components/common/Button";
 import PlaylistDetail from "../components/playlist/PlaylistDetail";
+import axiosInstance from '../api/axiosInstance';
 
 
 const PlaylistPage = () =>{
@@ -19,12 +20,23 @@ const PlaylistPage = () =>{
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
     const navigate = useNavigate();
+    const userId = "user1@example.com"; // 실제 사용자 ID로 변경 필요
 
     
     
     const listArray = `${pivotDate.getFullYear()}년
                         ${pivotDate.getMonth()+1}월`;
-  
+
+
+    const getPlaylistsByUserId = async (userId) => {
+        try {
+            const response = await axiosInstance.get(`/playlists/${userId}`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching playlists", error);
+            throw error;
+        }
+    };
 
     useEffect (()=>{
         if(data.length >=1){
@@ -39,36 +51,38 @@ const PlaylistPage = () =>{
          }
      }, [data,pivotDate]);
     
+     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getPlaylistsByUserId(userId);
+                console.log("data", data);
+                
+                setFilteredData(data);
+            } catch (error) {
+                console.error("Error fetching playlists", error);
+            }
+        };
+
+        fetchData();
+    }, [userId]);
 
 
     return ( 
         <div className="container1">
-            <Header />  
-            {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
+            <Header />
             <div className="background">
-              
-
-                        <div className="grayBackground">
-                            
-                            <div className="Textplace">
+                <div className="grayBackground">
+                    <div className="Textplace">
                         <div id="libText">내 라이브러리</div>
-                        </div>
-
-                        <div className="list">
+                    </div>
+                    <div className="list">
                         <ReadMoreList data={filteredData} />
-                        </div>
-
-                        <div className="ofPlaylistDetail">
-                            <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
-                        </div>
-
-                        </div>
-                        <div>
-                    
+                    </div>
+                    <div className="ofPlaylistDetail">
+                        <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
+                    </div>
                 </div>
             </div>
-            
-
         </div>
   
     );
