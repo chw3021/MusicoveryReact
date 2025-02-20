@@ -39,7 +39,7 @@ const ReadMoreList = ({ data }) => {
     return (
         <div className="ReadMoreList">
             <div className="goCreateView">
-                <Button text={"플레이리스트 생성"} onClick={onClickCreate} />
+                <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
             </div>
 
             <div className="searchText">

@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import Header from "../common/Header";
 import "../playlist/Create.css";
-import Button from "../common/Button"
+import Button from "../common/Button";
+import genreSeeds from "../../assets/genre-seeds.json"; // 장르 리스트 파일 임포트
 
 const KeywordRecommendation = () => {
     const [state, setState] = useState({
         genre: '',
         bpm: '',
         mood: '',
+        selectedGenres: [],
         recommendations: [],
         loading: false,
         playlistTitle: '',
@@ -24,11 +26,29 @@ const KeywordRecommendation = () => {
         }));
     };
 
+    const handleGenreSelect = (e) => {
+        const { value } = e.target;
+        if (value && !state.selectedGenres.includes(value)) {
+            setState((prev) => ({
+                ...prev,
+                selectedGenres: [...prev.selectedGenres, value],
+                genre: '',
+            }));
+        }
+    };
+
+    const handleGenreRemove = (genre) => {
+        setState((prev) => ({
+            ...prev,
+            selectedGenres: prev.selectedGenres.filter((g) => g !== genre),
+        }));
+    };
+
     const handleSubmit = async () => {
         setState((prev) => ({ ...prev, loading: true }));
         try {
             const response = await axiosInstance.post('/recommendation/keyword', {
-                genre: state.genre,
+                genre: state.selectedGenres.join(','),
                 bpm: state.bpm,
                 mood: state.mood,
             });
@@ -51,7 +71,6 @@ const KeywordRecommendation = () => {
 
     return (
         <div className="select_section">
-            <Header />
             <div className="two_section">
                 <div className="BackgroundColor_section">
                     <div className="text_area">
@@ -61,13 +80,27 @@ const KeywordRecommendation = () => {
 
                         <div className="create_section">
                             <h5 id="textCreated">장르</h5>
-                            <input
-                                type="text"
+                            <select
                                 name="genre"
                                 value={state.genre}
-                                onChange={handleChange}
-                                placeholder="장르를 입력하세요..."
-                            />
+                                onChange={handleGenreSelect}
+                                placeholder="장르를 선택하세요..."
+                            >
+                                <option value="">장르 선택</option>
+                                {genreSeeds.genres.map((genre, index) => (
+                                    <option key={index} value={genre}>
+                                        {genre}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="selectedGenres">
+                                {state.selectedGenres.map((genre, index) => (
+                                    <div key={index} className="genreTag">
+                                        {genre}
+                                        <button onClick={() => handleGenreRemove(genre)}>x</button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="create_section">
@@ -83,13 +116,18 @@ const KeywordRecommendation = () => {
 
                         <div className="create_section">
                             <h5 id="textCreated">분위기</h5>
-                            <input
-                                type="text"
+                            <select
                                 name="mood"
                                 value={state.mood}
                                 onChange={handleChange}
-                                placeholder="분위기를 입력하세요..."
-                            />
+                                placeholder="분위기를 선택하세요..."
+                            >
+                                <option value="">분위기 선택</option>
+                                <option value="신나는">신나는</option>
+                                <option value="잔잔한">잔잔한</option>
+                                <option value="우울한">우울한</option>
+                                <option value="행복한">행복한</option>
+                            </select>
                         </div>
 
                         <div className="create_section2">
