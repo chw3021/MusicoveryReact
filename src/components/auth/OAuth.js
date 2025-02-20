@@ -45,9 +45,23 @@ const OAuth = () => {
                 });
                 const userData = response.data;
                 console.log('사용자 정보 받음:', userData);
+                // UserDTO 형식에 맞게 변환
+                const userDTO = {
+                    userId: userData.id,
+                    email: userData.email,
+                    passwd: '1234',
+                    profileImageUrl: userData.images.length > 0 ? userData.images[0].url : null,
+                    bio: userData.bio || 'd',
+                    nickname: userData.display_name,
+                    phone: '11', // 필요 시 추가 정보 입력
+                    address: 'f', // 필요 시 추가 정보 입력
+                    isActive: true,
+                    spotifyConnected: true,
+                    googleConnected: false
+                };
 
                 // 사용자 정보가 없으면 회원가입, 있으면 로그인 처리
-                const userResponse = await axiosInstance.post('/auth/spotify-login', userData);
+                const userResponse = await axiosInstance.post('/auth/spotify-login', userDTO);
                 const user = userResponse.data;
                 console.log('로그인/회원가입 처리된 사용자 정보:', user);
 
