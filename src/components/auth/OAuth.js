@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance,{ baseAxiosInstance }  from '../../api/axiosInstance';
+import axiosInstance, { baseAxiosInstance } from '../../api/axiosInstance';
 
 const OAuth = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -24,7 +24,7 @@ const OAuth = () => {
                         
                         console.log('저장된 토큰:', localStorage.getItem('MUSICOVERY_ACCESS_TOKEN'));
                         authWindow.close();
-                        await fetchUserInfo();
+                        await handleUserAuthentication(event.data.accessToken);
                         
                         window.removeEventListener('message', handleMessage);
                     }
@@ -36,21 +36,26 @@ const OAuth = () => {
             }
         };
 
-        const fetchUserInfo = async () => {
+        const handleUserAuthentication = async (accessToken) => {
             try {
-                const token = localStorage.getItem('MUSICOVERY_ACCESS_TOKEN');
-                console.log('fetchUserInfo 호출됨, 토큰:', token);
-                
-                if (!token) {
-                    console.log('토큰 없음');
-                    return;
-                }
+                const response = await axiosInstance.get('/api/spotify/userInfo', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                const userData = response.data;
+                console.log('사용자 정보 받음:', userData);
 
-                const response = await axiosInstance.get('/api/spotify/userInfo');
-                console.log('사용자 정보 받음:', response.data);
-                setUserInfo(response.data);
+                // 사용자 정보가 없으면 회원가입, 있으면 로그인 처리
+                const userResponse = await axiosInstance.post('/auth/spotify-login', userData);
+                const user = userResponse.data;
+                console.log('로그인/회원가입 처리된 사용자 정보:', user);
+
+                // 사용자 정보를 로컬 스토리지에 저장
+                localStorage.setItem('MUSICOVERY_USER', JSON.stringify(user));
+                setUserInfo(user);
             } catch (error) {
-                console.error('사용자 정보 조회 에러:', error);
+                console.error('사용자 인증 에러:', error);
             }
         };
 
@@ -59,7 +64,7 @@ const OAuth = () => {
         console.log('초기 토큰 확인:', token);
 
         if (token) {
-            fetchUserInfo();
+            handleUserAuthentication(token);
         } else {
             console.log('토큰 없음, 인증 시작');
             getAccessToken();
@@ -82,4 +87,5 @@ const OAuth = () => {
         </div>
     );
 };
+
 export default OAuth;
