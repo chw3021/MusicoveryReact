@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance"; // axios 사용
 import Header from "../components/common/Header";
 import "../styles/SocialPage.css";
+import { Link } from "react-router-dom";
 
 const SocialPage = () => {
     const [liveStreams, setLiveStreams] = useState([]);
@@ -25,21 +26,17 @@ const SocialPage = () => {
                         <ul>
                             <li><a href="/friendslist">친구 목록</a></li>
                             <li><a href="/quiz">퀴즈</a></li>
-                        </ul>
-                    </nav>
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="/streaming">스트리밍</a></li>
+                            <li><Link to="/streaming">스트리밍</Link></li>
                             <li><a href="/challenge">첼린지</a></li>
                         </ul>
                     </nav>
                 </aside>
 
                 <main className="social-content">
-
+                    <p>현재 진행 중인 스트리밍 목록입니다.</p>
                     <div className="streaming-list">
                         {liveStreams.length === 0 ? (
-                            <p>현재 진행 중인 스트리밍이 없습니다.</p>
+                        <p>현재 진행 중인 스트리밍이 없습니다.</p>
                         ) : (
                             
                             liveStreams.map(stream => (

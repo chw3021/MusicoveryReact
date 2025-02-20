@@ -12,6 +12,13 @@ import PlusMusic from "./components/playlist/PlusMusic";
 import UserReport from "./components/social/UserReport"; // UserReport 임포트
 import OAuthCallback from "./components/auth/OAuthCallback";
 
+import Streaming from "./components/social/Streaming"; // Streaming 임포트
+import Challenge from "./components/social/Challenge"; // Challenge 임포트
+import FriendsList from "./components/social/FriendsList"; // FriendsList 임포트
+import Quiz from "./components/social/Quiz"; // Quiz 임포트
+import CustomerSupport from "./components/social/CustomerSupport"; // CustomerSupport 임포트
+
+
 
 
 
@@ -146,6 +153,18 @@ if(!isDataLoaded){
       <Route path="/post" element={<PostPage />} />
       <Route path="/social" element={<SocialPage />} />
 
+       {/* 소셜 페이지 추가 */}
+      <Route path="/streaming" element={<Streaming />} />
+      <Route path="/challenge" element={<Challenge />} />
+      <Route path="/friendslist" element={<FriendsList />} />
+      <Route path="/quiz" element={<Quiz />} />
+      <Route path="/userreport" element={<UserReport />} />
+      <Route path="/customersupport" element={<CustomerSupport />} />
+      {/* 소셜 페이지 추가 끝 */}
+
+
+
+      <Route path="/Create" element={<Create />} />
        {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
 =======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
