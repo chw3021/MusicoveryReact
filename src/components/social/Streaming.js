@@ -8,16 +8,30 @@ const Streaming = () => {
     const [playlist, setPlaylist] = useState(null);
     const [isPublic, setIsPublic] = useState(false);
 
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('MUSICOVERY_USER');
+        if (storedUser) {
+            try {
+                setUserInfo(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("JSON 파싱 오류:", error);
+            }
+        }
+    }, []);
     // 사용자의 플레이리스트 가져오기
     useEffect(() => {
-        axiosInstance.get("/api/streaming/my-playlist")
-            .then(response => {
-                console.log("📡 내 플레이리스트:", response.data);
-                setPlaylist(response.data);
-                setIsPublic(response.data.isPublic);
-            })
-            .catch(error => console.error("❌ 플레이리스트 가져오기 실패:", error));
-    }, []);
+        if (userInfo && userInfo.userId) {
+            axiosInstance.get("/playlist/user/" + userInfo.userId)
+                .then(response => {
+                    console.log("📡 내 플레이리스트:", response.data);
+                    setPlaylist(response.data);
+                    setIsPublic(response.data.isPublic);
+                })
+                .catch(error => console.error("❌ 플레이리스트 가져오기 실패:", error));
+        }
+    }, [userInfo]);
 
     const togglePublicStatus = () => {
         if (!playlist) return;
