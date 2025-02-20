@@ -94,9 +94,9 @@ return (
   <div className="BackgroundColor_section">
     <div className="text_area">      
        
-        <div className="main_text">
-          <h5 id="selectText">플레이리스트 생성</h5>
-        </div>
+      <div className="main_text">
+        <h5 h5 id="selectText">플레이리스트 생성</h5>
+      </div>
 
       <div className="create_section">
           <h5 id="textCreated">생성일자</h5>

@@ -7,7 +7,7 @@ import PlaylistDetail from "./components/playlist/PlaylistDetail";
 import React ,{ useEffect, useReducer, useRef, useState } from "react";
 import "./App.css";
 import PlaylistPage from "./pages/PlaylistPage";
-import Create from "./components/playlist/Create";
+import PlaylistCreatePage from "./pages/PlaylistCreatePage";
 import PlusMusic from "./components/playlist/PlusMusic";
 import UserReport from "./components/social/UserReport"; // UserReport 임포트
 import OAuthCallback from "./components/auth/OAuthCallback";
@@ -146,11 +146,10 @@ if(!isDataLoaded){
       <Route path="/post" element={<PostPage />} />
       <Route path="/social" element={<SocialPage />} />
 
-      <Route path="/Create" element={<Create />} />
        {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
 =======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
-      <Route path="/Create" element={<Create />} />
+      <Route path="/createplaylist" element={<PlaylistCreatePage />} />
   
       <Route path="/PlusMusic" element={<PlusMusic />} /> 
       <Route path="/Edit" element={<Edit />} /> 
