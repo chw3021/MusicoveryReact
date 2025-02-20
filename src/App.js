@@ -162,9 +162,6 @@ if(!isDataLoaded){
       <Route path="/customersupport" element={<CustomerSupport />} />
       {/* 소셜 페이지 추가 끝 */}
 
-
-
-      <Route path="/Create" element={<Create />} />
        {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
 =======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
