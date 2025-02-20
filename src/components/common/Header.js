@@ -2,17 +2,11 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import styles from "../../styles/Header.module.css";
 import logo from "../../assets/logo.png"; // 로고 이미지 경로
+import useUserInfo from "../../hooks/userUserInfo";
 
 
 const Header = () => {
-    const [userInfo, setUserInfo] = useState(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem('MUSICOVERY_USER');
-        if (storedUser) {
-            setUserInfo(JSON.parse(storedUser));
-        }
-    }, []);
+    const userInfo = useUserInfo();
     return (
         <div className={styles.headerMain}>
             <div className={styles.header}>

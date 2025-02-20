@@ -3,6 +3,7 @@ import WebPlayback from "./WebPlayback";
 import "../../styles/MusicSearch.css";
 import axiosInstance from "../../api/axiosInstance";
 import { play } from "./spotifyPlayer";
+import Music from "./Music";
 
 const MusicSearch = () => {
     const [keyword, setKeyword] = useState("");
@@ -78,19 +79,12 @@ const MusicSearch = () => {
             </form>
             <div className="search-results">
                 {results.map((track) => (
-                    <div key={track.id} className="track-item">
-                        <img src={track.album.images[0].url} alt={track.name} />
-                        <div className="track-info">
-                            <h4>{track.name}</h4>
-                            <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
-                        </div>
-                        <button 
-                            onClick={() => handlePlay(track)}
-                            className={isPremium ? 'premium-play' : 'spotify-link'}
-                        >
-                            {isPremium ? '재생' : 'Spotify에서 듣기'}
-                        </button>
-                    </div>
+                    <Music 
+                        key={track.id} 
+                        track={track} 
+                        handlePlay={handlePlay} 
+                        isPremium={isPremium} 
+                    />
                 ))}
             </div>
             {isPremium && <div className="premium-badge">Premium</div>}

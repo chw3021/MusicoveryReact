@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import Header from "../common/Header";
-import "../playlist/Create.css";
+import "../../styles/KeywordRecommendation.css";
 import Button from "../common/Button";
 import genreSeeds from "../../assets/genre-seeds.json"; // 장르 리스트 파일 임포트
+import Music from "../music/Music";
 
 const KeywordRecommendation = () => {
     const [state, setState] = useState({
@@ -45,6 +45,11 @@ const KeywordRecommendation = () => {
     };
 
     const handleSubmit = async () => {
+        if (!state.selectedGenres.length || !state.bpm || !state.mood) {
+            alert("모든 필드를 입력해주세요.");
+            return;
+        }
+
         setState((prev) => ({ ...prev, loading: true }));
         try {
             const response = await axiosInstance.post('/recommendation/keyword', {
@@ -70,111 +75,98 @@ const KeywordRecommendation = () => {
     };
 
     return (
-        <div className="select_section">
-            <div className="two_section">
-                <div className="BackgroundColor_section">
-                    <div className="text_area">
-                        <div className="main_text">
-                            <h5 id="selectText">키워드 기반 플레이리스트 생성</h5>
+        <div className="keyword-recommendation">
+            <div className="form-container">
+                <div className="form-group">
+                    <label htmlFor="genre">장르</label>
+                    <select
+                        name="genre"
+                        value={state.genre}
+                        onChange={handleGenreSelect}
+                        placeholder="장르를 선택하세요..."
+                    >
+                        <option value="">장르 선택</option>
+                        {genreSeeds.genres.map((genre, index) => (
+                            <option key={index} value={genre}>
+                                {genre}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="selected-genres">
+                    {state.selectedGenres.map((genre, index) => (
+                        <div key={index} className="genre-tag">
+                            {genre}
+                            <button onClick={() => handleGenreRemove(genre)}>x</button>
                         </div>
+                    ))}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="bpm">BPM</label>
+                    <input
+                        type="number"
+                        name="bpm"
+                        value={state.bpm}
+                        onChange={handleChange}
+                        placeholder="BPM을 입력하세요..."
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="mood">분위기</label>
+                    <select
+                        name="mood"
+                        value={state.mood}
+                        onChange={handleChange}
+                        placeholder="분위기를 선택하세요..."
+                    >
+                        <option value="">분위기 선택</option>
+                        <option value="신나는">신나는</option>
+                        <option value="잔잔한">잔잔한</option>
+                        <option value="우울한">우울한</option>
+                        <option value="행복한">행복한</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <Button text="생성하기!" onClick={handleSubmit} />
+                </div>
+            </div>
 
-                        <div className="create_section">
-                            <h5 id="textCreated">장르</h5>
-                            <select
-                                name="genre"
-                                value={state.genre}
-                                onChange={handleGenreSelect}
-                                placeholder="장르를 선택하세요..."
-                            >
-                                <option value="">장르 선택</option>
-                                {genreSeeds.genres.map((genre, index) => (
-                                    <option key={index} value={genre}>
-                                        {genre}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="selectedGenres">
-                                {state.selectedGenres.map((genre, index) => (
-                                    <div key={index} className="genreTag">
-                                        {genre}
-                                        <button onClick={() => handleGenreRemove(genre)}>x</button>
-                                    </div>
-                                ))}
+            <div className="results-container">
+                {state.loading ? (
+                    <div>로딩 중...</div>
+                ) : (
+                    <div>
+                        {state.recommendations.length > 0 && (
+                            <div>
+                                <h5>추천된 트랙 목록</h5>
+                                <ul>
+                                    {state.recommendations.map((track, index) => (
+                                        <li key={index}><Music track={track} /></li>
+                                    ))}
+                                </ul>
                             </div>
-                        </div>
-
-                        <div className="create_section">
-                            <h5 id="textCreated">BPM</h5>
-                            <input
-                                type="number"
-                                name="bpm"
-                                value={state.bpm}
-                                onChange={handleChange}
-                                placeholder="BPM을 입력하세요..."
-                            />
-                        </div>
-
-                        <div className="create_section">
-                            <h5 id="textCreated">분위기</h5>
-                            <select
-                                name="mood"
-                                value={state.mood}
-                                onChange={handleChange}
-                                placeholder="분위기를 선택하세요..."
-                            >
-                                <option value="">분위기 선택</option>
-                                <option value="신나는">신나는</option>
-                                <option value="잔잔한">잔잔한</option>
-                                <option value="우울한">우울한</option>
-                                <option value="행복한">행복한</option>
-                            </select>
-                        </div>
-
-                        <div className="create_section2">
-                            <div className="Edit_Btn">
-                                <Button text="생성하기!" onClick={handleSubmit} />
+                        )}
+                        {state.showSaveForm && (
+                            <div>
+                                <h5>플레이리스트 저장</h5>
+                                <input
+                                    type="text"
+                                    name="playlistTitle"
+                                    value={state.playlistTitle}
+                                    onChange={handleChange}
+                                    placeholder="플레이리스트 제목을 입력하세요..."
+                                />
+                                <textarea
+                                    name="playlistComment"
+                                    value={state.playlistComment}
+                                    onChange={handleChange}
+                                    placeholder="플레이리스트 설명을 입력하세요..."
+                                ></textarea>
+                                <Button text="저장하기" onClick={handleSave} />
                             </div>
-                        </div>
+                        )}
                     </div>
-                </div>
-
-                <div className="BackgroundColor_section2">
-                    {state.loading ? (
-                        <div>로딩 중...</div>
-                    ) : (
-                        <div>
-                            {state.recommendations.length > 0 && (
-                                <div>
-                                    <h5>추천된 트랙 목록</h5>
-                                    <ul>
-                                        {state.recommendations.map((track, index) => (
-                                            <li key={index}>{track}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                            {state.showSaveForm && (
-                                <div>
-                                    <h5>플레이리스트 저장</h5>
-                                    <input
-                                        type="text"
-                                        name="playlistTitle"
-                                        value={state.playlistTitle}
-                                        onChange={handleChange}
-                                        placeholder="플레이리스트 제목을 입력하세요..."
-                                    />
-                                    <textarea
-                                        name="playlistComment"
-                                        value={state.playlistComment}
-                                        onChange={handleChange}
-                                        placeholder="플레이리스트 설명을 입력하세요..."
-                                    ></textarea>
-                                    <Button text="저장하기" onClick={handleSave} />
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
+                )}
             </div>
         </div>
     );
