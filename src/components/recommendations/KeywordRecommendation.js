@@ -63,6 +63,8 @@ const KeywordRecommendation = () => {
                 loading: false,
                 showSaveForm: true,
             }));
+            console.log("추천된 트랙 목록:", response.data); // 여기서 response.data를 로그로 출력
+
         } catch (error) {
             console.error("추천 요청 실패:", error);
             setState((prev) => ({ ...prev, loading: false }));
@@ -140,7 +142,9 @@ const KeywordRecommendation = () => {
                             <div>
                                 <h5>추천된 트랙 목록</h5>
                                 <ul>
+                                    
                                     {state.recommendations.map((track, index) => (
+                                        
                                         <li key={index}><Music track={track} /></li>
                                     ))}
                                 </ul>

@@ -17,6 +17,13 @@
     gap: 10px;
 }
 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
 .form-group label {
     width: 100px;
     font-weight: bold;
@@ -31,7 +38,7 @@
 .genre-tag {
     display: flex;
     align-items: center;
-    background-color: #d1e7dd;
+    background-color: #1b882d;
     border-radius: 20px;
     padding: 5px 10px;
     font-size: 0.9rem;

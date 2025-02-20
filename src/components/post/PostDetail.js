@@ -9,7 +9,7 @@ const PostDetail = ({ post, onBack }) => {
             <p>{post.description}</p>
             <div className="post-meta">
                 <span>제목: {post.title}</span>
-                <span>작성자: {post.user}</span>
+                <span>작성자: {post.user.nickname}</span>
                 <span>작성일: {new Date(post.createdDate).toLocaleDateString()}</span>
                 <span>조회수: {post.replyCount}</span>
                 <span>좋아요: {post.likeCount}</span>

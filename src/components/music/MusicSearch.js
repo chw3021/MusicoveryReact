@@ -5,7 +5,7 @@ import axiosInstance from "../../api/axiosInstance";
 import { play } from "./spotifyPlayer";
 import Music from "./Music";
 
-const MusicSearch = () => {
+const MusicSearch = ({ onSelectTrack }) => {
     const [keyword, setKeyword] = useState("");
     const [results, setResults] = useState([]);
     const [playingTrack, setPlayingTrack] = useState(null);
@@ -79,12 +79,13 @@ const MusicSearch = () => {
             </form>
             <div className="search-results">
                 {results.map((track) => (
-                    <Music 
-                        key={track.id} 
-                        track={track} 
-                        handlePlay={handlePlay} 
-                        isPremium={isPremium} 
-                    />
+                    <div key={track.id} onClick={() => onSelectTrack(track)}>
+                        <Music 
+                            track={track} 
+                            handlePlay={handlePlay} 
+                            isPremium={isPremium} 
+                        />
+                    </div>
                 ))}
             </div>
             {isPremium && <div className="premium-badge">Premium</div>}
