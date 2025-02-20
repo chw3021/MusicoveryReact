@@ -1,0 +1,94 @@
+.track-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.track-info {
+    flex-grow: 1;
+    width: 32%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.track-info h4 {
+    margin: 0;
+    color: #000000;
+    font-size: 0.9rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.track-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.7rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.track-info:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    left: calc(8%);
+    transform: translateY(-100%);
+    transition: opacity 0.3s;
+}
+
+.tooltip h4,
+.tooltip p {
+    color: #fff;
+}
+
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -5px; /* 화살표가 툴팁의 왼쪽에 위치 */
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #333;
+}
+
+.premium-play {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+}
+
+.spotify-link {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    font-size: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+}

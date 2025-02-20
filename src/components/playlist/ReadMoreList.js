@@ -28,9 +28,6 @@ const ReadMoreList = ({ data }) => {
         setSortedData(copyList);
     }, [data, sortType]);
 
-    const onClickCreate = () => {
-        navigate("/createplaylist");
-    };
 
     const onChangeSortType = (e) => {
         setSortType(e.target.value);
@@ -38,9 +35,6 @@ const ReadMoreList = ({ data }) => {
 
     return (
         <div className="ReadMoreList">
-            <div className="goCreateView">
-                <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
-            </div>
 
             <div className="searchText">
                 <input
