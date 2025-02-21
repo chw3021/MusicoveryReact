@@ -48,7 +48,7 @@ const SocialPage = () => {
                             liveStreams.map(stream => (
                                 stream.public && ( // public이 true일 때만 표시
                                     <div key={stream.id} className="stream-card">
-                                        <h3>스트리밍 호스트 ID: {stream.hostUserId}</h3>
+                                        <h3>스트리밍 호스트 ID: {stream.nickname}</h3>
                                         <p>플레이리스트: {stream.playlistName}</p>
 
                                         <div className="chat-box">
