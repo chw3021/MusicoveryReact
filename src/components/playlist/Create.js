@@ -7,10 +7,12 @@ import "../playlist/Create.css";
 import Music from "../music/Music";
 import axiosInstance from "../../api/axiosInstance"; // axiosInstance 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
+import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 
 const Create = () => {
     const navigate = useNavigate();
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
+    const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
     const [state, setState] = useState({
         playlistTitle: '',
         playlistComment: '',
@@ -170,7 +172,7 @@ const Create = () => {
                     <ul>
                         {state.selectedTracks.map((track, index) => (
                             <li key={index}>
-                                <Music track={track} />
+                                <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
                                 <button onClick={() => removeTrack(track.id)}>제거</button>
                             </li>
                         ))}
