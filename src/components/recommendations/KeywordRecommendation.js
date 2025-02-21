@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
+import { getFormattedDate } from "../../utils/util";
 import "../../styles/KeywordRecommendation.css";
 import Button from "../common/Button";
 import genreSeeds from "../../assets/genre-seeds.json"; // 장르 리스트 파일 임포트
 import Music from "../music/Music";
+import { useNavigate } from "react-router-dom";
+import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 
 const KeywordRecommendation = () => {
+    const navigate = useNavigate();
+    const userInfo = useUserInfo(); // 사용자 정보 가져오기
+
     const [state, setState] = useState({
         genre: '',
         bpm: '',
@@ -15,14 +21,40 @@ const KeywordRecommendation = () => {
         loading: false,
         playlistTitle: '',
         playlistComment: '',
+        playlistPhoto: null, // 사진 필드 추가
+        playlistDate: getFormattedDate(new Date()),
         showSaveForm: false,
+        user: userInfo, // 사용자 정보 추가
     });
 
+    // userInfo가 변경될 때마다 상태 업데이트
+    useEffect(() => {
+        if (userInfo) {
+            setState((prevState) => ({
+                ...prevState,
+                user: userInfo,
+            }));
+        }
+    }, [userInfo]);
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setState((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        setState((prev) => ({
+            ...prev,
+            playlistPhoto: e.target.files[0],
+        }));
+    };
+
+    const handleChangeDate = (e) => {
+        setState((prev) => ({
+            ...prev,
+            playlistDate: e.target.value,
         }));
     };
 
@@ -57,13 +89,14 @@ const KeywordRecommendation = () => {
                 bpm: state.bpm,
                 mood: state.mood,
             });
+            const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
             setState((prev) => ({
                 ...prev,
-                recommendations: response.data,
+                recommendations: parsedRecommendations,
                 loading: false,
                 showSaveForm: true,
             }));
-            console.log("추천된 트랙 목록:", response.data); // 여기서 response.data를 로그로 출력
+            console.log("추천된 트랙 목록:", parsedRecommendations);
 
         } catch (error) {
             console.error("추천 요청 실패:", error);
@@ -72,8 +105,45 @@ const KeywordRecommendation = () => {
     };
 
     const handleSave = () => {
-        // 플레이리스트 저장 로직 추가
-        console.log("플레이리스트 저장:", state.playlistTitle, state.playlistComment);
+        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate) {
+            alert("모든 필드를 입력해주세요.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("playlistTitle", state.playlistTitle);
+        formData.append("playlistComment", state.playlistComment);
+        formData.append("playlistDate", state.playlistDate);
+        formData.append("isPublic", false);
+        formData.append("userId", state.user.userId);
+        formData.append("tracks", state.recommendations.map(track => track.uri));
+        if (state.playlistPhoto) {
+            formData.append("playlistPhoto", state.playlistPhoto);
+        }
+
+        axiosInstance.post("/playlist/create", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        .then(response => {
+            console.log("✅ 플레이리스트 생성 완료:", response.data);
+            navigate("/PlaylistPage");
+        })
+        .catch(error => {
+            console.error("❌ 플레이리스트 생성 실패:", error);
+            if (error.response) {
+                console.error("📌 응답 데이터:", error.response.data);
+                console.error("📌 상태 코드:", error.response.status);
+            }
+        });
+    };
+
+    const removeTrack = (trackId) => {
+        setState((prev) => ({
+            ...prev,
+            recommendations: prev.recommendations.filter(track => track.id !== trackId),
+        }));
     };
 
     return (
@@ -123,9 +193,9 @@ const KeywordRecommendation = () => {
                     >
                         <option value="">분위기 선택</option>
                         <option value="신나는">신나는</option>
+                        <option value="행복한">행복한</option>
                         <option value="잔잔한">잔잔한</option>
                         <option value="우울한">우울한</option>
-                        <option value="행복한">행복한</option>
                     </select>
                 </div>
                 <div className="form-group">
@@ -139,13 +209,14 @@ const KeywordRecommendation = () => {
                 ) : (
                     <div>
                         {state.recommendations.length > 0 && (
-                            <div>
+                            <div className="keyword-recommendations">
                                 <h5>추천된 트랙 목록</h5>
                                 <ul>
-                                    
                                     {state.recommendations.map((track, index) => (
-                                        
-                                        <li key={index}><Music track={track} /></li>
+                                        <li key={index}>
+                                            <Music track={track} />
+                                            <button onClick={() => removeTrack(track.id)}>제거</button>
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
@@ -153,6 +224,24 @@ const KeywordRecommendation = () => {
                         {state.showSaveForm && (
                             <div>
                                 <h5>플레이리스트 저장</h5>
+                                <div className="form-group">
+                                    <label htmlFor="playlistDate">생성일자</label>
+                                    <input
+                                        type="date"
+                                        name="playlistDate"
+                                        value={state.playlistDate}
+                                        onChange={handleChangeDate}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="playlistPhoto">플레이리스트 사진</label>
+                                    <input
+                                        type="file"
+                                        name="playlistPhoto"
+                                        onChange={handleFileChange}
+                                        accept="image/*" // 이미지 파일만 허용
+                                    />
+                                </div>
                                 <input
                                     type="text"
                                     name="playlistTitle"

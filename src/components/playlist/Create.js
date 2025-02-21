@@ -21,9 +21,8 @@ const Create = () => {
         playlistDate: getFormattedDate(new Date()),
         selectedTracks: [], // 선택된 트랙 리스트 추가
         user: userInfo, // 사용자 정보 추가
-        
     });
-    
+
     // userInfo가 변경될 때마다 상태 업데이트
     useEffect(() => {
         if (userInfo) {
@@ -40,19 +39,22 @@ const Create = () => {
             return;
         }
 
-        const playlistDTO = {
-            playlistTitle: state.playlistTitle,
-            playlistComment: state.playlistComment,
-            playlistPhoto: state.playlistPhoto,
-            userId: state.user.userId, // 사용자 정보 추가
-            playlistDate: state.playlistDate,
-            isPublic: state.isPublic,
-            tracks: state.selectedTracks.map(track => track.uri) // 트랙 URI 리스트 추가
+        const formData = new FormData();
+        formData.append("playlistTitle", state.playlistTitle);
+        formData.append("playlistComment", state.playlistComment);
+        formData.append("playlistDate", state.playlistDate);
+        formData.append("isPublic", false);
+        formData.append("userId", state.user.userId);
+        formData.append("tracks", state.selectedTracks.map(track => track.uri));
+        if (state.playlistPhoto) {
+            formData.append("playlistPhoto", state.playlistPhoto);
         }
-        console.log("dtd",playlistDTO);
-        
 
-        axiosInstance.post("/playlist/create", playlistDTO)
+        axiosInstance.post("/playlist/create", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
         .then(response => {
             console.log("✅ 플레이리스트 생성 완료:", response.data);
             navigate("/PlaylistPage");
@@ -64,10 +66,6 @@ const Create = () => {
                 console.error("📌 상태 코드:", error.response.status);
             }
         });
-    };
-
-    const handleCancel = () => {
-        navigate(-1);
     };
 
     const handleChangeDate = (e) => {
@@ -161,6 +159,7 @@ const Create = () => {
                                     className="form-control"
                                     name="playlistPhoto"
                                     onChange={handleFileChange}
+                                    accept="image/*" // 이미지 파일만 허용
                                 />
                             </div>
                         </div>
@@ -178,10 +177,10 @@ const Create = () => {
                     </ul>
                 </div>
             </div>
-                <div className="Edit_Btn">
-                    <Button text="취소" link={"/PlaylistPage"} onClick={handleCancel} />
-                    <Button text="생성하기!" link={"/PlaylistPage"} onClick={handleSubmit} />
-                </div>
+            <div className="Edit_Btn">
+                <Button text="취소" link={"/PlaylistPage"}/>
+                <Button text="생성하기!" onClick={handleSubmit} />
+            </div>
         </div>
     );
 };
