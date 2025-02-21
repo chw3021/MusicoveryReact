@@ -162,14 +162,11 @@ if(!isDataLoaded){
       <Route path="/customersupport" element={<CustomerSupport />} />
       {/* 소셜 페이지 추가 끝 */}
 
-       {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
-=======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
       <Route path="/createplaylist" element={<PlaylistCreatePage />} />
   
       <Route path="/PlusMusic" element={<PlusMusic />} /> 
-      <Route path="/Edit" element={<Edit />} /> 
-      <Route path="/PlaylistDetail" element={<PlaylistDetail />} />
+      <Route path="/playlist/:playlistId" element={<PlaylistDetail />} />
       <Route path="/PlaylistPage" element={<PlaylistPage />} />
 
       <Route path="/oauth-callback" element={<OAuthCallback />} />

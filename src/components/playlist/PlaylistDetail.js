@@ -1,43 +1,41 @@
-import Header from "../common/Header";
-import "../playlist/PlaylistDetail.css";
-import Button from "../common/Button";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../api/axiosInstance";
+import Music from "../music/Music"; // Music 컴포넌트 임포트
 
+const PlaylistDetail = () => {
+    const { playlistId } = useParams();
+    const [playlist, setPlaylist] = useState(null);
 
-//플레이리스트 상세화면
-const PlaylistDetail = ({onSubmit}) =>{
-    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchPlaylist = async () => {
+            try {
+                const response = await axiosInstance.get(`/playlist/detail/${playlistId}`);
+                setPlaylist(response.data);
+            } catch (error) {
+                console.error("Error fetching playlist detail", error);
+            }
+        };
 
+        fetchPlaylist();
+    }, [playlistId]);
 
-     const handleCancel = () =>{
-        navigate(-1);
-     };
-    
+    if (!playlist) {
+        return <div>Loading...</div>;
+    }
 
-return(
-<div className="container1">
-    <Header />  
-    {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
-    <div className="background">
-        <div className="grayBackground">
-            <div className="create_section2"> 
-                <div className="Edit_Btn">
-          
-            <Button text="수정" link={"/Edit"} />
-            <Button text="뒤로가기" link={"/PlaylistPage"} onClick={handleCancel}/>
-                </div>
-            </div>
-
+    return (
+        <div>
+            <h2>{playlist.playlistTitle}</h2>
+            <p>{playlist.playlistComment}</p>
+            <img src={playlist.playlistPhoto} alt={playlist.playlistTitle} />
+            <p>{playlist.playlistDate}</p>
+            {/* 플레이리스트 트랙 목록 표시 */}
+            {playlist.trackIds && playlist.trackIds.map((trackId) => (
+                <Music key={trackId} trackId={trackId} />
+            ))}
         </div>
-    <div>
-                
-</div>
-        </div>
-        
-
-    </div>
-  
     );
-}
+};
 
 export default PlaylistDetail;
