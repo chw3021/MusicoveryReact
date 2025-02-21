@@ -36,7 +36,7 @@ const SocialPage = () => {
                             <li><a href="/friendslist">친구 목록</a></li>
                             <li><a href="/quiz">퀴즈</a></li>
                             <li><a href="/streaming">스트리밍</a></li>
-                            <li><a href="/challenge">첼린지</a></li>
+                            <li><a href="/challenge">챌린지</a></li>
                         </ul>
                     </nav>
                 </aside>

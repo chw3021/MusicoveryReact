@@ -74,7 +74,7 @@ const Quiz = () => {
                                     플레이타임 : 10분</h4>
                             </div> 
                             <div> 
-                                <input type="text" className="settingName" placeholder="가수명을 입력해주세요"></input>
+                                <input type="text" className="settingName" placeholder="설정 가수명 입력"></input>
                             </div>
                             <div> 
                                 <section className="friendsPlus"></section>
