@@ -1,8 +1,7 @@
 import Header from "../common/Header";
 import "../../styles/Quiz.css";
 import Button from "../common/Button";
-import QuizSOLOPlay from "./QuizSOLOPlay";
-import QuizMULTIPlay from "./QuizMULTIPlay";
+
 
 const Quiz = () => {
     return (
@@ -71,8 +70,8 @@ const Quiz = () => {
                         
                     </div>
                     <div className="quizStartBtn">
-                        <Button type="button" className="quizStart" text={"시작(솔로모드)"} link={"/QuizSOLOPlay"} />
-                        <Button type="button" className="quizStart2" text={"시작(멀티모드)"} link={"/QuizMULTIPlay"} />
+                        <Button type="button" className="quizStart" text={"시작(솔로모드)"} link={"/QuizSOLOPlay "} />
+                        <Button type="button" className="quizStart2" text={"시작(멀티모드)"} link={"/QuizMULTIPlay "} />
                     </div>
                    
                 </div>

@@ -17,8 +17,8 @@ import Challenge from "./components/social/Challenge"; // Challenge 임포트
 import FriendsList from "./components/social/FriendsList"; // FriendsList 임포트
 import Quiz from "./components/social/Quiz"; // Quiz 임포트
 import CustomerSupport from "./components/social/CustomerSupport"; // CustomerSupport 임포트
-
-
+import QuizSOLOPlay from "./components/social/QuizSOLOPlay";
+import QuizMULTIPlay from "./components/social/QuizMULTIPlay";
 
 
 
@@ -171,7 +171,9 @@ if(!isDataLoaded){
       <Route path="/Edit" element={<Edit />} /> 
       <Route path="/PlaylistDetail" element={<PlaylistDetail />} />
       <Route path="/PlaylistPage" element={<PlaylistPage />} />
-
+      <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
+      <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />
+      
       <Route path="/oauth-callback" element={<OAuthCallback />} />
       
 

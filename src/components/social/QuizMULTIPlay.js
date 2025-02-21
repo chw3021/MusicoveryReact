@@ -1,8 +1,13 @@
+import Header from "../common/Header";
+
+
 
 const QuizMULTIPlay = () => {
 
     return (
-        <div></div>
+        <div>
+             <Header />
+        </div>
     );
 }
 
