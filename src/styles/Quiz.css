@@ -121,5 +121,28 @@
 
 .friendsPlus{
     background-color: white;
-    width: 100px;
+    width: 350px;
+    height: 180px;
+    margin-left: 70%;
+    margin-left: 580px;
+    margin-top: 10px;
+   
+}
+.quizExplain{
+    margin-left: 130px;
+    text-align: left;
+}
+
+.quizExplainsection{
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.quizStartBtn{
+    padding-right: 850px;
+}
+.quizStart2{
+    margin-left: 50px;
 }
