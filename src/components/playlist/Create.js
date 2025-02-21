@@ -39,7 +39,6 @@ const Create = () => {
             alert("모든 필드를 입력해주세요.");
             return;
         }
-        console.log(state.user);
 
         const playlistDTO = {
             playlistTitle: state.playlistTitle,
@@ -50,7 +49,7 @@ const Create = () => {
             isPublic: state.isPublic,
             tracks: state.selectedTracks.map(track => track.uri) // 트랙 URI 리스트 추가
         }
-        console.log(playlistDTO);
+        console.log("dtd",playlistDTO);
         
 
         axiosInstance.post("/playlist/create", playlistDTO)
