@@ -2,7 +2,7 @@ import Header from "../common/Header";
 import axiosInstance from "../../api/axiosInstance";
 import "../../styles/SocialPage.css";
 import React, { useState, useEffect } from "react";
-import useUserInfo from "../../hooks/userUserInfo";
+import useUserInfo from "../../hooks/useUserInfo";
 
 const Streaming = () => {
     const [playlists, setPlaylists] = useState([]);

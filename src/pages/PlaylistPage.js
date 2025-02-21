@@ -10,8 +10,8 @@ import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate } from "react-router-dom";
 import "../styles/PlaylistPage.css";
 import Button from "../components/common/Button";
-import PlaylistDetail from "../components/playlist/PlaylistDetail";
 import axiosInstance from '../api/axiosInstance';
+import useUserInfo from "../hooks/useUserInfo"; // useUserInfo 임포트
 
 
 const PlaylistPage = () =>{
@@ -19,7 +19,7 @@ const PlaylistPage = () =>{
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
     const navigate = useNavigate();
-    const userId = "user1@example.com"; // 실제 사용자 ID로 변경 필요
+    const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     
     
@@ -53,7 +53,7 @@ const PlaylistPage = () =>{
      useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getPlaylistsByUserId(userId);
+                const data = await getPlaylistsByUserId(userInfo.userId);
                 console.log("data", data);
                 
                 setFilteredData(data);
@@ -63,7 +63,7 @@ const PlaylistPage = () =>{
         };
 
         fetchData();
-    }, [userId]);
+    }, [userInfo]);
 
     const onClickCreate = () => {
         navigate("/createplaylist");

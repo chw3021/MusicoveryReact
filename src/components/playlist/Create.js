@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { getFormattedDate } from "../../utils/util";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
-import Header from "../common/Header";
 import MusicSearch from "../music/MusicSearch"; // MusicSearch 컴포넌트 임포트
 import "../playlist/Create.css";
 import Music from "../music/Music";
+import axiosInstance from "../../api/axiosInstance"; // axiosInstance 임포트
+import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 
-const Create = ({ initData, onSubmit }) => {
+const Create = () => {
     const navigate = useNavigate();
+    const userInfo = useUserInfo(); // 사용자 정보 가져오기
     const [state, setState] = useState({
         playlistTitle: '',
         playlistComment: '',
@@ -18,19 +20,51 @@ const Create = ({ initData, onSubmit }) => {
         selectedConcept: '',
         playlistDate: getFormattedDate(new Date()),
         selectedTracks: [], // 선택된 트랙 리스트 추가
+        user: userInfo, // 사용자 정보 추가
+        
     });
-
+    
+    // userInfo가 변경될 때마다 상태 업데이트
     useEffect(() => {
-        if (initData) {
-            setState({
-                ...initData,
-                playlistDate: getFormattedDate(new Date(parseInt(initData.date))),
-            });
+        if (userInfo) {
+            setState((prevState) => ({
+                ...prevState,
+                user: userInfo,
+            }));
         }
-    }, [initData]);
+    }, [userInfo]);
 
     const handleSubmit = () => {
-        onSubmit(state);
+        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate) {
+            alert("모든 필드를 입력해주세요.");
+            return;
+        }
+        console.log(state.user);
+
+        const playlistDTO = {
+            playlistTitle: state.playlistTitle,
+            playlistComment: state.playlistComment,
+            playlistPhoto: state.playlistPhoto,
+            userId: state.user.userId, // 사용자 정보 추가
+            playlistDate: state.playlistDate,
+            isPublic: state.isPublic,
+            tracks: state.selectedTracks.map(track => track.uri) // 트랙 URI 리스트 추가
+        }
+        console.log(playlistDTO);
+        
+
+        axiosInstance.post("/playlist/create", playlistDTO)
+        .then(response => {
+            console.log("✅ 플레이리스트 생성 완료:", response.data);
+            navigate("/PlaylistPage");
+        })
+        .catch(error => {
+            console.error("❌ 플레이리스트 생성 실패:", error);
+            if (error.response) {
+                console.error("📌 응답 데이터:", error.response.data);
+                console.error("📌 상태 코드:", error.response.status);
+            }
+        });
     };
 
     const handleCancel = () => {
@@ -78,7 +112,12 @@ const Create = ({ initData, onSubmit }) => {
         }));
     };
 
-    const options = Array.from({ length: 194 }, (_, index) => 30 + index * 5);
+    const removeTrack = (trackId) => {
+        setState((prev) => ({
+            ...prev,
+            selectedTracks: prev.selectedTracks.filter(track => track.id !== trackId),
+        }));
+    };
 
     return (
         <div className="create-container">
@@ -132,7 +171,10 @@ const Create = ({ initData, onSubmit }) => {
                     <h5>선택된 트랙 목록</h5>
                     <ul>
                         {state.selectedTracks.map((track, index) => (
-                            <li key={index}><Music track={track}/></li>
+                            <li key={index}>
+                                <Music track={track} />
+                                <button onClick={() => removeTrack(track.id)}>제거</button>
+                            </li>
                         ))}
                     </ul>
                 </div>
