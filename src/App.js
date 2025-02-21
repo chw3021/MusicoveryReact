@@ -17,9 +17,10 @@ import Challenge from "./components/social/Challenge"; // Challenge 임포트
 import FriendsList from "./components/social/FriendsList"; // FriendsList 임포트
 import Quiz from "./components/social/Quiz"; // Quiz 임포트
 import CustomerSupport from "./components/social/CustomerSupport"; // CustomerSupport 임포트
-
-
-
+import QuizSOLOPlay from "./components/social/QuizSOLOPlay";
+import QuizMULTIPlay from "./components/social/QuizMULTIPlay";
+import ChallengeSOLOPlay from "./components/social/ChallengeSOLOPlay";
+import ChallengeMULTIPlay from "./components/social/ChallengeMULTIPlay";
 
 
 const day = new Date();
@@ -168,10 +169,14 @@ if(!isDataLoaded){
       <Route path="/PlusMusic" element={<PlusMusic />} /> 
       <Route path="/playlist/:playlistId" element={<PlaylistDetail />} />
       <Route path="/PlaylistPage" element={<PlaylistPage />} />
+      <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
+      <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />
+      <Route path="/ChallengeSOLOPlay" element={<ChallengeSOLOPlay />} />
+      <Route path="/ChallengeMULTIPlay" element={<ChallengeMULTIPlay />} />
 
       <Route path="/oauth-callback" element={<OAuthCallback />} />
       
-
+      
     </Routes>
 
   </div>

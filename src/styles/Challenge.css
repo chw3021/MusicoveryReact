@@ -1,4 +1,4 @@
-.quizView {
+.challengeView {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -119,25 +119,34 @@
     height: 400px;
 }
 
-
-.quizExplain{
+.friendsPlus{
+    background-color: white;
+    width: 350px;
+    height: 180px;
+    margin-left: 70%;
+    margin-left: 580px;
+    margin-top: 10px;
+   
+}
+.challengeExplain{
     margin-left: 130px;
     text-align: left;
 }
 
-.quizExplainsection{
+.challengeExplainsection{
     display: flex;
     gap: 10px;
     margin-left: 10px;
     padding: 5px;
 }
 
-.quizStartBtn{
+.challengeStartBtn{
     padding-right: 850px;
 }
-.quizStart2{
+.challengeStart2{
     margin-left: 50px;
 }
+
 
 .friendsPlus{
     background-color: white;
@@ -157,7 +166,7 @@
 
 }
 
-.QuizRanking{
+.ClearChallenge{
     display: flex;
     flex-direction: column;
     background-color: rgb(37, 37, 37);
@@ -167,10 +176,10 @@
     margin-left: 30px;
 }
 
-.QuizRankingtool{
+.ClearChallengetool{
     margin: auto;
 }
-.QuizRankingTitle{
+.ClearChallengeTitle{
     background-color: rgb(65, 65, 65);
     color: white;
     margin-left: 20px;
@@ -180,7 +189,7 @@
     text-align: center;
 }
 
-.QuizRankingTitle2{
+.ClearChallengeTitle2{
     background-color: white;
     color: black;
     width: 260px;
