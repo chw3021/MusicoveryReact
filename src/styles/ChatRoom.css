@@ -1,0 +1,36 @@
+.chat-content {
+    flex: 1; /* 나머지 공간 차지 */
+    display: flex;
+    flex-direction: column; /* 세로로 쌓이도록 설정 */
+    padding: 10px; /* 패딩 줄이기 */
+    margin-left: 250px; /* 사이드바 너비에 맞게 여백 조정 */
+    box-sizing: border-box; /* 패딩이 박스 크기에 포함되도록 설정 */
+    max-height: calc(100vh - 100px); /* 전체 높이에서 헤더와 네비게이션의 높이를 제외 */
+}
+
+.chat-box {
+    flex: 1; /* 채팅 메시지가 공간을 차지하도록 설정 */
+    overflow-y: auto; /* 세로 스크롤 가능 */
+    border: 1px solid #ddd; /* 경계선 추가 */
+    padding: 10px; /* 패딩 추가 */
+    margin-bottom: 10px; /* 입력창과의 간격 */
+    max-height: 400px; /* 최대 높이 제한 (원하는 높이로 조정) */
+}
+
+.chat-input {
+    display: flex; /* 입력창과 버튼을 가로로 나란히 배치 */
+}
+
+.chat-input input {
+    flex: 1; /* 입력창이 가능한 만큼 너비 차지 */
+    padding: 10px; /* 패딩 추가 */
+    border: 1px solid #ddd; /* 경계선 추가 */
+}
+
+.chat-input button {
+    padding: 10px 15px; /* 버튼 패딩 */
+    background-color: #007bff; /* 버튼 색상 */
+    color: white; /* 글자 색상 */
+    border: none; /* 경계선 제거 */
+    cursor: pointer; /* 포인터 커서 */
+}

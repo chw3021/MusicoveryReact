@@ -17,6 +17,7 @@ import Challenge from "./components/social/Challenge"; // Challenge 임포트
 import FriendsList from "./components/social/FriendsList"; // FriendsList 임포트
 import Quiz from "./components/social/Quiz"; // Quiz 임포트
 import CustomerSupport from "./components/social/CustomerSupport"; // CustomerSupport 임포트
+import ChatRoom from "./components/social/ChatRoom"; // ChatRoom 임포트
 
 
 
@@ -160,10 +161,10 @@ if(!isDataLoaded){
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/userreport" element={<UserReport />} />
       <Route path="/customersupport" element={<CustomerSupport />} />
+
+      <Route path="/chat/:streamId" element={<ChatRoom />} /> {/* ✅ 추가 */}
       {/* 소셜 페이지 추가 끝 */}
 
-       {/*<Route path="/ReadMore/:id" element={<ReadMore />} />
-=======  {/* 소셜 페이지 추가 */}
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
       <Route path="/createplaylist" element={<PlaylistCreatePage />} />
   

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance";
 import Header from "../components/common/Header";
 import "../styles/SocialPage.css";
+import JoinChat from "../components/social/JoinChat"; // ✅ JoinChat 컴포넌트 추가
+import Nav from "../components/common/Nav";
 
 const SocialPage = () => {
     const [liveStreams, setLiveStreams] = useState([]);
@@ -30,16 +32,7 @@ const SocialPage = () => {
             <Header />
 
             <div className="social-layout">
-                <aside className="social-sidebar">
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="/friendslist">친구 목록</a></li>
-                            <li><a href="/quiz">퀴즈</a></li>
-                            <li><a href="/streaming">스트리밍</a></li>
-                            <li><a href="/challenge">첼린지</a></li>
-                        </ul>
-                    </nav>
-                </aside>
+                <Nav />
 
                 <main className="social-content">
                     <p>현재 진행 중인 스트리밍 목록입니다.</p>
@@ -55,7 +48,7 @@ const SocialPage = () => {
 
                                         <div className="chat-box">
                                             <p><strong>마지막 채팅:</strong> (최근 채팅 내용 표시)</p>
-                                            <button className="join-button">입장</button>
+                                            <JoinChat streamId={stream.id} /> {/* ✅ JoinChat 버튼 사용 */}
                                         </div>
                                     </div>
                                 )
