@@ -45,6 +45,18 @@ const Challenge = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="ClearChallenge">
+                        <div className="ClearChallengetool">
+                            <section className="ClearChallengeTitle">내가 클리어한 목록</section>
+                            <section className="ClearChallengeTitle2">발라드</section>
+                            <section className="ClearChallengeTitle2">힙합</section>
+                            <section className="ClearChallengeTitle2">트로트</section>
+                            <div className="ClearChallengeView">
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="playlistPygsong">
                         <div className="playlistPygsongtool">
                             <section className="playlistPygsongTitle">실행중인 플레이리스트</section>
@@ -64,6 +76,9 @@ const Challenge = () => {
                                     참여 가능 인원 수 : 1 ~ n 명   <br />
                                     플레이타임 : 10분</h4>
                             </div> 
+                            <div> 
+                                <input type="text" className="settingName" placeholder="설정 장르 입력"></input>
+                            </div>
                             <div> 
                                 <section className="friendsPlus"></section>
                             </div>
