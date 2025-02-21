@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/common/Header";
 import SocialHeader from "../components/common/SocialHeader";
 import PostBody from "../components/post/PostBody";
-import Layout from "../components/common/SidebarLayout";
+import SidebarLayout from "../components/common/SidebarLayout";
 import "../styles/PostPage.css";
 
 const PostPage = () => {
@@ -10,12 +10,12 @@ const PostPage = () => {
         <div>
             <div className="post-page">
                 <Header />
-                <Layout>
+                <SidebarLayout>
                     <SocialHeader />
                     <div className="post-list-container">
                         <PostBody />
                     </div>
-                </Layout>
+                </SidebarLayout>
             </div>
         </div>
     );
