@@ -7,10 +7,12 @@ import genreSeeds from "../../assets/genre-seeds.json"; // 장르 리스트 파�
 import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
+import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 
 const KeywordRecommendation = () => {
     const navigate = useNavigate();
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
+    const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
 
     const [state, setState] = useState({
         genre: '',
@@ -214,7 +216,7 @@ const KeywordRecommendation = () => {
                                 <ul>
                                     {state.recommendations.map((track, index) => (
                                         <li key={index}>
-                                            <Music track={track} />
+                                            <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
                                             <button onClick={() => removeTrack(track.id)}>제거</button>
                                         </li>
                                     ))}

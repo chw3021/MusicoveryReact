@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom";
 const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate }) => {
     const navigate = useNavigate();
 
-    // 서버에서 전달된 파일 경로를 절대 URL로 변환
-    const imageUrl = playlistPhoto.startsWith("/images/")
-        ? `http://localhost:8080${playlistPhoto}`
-        : playlistPhoto;
+    // 기본 이미지 설정
+    const defaultImage = "/images/default.jpg";  // 기본 이미지 파일 추가 필요
+
+    // playlistPhoto가 null이면 기본 이미지 사용
+    const imageUrl = playlistPhoto 
+        ? (playlistPhoto.startsWith("/images/") ? `http://localhost:8080${playlistPhoto}` : playlistPhoto)
+        : defaultImage;
+
+        
     const handleClick = () => {
         navigate(`/playlist/${playlistId}`); // 세부 정보 페이지로 이동
     };
