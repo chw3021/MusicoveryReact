@@ -52,13 +52,14 @@ const PlaylistPage = () =>{
     
      useEffect(() => {
         const fetchData = async () => {
-            try {
-                const data = await getPlaylistsByUserId(userInfo.userId);
-                console.log("data", data);
-                
-                setFilteredData(data);
-            } catch (error) {
-                console.error("Error fetching playlists", error);
+            if(userInfo){
+                try {
+                    const data = await getPlaylistsByUserId(userInfo.userId);
+                    
+                    setFilteredData(data);
+                } catch (error) {
+                    console.error("Error fetching playlists", error);
+                }
             }
         };
 
