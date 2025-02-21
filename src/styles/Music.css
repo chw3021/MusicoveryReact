@@ -48,10 +48,10 @@
     text-align: center;
     border-radius: 5px;
     padding: 5px;
-    position: absolute;
+    position: fixed; /* fixed로 변경 */
     z-index: 1;
-    left: calc(8%);
-    transform: translateY(-100%);
+    left: 50%; /* 중앙 정렬 */
+    transform: translateX(-50%) translateY(-50%); /* 중앙 정렬 및 위로 이동 */
     transition: opacity 0.3s;
 }
 

@@ -11,7 +11,9 @@ const SocialPage = () => {
         axiosInstance.get("/api/streaming/live")
             .then(response => {
                 console.log("📡 API 응답 데이터:", response.data);
-                setLiveStreams(response.data);
+                // 임시로 모든 스트리밍 항목의 public 필드를 true로 설정
+                const modifiedData = response.data.map(stream => ({ ...stream, public: true }));
+                setLiveStreams(modifiedData);
             })
             .catch(error => console.error("❌ 스트리밍 목록 불러오기 실패:", error));
     };
@@ -46,10 +48,10 @@ const SocialPage = () => {
                             <p>현재 진행 중인 스트리밍이 없습니다.</p>
                         ) : (
                             liveStreams.map(stream => (
-                                stream.isPublic && ( // isPublic이 true일 때만 표시
+                                stream.public && ( // public이 true일 때만 표시
                                     <div key={stream.id} className="stream-card">
                                         <h3>스트리밍 호스트 ID: {stream.hostUser.nickname}</h3>
-                                        <p>플레이리스트: {stream.playlistName}</p>
+                                        <p>플레이리스트: {stream.playlist.playlistTitle}</p>
 
                                         <div className="chat-box">
                                             <p><strong>마지막 채팅:</strong> (최근 채팅 내용 표시)</p>
@@ -60,6 +62,7 @@ const SocialPage = () => {
                             ))
                         )}
                     </div>
+                    
                 </main>
             </div>
         </div>

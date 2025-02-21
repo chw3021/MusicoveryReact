@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import styles from "../../styles/Header.module.css";
 import logo from "../../assets/logo.png"; // 로고 이미지 경로
-import useUserInfo from "../../hooks/userUserInfo";
+import useUserInfo from "../../hooks/useUserInfo";
 
 
 const Header = () => {
