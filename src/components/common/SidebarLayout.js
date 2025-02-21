@@ -6,7 +6,7 @@ const SidebarLayout = ({ children }) => {
     return (
         <div className="layout">
             <div className="sidebar">
-                <MusicSearch />
+                <MusicSearch onSelectTrack={()=>{}}/>
             </div>
             <div className="main-content">
                 {children}
