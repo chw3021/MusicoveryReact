@@ -27,15 +27,18 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
         const playlist = playlists.find(pl => pl.playlistId === playlistId);
         if (!playlist) return;
     
-        const newStatus = playlist.isPublic ? true : false; 
-    
-        if(!newStatus){
+        console.log("📡 플레이리스트 : ", playlist);
+        const newStatus = !playlist.isPublic;
+
+        
+
+        if(newStatus){
             axiosInstance.post("/api/streaming/create", {
                 playlistId: playlist.playlistId,
                 hostUser: playlist.user,
                 isLive: true,
                 isPremiumOnly: false,
-                isPublic: newStatus
+                isPublic: true
             })
             .then(response => {
                 console.log("✅ 스트리밍 데이터 저장 완료:", response.data);
