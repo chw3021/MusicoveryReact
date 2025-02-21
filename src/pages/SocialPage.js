@@ -33,17 +33,6 @@ const SocialPage = () => {
 
             <div className="social-layout">
                 <Nav />
-                <aside className="social-sidebar">
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="/friendslist">친구 목록</a></li>
-                            <li><a href="/quiz">퀴즈</a></li>
-                            <li><a href="/streaming">스트리밍</a></li>
-                            <li><a href="/challenge">챌린지</a></li>
-                        </ul>
-                    </nav>
-                </aside>
-
                 <main className="social-content">
                     <p>현재 진행 중인 스트리밍 목록입니다.</p>
                     <div className="streaming-list">
