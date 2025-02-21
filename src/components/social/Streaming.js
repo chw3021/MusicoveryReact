@@ -29,20 +29,25 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
     
         const newStatus = playlist.isPublic ? true : false; 
     
-        axiosInstance.post("/api/streaming/create", {
-            playlistId: playlist.playlistId,
-            hostUser: playlist.user,
-            isLive: true,
-            isPremiumOnly: false,
-            isPublic: newStatus
-        })
-        .then(response => {
-            console.log("✅ 스트리밍 데이터 저장 완료:", response.data);
-            setPlaylists(playlists.map(pl => 
-                pl.playlistId === playlistId ? { ...pl, isPublic: newStatus } : pl
-            ));
-        })
-        .catch(error => console.error("❌ 스트리밍 데이터 저장 실패:", error));
+        if(newStatus){
+            axiosInstance.post("/api/streaming/create", {
+                playlistId: playlist.playlistId,
+                hostUser: playlist.user,
+                isLive: true,
+                isPremiumOnly: false,
+                isPublic: newStatus
+            })
+            .then(response => {
+                console.log("✅ 스트리밍 데이터 저장 완료:", response.data);
+                setPlaylists(playlists.map(pl => 
+                    pl.playlistId === playlistId ? { ...pl, isPublic: newStatus } : pl
+                ));
+            })
+            .catch(error => console.error("❌ 스트리밍 데이터 저장 실패:", error));
+        }
+        else{
+            
+        }
     };
     return (
         <div className="social-container">
