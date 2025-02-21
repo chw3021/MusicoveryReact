@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../common/Header";
 import MusicSearch from "../music/MusicSearch"; // MusicSearch 컴포넌트 임포트
 import "../playlist/Create.css";
+import Music from "../music/Music";
 
 const Create = ({ initData, onSubmit }) => {
     const navigate = useNavigate();
@@ -131,7 +132,7 @@ const Create = ({ initData, onSubmit }) => {
                     <h5>선택된 트랙 목록</h5>
                     <ul>
                         {state.selectedTracks.map((track, index) => (
-                            <li key={index}>{track.name} - {track.artist}</li>
+                            <li key={index}><Music track={track}/></li>
                         ))}
                     </ul>
                 </div>

@@ -29,18 +29,16 @@ const Streaming = () => {
         console.log("📡 내 플레이리스트 : ", playlist);
 
         console.log("전송 데이터: ", {
-            id: playlist.userId,
-            playlistName: playlist.playlistTitle,
-            hostUserId: playlist.userId,
+            playlistId: playlist.playlistId,
+            hostUser: playlist.user,
             isLive: true,
             isPremiumOnly: false,
             isPublic: newStatus
         });
 
         axiosInstance.post("/api/streaming/create", {
-            id: playlist.playlistId,
-            playlistName: playlist.playlistTitle,  // ✅ 필드명 변경!
-            hostUserId: playlist.userId,           // ✅ 필드명 변경!
+            playlistId: playlist.playlistId,  // ✅ 필드명 변경!
+            hostUser: playlist.user,           // ✅ 필드명 변경!
             isLive: true,                            // ✅ boolean 타입 변경
             isPremiumOnly: false,                    // ✅ boolean 타입 변경
             isPublic: newStatus
