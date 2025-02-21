@@ -1,5 +1,7 @@
 import Header from "../common/Header";
 import "../../styles/Quiz.css";
+import Button from "../common/Button";
+
 
 const Quiz = () => {
     return (
@@ -42,6 +44,16 @@ const Quiz = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="QuizRanking">
+                        <div className="QuizRankingtool">
+                            <section className="QuizRankingTitle">이번달 솔로모드 랭킹</section>
+                            <section className="QuizRankingTitle2">1등 : 홍길동</section>
+                            <section className="QuizRankingTitle2">2등 : 고양이</section>
+                            <section className="QuizRankingTitle2">3등 : 강아지</section>
+                            <div className="QuizRankingView">
+                            </div>
+                        </div>
+                    </div>
                     <div className="playlistPygsong">
                         <div className="playlistPygsongtool">
                             <section className="playlistPygsongTitle">실행중인 플레이리스트</section>
@@ -62,14 +74,17 @@ const Quiz = () => {
                                     플레이타임 : 10분</h4>
                             </div> 
                             <div> 
+                                <input type="text" className="settingName" placeholder="설정 가수명 입력"></input>
+                            </div>
+                            <div> 
                                 <section className="friendsPlus"></section>
                             </div>
                         </div>
                         
                     </div>
                     <div className="quizStartBtn">
-                        <button type="button" className="quizStart">시작(솔로모드)</button>
-                        <button type="button" className="quizStart2">시작(멀티모드)</button>
+                        <Button type="button" className="quizStart" text={"시작(솔로모드)"} link={"/QuizSOLOPlay "} />
+                        <Button type="button" className="quizStart2" text={"시작(멀티모드)"} link={"/QuizMULTIPlay "} />
                     </div>
                    
                 </div>
