@@ -21,6 +21,10 @@ import QuizSOLOPlay from "./components/social/QuizSOLOPlay";
 import QuizMULTIPlay from "./components/social/QuizMULTIPlay";
 import ChallengeSOLOPlay from "./components/social/ChallengeSOLOPlay";
 import ChallengeMULTIPlay from "./components/social/ChallengeMULTIPlay";
+import ChatRoom from "./components/social/ChatRoom"; // ChatRoom 임포트
+
+
+
 
 
 const day = new Date();
@@ -161,6 +165,8 @@ if(!isDataLoaded){
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/userreport" element={<UserReport />} />
       <Route path="/customersupport" element={<CustomerSupport />} />
+
+      <Route path="/chat/:streamId" element={<ChatRoom />} /> {/* ✅ 추가 */}
       {/* 소셜 페이지 추가 끝 */}
 
       <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
