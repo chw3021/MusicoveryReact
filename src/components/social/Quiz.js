@@ -44,6 +44,16 @@ const Quiz = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="QuizRanking">
+                        <div className="QuizRankingtool">
+                            <section className="QuizRankingTitle">이번달 솔로모드 랭킹</section>
+                            <section className="QuizRankingTitle2">1등 : 홍길동</section>
+                            <section className="QuizRankingTitle2">2등 : 고양이</section>
+                            <section className="QuizRankingTitle2">3등 : 강아지</section>
+                            <div className="QuizRankingView">
+                            </div>
+                        </div>
+                    </div>
                     <div className="playlistPygsong">
                         <div className="playlistPygsongtool">
                             <section className="playlistPygsongTitle">실행중인 플레이리스트</section>
@@ -63,6 +73,9 @@ const Quiz = () => {
                                     참여 가능 인원 수 : 1 ~ n 명   <br />
                                     플레이타임 : 10분</h4>
                             </div> 
+                            <div> 
+                                <input type="text" className="settingName" placeholder="가수명을 입력해주세요"></input>
+                            </div>
                             <div> 
                                 <section className="friendsPlus"></section>
                             </div>
