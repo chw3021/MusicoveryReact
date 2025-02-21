@@ -4,7 +4,10 @@ import "../../styles/SocialPage.css";
 import React, { useState, useEffect } from "react";
 import useUserInfo from "../../hooks/useUserInfo";
 
-const Streaming = () => {
+
+
+
+const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
     const [playlists, setPlaylists] = useState([]);
     const userInfo = useUserInfo();
 
@@ -20,27 +23,17 @@ const Streaming = () => {
         }
     }, [userInfo]);
 
-    // ✅ 공개 여부 변경 및 DB 저장
     const togglePublicStatus = (playlistId) => {
         const playlist = playlists.find(pl => pl.playlistId === playlistId);
         if (!playlist) return;
-
-        const newStatus = !playlist.isPublic;
-        console.log("📡 내 플레이리스트 : ", playlist);
-
-        console.log("전송 데이터: ", {
+    
+        const newStatus = playlist.isPublic ? true : false; 
+    
+        axiosInstance.post("/api/streaming/create", {
             playlistId: playlist.playlistId,
             hostUser: playlist.user,
             isLive: true,
             isPremiumOnly: false,
-            isPublic: newStatus
-        });
-
-        axiosInstance.post("/api/streaming/create", {
-            playlistId: playlist.playlistId,  // ✅ 필드명 변경!
-            hostUser: playlist.user,           // ✅ 필드명 변경!
-            isLive: true,                            // ✅ boolean 타입 변경
-            isPremiumOnly: false,                    // ✅ boolean 타입 변경
             isPublic: newStatus
         })
         .then(response => {
@@ -49,15 +42,8 @@ const Streaming = () => {
                 pl.playlistId === playlistId ? { ...pl, isPublic: newStatus } : pl
             ));
         })
-        .catch(error => {
-            console.error("❌ 스트리밍 데이터 저장 실패:", error);
-            if (error.response) {
-                console.error("📌 응답 데이터:", error.response.data);
-                console.error("📌 상태 코드:", error.response.status);
-            }
-        });
+        .catch(error => console.error("❌ 스트리밍 데이터 저장 실패:", error));
     };
-
     return (
         <div className="social-container">
             <Header />
@@ -82,7 +68,7 @@ const Streaming = () => {
                                 <h2>플레이리스트: {playlist.playlistTitle}</h2>
                                 <p>현재 상태: {playlist.isPublic ? "🔓 공개" : "🔒 비공개"}</p>
                                 <button className="toggle-button" onClick={() => togglePublicStatus(playlist.playlistId)}>
-                                    {playlist.isPublic ? "비공개로 변경" : "공개하기"}
+                                    {playlist.isPublic ? "비공개로 변경" : "공개로 변경"}
                                 </button>
                             </div>
                         ))

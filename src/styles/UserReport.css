@@ -31,7 +31,7 @@ input, textarea {
 
 button {
     padding: 10px;
-    background-color: #ff4d4d;
+    background-color: rgb(28, 28, 140);
     color: white;
     border: none;
     border-radius: 5px;
@@ -39,7 +39,7 @@ button {
 }
 
 button:hover {
-    background-color: #cc0000;
+    background-color: #0092e0;
 }
 
 ul {
