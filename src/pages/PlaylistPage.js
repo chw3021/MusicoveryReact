@@ -83,9 +83,6 @@ const PlaylistPage = () =>{
                 <div className="list">
                     <ReadMoreList data={filteredData} />
                 </div>
-                <div className="ofPlaylistDetail">
-                    <Button link={"/PlaylistDetail"} text={"플리제목클릭"} />
-                </div>
             </div>
         </div>
   
