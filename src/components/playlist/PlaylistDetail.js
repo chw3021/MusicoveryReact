@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import Music from "../music/Music"; // Music 컴포넌트 임포트
+import MusicSearch from "../music/MusicSearch";
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import Button from "../common/Button"; // Button 컴포넌트 임포트
@@ -83,11 +84,11 @@ const PlaylistDetail = () => {
         formData.append("playlistId", playlistId);
         formData.append("playlistTitle", state.playlistTitle);
         formData.append("playlistComment", state.playlistComment);
-        formData.append("playlistDate", state.playlistDate); // 날짜 형식 수정
-        formData.append("isPublic", state.isPublic); // false 고정
+        formData.append("playlistDate", state.playlistDate);
+        formData.append("isPublic", state.isPublic);
         formData.append("userId", state.user.userId); // 예시로 userId 값 사용
     
-        if (state.playlistPhoto && !state.playlistPhoto.startsWith("/images/")) {
+        if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
         } else {
             formData.append("playlistPhoto", state.playlistPhoto || ""); // 기존 이미지를 그대로 사용
@@ -125,6 +126,12 @@ const PlaylistDetail = () => {
         }));
     };
 
+    const handleTrackSelect = (track) => {
+        setState((prev) => ({
+            ...prev,
+            tracksData: [...prev.tracksData, track],
+        }));
+    };
     if (!state.playlistTitle) {
         return <div>Loading...</div>;
     }
@@ -143,7 +150,21 @@ const PlaylistDetail = () => {
                 
             <div className="playlist-detail-container">
                 <div className="playlist-detail-header">
-                    <h2>{state.playlistTitle}</h2>
+                    
+                {state.isEditing ? (
+                            <>
+                                <input value={state.playlistTitle}
+                                    onChange={(e) => setState(prevState => ({
+                                        ...prevState,
+                                        playlistTitle: e.target.value,
+                                    }))} 
+                                />
+                            </>
+                        ) : (
+                            <>
+                                 <h2>{state.playlistTitle}</h2>
+                            </>
+                        )}
                 </div>
                 <div className="playlist-detail-body">
                     <div className="playlist-detail-left">
@@ -169,30 +190,39 @@ const PlaylistDetail = () => {
                             </>
                         )}
                         <p>{state.playlistDate}</p>
-                        {state.isEditing ? (
-                            <Button text="저장" onClick={handleSave} />
-                        ) : (
-                            <Button text="수정" onClick={handleEdit} />
-                        )}
-                        <Button text="뒤로가기" link={"/PlaylistPage"} />
+                        <div className="editing-button-area">
+                            {state.isEditing ? (
+                                <Button text="저장" onClick={handleSave} />
+                            ) : (
+                                <Button text="수정" onClick={handleEdit} />
+                            )}
+                            <Button text="뒤로가기" link={"/PlaylistPage"} />
+                        </div>
                     </div>
                 </div>
-                <div className="playlist-tracks">
-                    {state.tracksData.length > 0 ? (
-                        state.tracksData.map((track, index) => {
-                            const key = `${playlistId}-${index}`; // 고유한 key 값 생성
-                            return (
-                                <div key={key} className="track-item">
-                                    <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                    {state.isEditing && (
-                                        <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
-                                    )}
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <p>노래가 없습니다.</p>
+                <div className="playlist-tracks-container">
+                    {state.isEditing && (
+                        <div className="music-search-container">
+                            <MusicSearch onSelectTrack={handleTrackSelect} />
+                        </div>
                     )}
+                    <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
+                        {state.tracksData.length > 0 ? (
+                            state.tracksData.map((track, index) => {
+                                const key = `${playlistId}-${index}`;
+                                return (
+                                    <div key={key} className="list-track-item">
+                                        <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                                        {state.isEditing && (
+                                            <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
+                                        )}
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p>노래가 없습니다.</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

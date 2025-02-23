@@ -24,7 +24,7 @@
 }
 
 .playlist-detail-right {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,4 +42,24 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
+}
+
+.playlist-tracks-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.playlist-tracks {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto;
+    flex: 1;
+}
+
+.playlist-tracks-editing {
+    width: 50%;
+    margin-right: 20px;
+}
+
+.music-search-container {
+    width: 50%;
 }
