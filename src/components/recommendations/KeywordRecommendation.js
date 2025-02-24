@@ -192,6 +192,9 @@ const KeywordRecommendation = () => {
                         value={state.bpm}
                         onChange={handleChange}
                         placeholder="BPM을 입력하세요..."
+                        min="30"     // 최소값 30
+                        max="990"    // 최대값 990
+                        step="5"     // 1단위로 선택 가능
                     />
                 </div>
                 <div className="form-group">
