@@ -23,6 +23,7 @@ import ChallengeSOLOPlay from "./components/social/ChallengeSOLOPlay";
 import ChallengeMULTIPlay from "./components/social/ChallengeMULTIPlay";
 import ChatRoom from "./components/social/ChatRoom"; // ChatRoom 임포트
 
+import AdminMain from "./pages/AdminMain"; // admin 메인페이지
 
 
 
@@ -182,7 +183,8 @@ if(!isDataLoaded){
 
       <Route path="/oauth-callback" element={<OAuthCallback />} />
       
-      
+      {/* 관리자 페이지 */}
+      <Route path="/admin" element={<AdminMain />} />
     </Routes>
 
   </div>

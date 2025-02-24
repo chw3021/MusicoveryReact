@@ -9,6 +9,8 @@ import OAuth from "../components/auth/OAuth";
 import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../components/auth/auth";
+
+import AdminMain from "../pages/AdminMain";
 // import useReadMore from "../hooks/useReadMore.js";
 // import useReadMore from "../hooks/"
 // import PlaylistPage from "./PlaylistPage";
@@ -29,6 +31,10 @@ const Home = () =>{
     const handleLogoutClick = () => {
         logout();
     };
+
+    const adminLoginClick = () => {
+        navigate("/admin"); 
+    };    
 
 
     return ( 
@@ -51,6 +57,10 @@ const Home = () =>{
                     <button className="hero-button2" onClick={handleLogoutClick}>
                         임시 로그아웃
                     </button>
+                    <button a href="#/admin"className="hero-button3" onClick={adminLoginClick}>
+                        임시 관리자페이지
+                    </button>
+                    
                     {showOAuth && <OAuth />}
                 {/* <PlaylistPage onClick={goPlaylistPage} />     */}
                 </div>
