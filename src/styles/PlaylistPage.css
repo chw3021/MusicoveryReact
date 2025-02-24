@@ -21,6 +21,7 @@
 .list{
     width: 80%;
     margin: auto;
+    height: 10px;
 }
 
 .goCreateView{
