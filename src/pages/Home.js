@@ -40,7 +40,7 @@ const Home = () =>{
             <div className="hero">
                 <div className="hero-content">
                 <Button link={"/PlaylistPage"} 
-                text={"내라이브러리로 가기화면보려고만든거예여삭제하면안대여!!!"} />
+                text={"내 플레이리스트"} />
                     <h1>Heading</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
                     <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
