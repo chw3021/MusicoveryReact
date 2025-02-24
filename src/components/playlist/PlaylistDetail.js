@@ -164,6 +164,31 @@ const PlaylistDetail = () => {
                         {state.isEditing && (
                             <input type="file" onChange={handleFileChange} accept="image/*" />
                         )}
+                                
+                        <div className="playlist-tracks-container">
+                            {state.isEditing && (
+                                <div className="music-search-container">
+                                    <MusicSearch onSelectTrack={handleTrackSelect} />
+                                </div>
+                            )}
+                            <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
+                                {state.tracksData.length > 0 ? (
+                                    state.tracksData.map((track, index) => {
+                                        const key = `${playlistId}-${index}`;
+                                        return (
+                                            <div key={key} className="list-track-item">
+                                                <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                                                {state.isEditing && (
+                                                    <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
+                                                )}
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p>노래가 없습니다.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="playlist-detail-right">
                         {state.isEditing ? (
@@ -190,30 +215,6 @@ const PlaylistDetail = () => {
                             )}
                             <Button text="뒤로가기" link={"/PlaylistPage"} />
                         </div>
-                    </div>
-                </div>
-                <div className="playlist-tracks-container">
-                    {state.isEditing && (
-                        <div className="music-search-container">
-                            <MusicSearch onSelectTrack={handleTrackSelect} />
-                        </div>
-                    )}
-                    <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
-                        {state.tracksData.length > 0 ? (
-                            state.tracksData.map((track, index) => {
-                                const key = `${playlistId}-${index}`;
-                                return (
-                                    <div key={key} className="list-track-item">
-                                        <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                        {state.isEditing && (
-                                            <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
-                                        )}
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <p>노래가 없습니다.</p>
-                        )}
                     </div>
                 </div>
             </div>
