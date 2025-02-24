@@ -46,7 +46,8 @@ const SocialPage = () => {
                                         <p>플레이리스트: {stream.playlist.playlistTitle}</p>
 
                                         <div className="chat-box">
-                                            <p><strong>마지막 채팅:</strong> (최근 채팅 내용 표시)</p>
+                                            <p><strong>마지막 채팅:</strong> {stream.lastMessage ? stream.lastMessage : "메시지가 없습니다."}</p>
+                                            
                                             <JoinChat streamId={stream.id} /> {/* ✅ JoinChat 버튼 사용 */}
                                         </div>
                                     </div>
