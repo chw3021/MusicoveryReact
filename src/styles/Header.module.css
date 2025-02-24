@@ -37,9 +37,9 @@
     font-weight: 600;
     padding: 10px 20px;
     border-radius: 20px;
-    border-color: blue;
-    background-color: rgb(157, 210, 235);
-    color: #000000;
+    border-color:  rgb(28, 28, 140);
+    background-color:  rgb(28, 28, 140);
+    color:  white;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-top: 40px;
     margin-left: 10px;

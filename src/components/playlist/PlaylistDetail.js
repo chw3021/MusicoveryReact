@@ -41,7 +41,7 @@ const PlaylistDetail = () => {
                     ...prevState,
                     playlistTitle: response.data.playlist.playlistTitle,
                     playlistComment: response.data.playlist.playlistComment,
-                    playlistPhoto: response.data.playlist.playlistPhoto,
+                    playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
                     playlistDate: response.data.playlist.playlistDate.substring(0, 10),
                     isPublic: response.data.playlist.isPublic,
                     tracksData: trackList,
@@ -129,14 +129,13 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
-
     // playlistPhoto가 파일 객체인지 URL 문자열인지 확인
     const imageUrl = state.playlistPhoto 
         ? (typeof state.playlistPhoto === "string" && state.playlistPhoto.startsWith("/images/") 
             ? `${SPRING_SERVER_URL}${state.playlistPhoto}` 
             : URL.createObjectURL(state.playlistPhoto))
-        : state.playlistPhoto;
-        
+        : "/images/default.png"; // 기본 이미지 설정
+
     return (
         <div className="container1">
             <Header />
@@ -165,6 +164,31 @@ const PlaylistDetail = () => {
                         {state.isEditing && (
                             <input type="file" onChange={handleFileChange} accept="image/*" />
                         )}
+                                
+                        <div className="playlist-tracks-container">
+                            {state.isEditing && (
+                                <div className="music-search-container">
+                                    <MusicSearch onSelectTrack={handleTrackSelect} />
+                                </div>
+                            )}
+                            <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
+                                {state.tracksData.length > 0 ? (
+                                    state.tracksData.map((track, index) => {
+                                        const key = `${playlistId}-${index}`;
+                                        return (
+                                            <div key={key} className="list-track-item">
+                                                <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                                                {state.isEditing && (
+                                                    <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
+                                                )}
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p>노래가 없습니다.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="playlist-detail-right">
                         {state.isEditing ? (
@@ -191,30 +215,6 @@ const PlaylistDetail = () => {
                             )}
                             <Button text="뒤로가기" link={"/PlaylistPage"} />
                         </div>
-                    </div>
-                </div>
-                <div className="playlist-tracks-container">
-                    {state.isEditing && (
-                        <div className="music-search-container">
-                            <MusicSearch onSelectTrack={handleTrackSelect} />
-                        </div>
-                    )}
-                    <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
-                        {state.tracksData.length > 0 ? (
-                            state.tracksData.map((track, index) => {
-                                const key = `${playlistId}-${index}`;
-                                return (
-                                    <div key={key} className="list-track-item">
-                                        <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                        {state.isEditing && (
-                                            <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
-                                        )}
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <p>노래가 없습니다.</p>
-                        )}
                     </div>
                 </div>
             </div>

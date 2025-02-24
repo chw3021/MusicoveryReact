@@ -37,6 +37,8 @@ const PostBody = () => {
             if (searchType && keyword) url += `&searchType=${searchType}&keyword=${keyword}`;
 
             const response = await axiosInstance.get(url);
+            console.log(response);
+            
             // playlistPostDTOList가 없을 경우 빈 배열로 처리
             setPosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
