@@ -12,6 +12,7 @@ const PostDetail = ({ post, onBack }) => {
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false); // 로딩 상태 추가
+    const [isLiking, setIsLiking] = useState(false); // 좋아요 상태 추가
     const navigate = useNavigate();
     const userInfo = useUserInfo(); 
 
@@ -27,6 +28,7 @@ const PostDetail = ({ post, onBack }) => {
                 setPlaylist({
                     ...response.data.playlist,
                     tracksData: trackList,
+                    playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
                 });
             } catch (error) {
                 console.error("Error fetching playlist detail", error);
@@ -43,20 +45,40 @@ const PostDetail = ({ post, onBack }) => {
             }
         };
 
+        const fetchLikeCount = async () => {
+            try {
+                const response = await axiosInstance.get(`/post/like/${post.id}`);
+                setLikeCount(response.data);
+            } catch (error) {
+                console.error("Error fetching like count", error);
+            }
+        };
+
         if (post.playlist) {
             fetchPlaylist();
         }
         fetchReplies();
+        fetchLikeCount();
     }, [post.playlist, post.id]);
 
     const handleLike = async () => {
+        setIsLiking(true); // 좋아요 상태 시작
         try {
+            // 프론트엔드에서 먼저 값을 변경
+            const newLikeCount = likeCount + (isLiking ? -1 : 1);
+            setLikeCount(newLikeCount);
+
             await axiosInstance.post(`/post/like/${post.id}`, {}, {
                 params: { userId: userInfo.userId },
             });
-            setLikeCount(prev => prev + 1);
+
+            // 백엔드에서 실제 값을 가져와서 업데이트
+            const response = await axiosInstance.get(`/post/like/${post.id}`);
+            setLikeCount(response.data);
         } catch (error) {
             console.error("Error liking post", error);
+        } finally {
+            setIsLiking(false); // 좋아요 상태 종료
         }
     };
 
@@ -81,7 +103,9 @@ const PostDetail = ({ post, onBack }) => {
             <div className="post-meta">
                 <span>조회수: {post.viewCount}</span>
                 <button className="back-button" onClick={onBack}>뒤로가기</button>
-                <button className="like-button" onClick={handleLike}>👍 {likeCount}</button>
+                <button className="like-button" onClick={handleLike} disabled={isLiking}>
+                    {isLiking ? "좋아요 반영 중..." : `👍 ${likeCount}`}
+                </button>
             </div>
             <h2>{post.title}</h2>
             <p>{post.description}</p>
