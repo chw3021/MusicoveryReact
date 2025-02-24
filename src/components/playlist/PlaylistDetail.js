@@ -41,7 +41,7 @@ const PlaylistDetail = () => {
                     ...prevState,
                     playlistTitle: response.data.playlist.playlistTitle,
                     playlistComment: response.data.playlist.playlistComment,
-                    playlistPhoto: response.data.playlist.playlistPhoto,
+                    playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
                     playlistDate: response.data.playlist.playlistDate.substring(0, 10),
                     isPublic: response.data.playlist.isPublic,
                     tracksData: trackList,
@@ -129,14 +129,13 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
-
     // playlistPhoto가 파일 객체인지 URL 문자열인지 확인
     const imageUrl = state.playlistPhoto 
         ? (typeof state.playlistPhoto === "string" && state.playlistPhoto.startsWith("/images/") 
             ? `${SPRING_SERVER_URL}${state.playlistPhoto}` 
             : URL.createObjectURL(state.playlistPhoto))
-        : state.playlistPhoto;
-        
+        : "/images/default.png"; // 기본 이미지 설정
+
     return (
         <div className="container1">
             <Header />
