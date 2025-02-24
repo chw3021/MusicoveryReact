@@ -1,0 +1,20 @@
+.select_section{
+    background-color: rgb(37, 37, 37);
+    height: 90%;
+    width: 90%;
+    margin: auto;
+}
+
+.component_switcher{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+}
+
+
+
+.component_style{
+    display: flex;
+    justify-content: center;
+}
