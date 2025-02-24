@@ -5,6 +5,7 @@ import PostForm from "./PostForm";
 import axiosInstance from "../../api/axiosInstance";
 import "../../styles/PostBody.css";
 import { useLocation, useNavigate } from 'react-router-dom';
+import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 
 const PostBody = () => {
     const [posts, setPosts] = useState([]);
@@ -16,11 +17,11 @@ const PostBody = () => {
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchType, setSearchType] = useState('title');
+    const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    // URL 파라미터 초기화
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         setPage(parseInt(params.get('page') || '0', 10));
@@ -39,7 +40,6 @@ const PostBody = () => {
             const response = await axiosInstance.get(url);
             console.log(response);
             
-            // playlistPostDTOList가 없을 경우 빈 배열로 처리
             setPosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
         } catch (error) {
@@ -95,7 +95,7 @@ const PostBody = () => {
         try {
             await axiosInstance.post('/post', post);
             setIsCreating(false);
-            fetchPosts(page, sortOption, searchType, searchKeyword); // 게시글 생성 후 현재 페이지 새로고침
+            fetchPosts(page, sortOption, searchType, searchKeyword);
         } catch (error) {
             console.error("Failed to create post", error);
         }
@@ -103,17 +103,16 @@ const PostBody = () => {
 
     const handleSortChange = (newSortOption) => {
         setSortOption(newSortOption);
-        setPage(0); // 정렬 변경 시 페이지 초기화
+        setPage(0);
     };
 
     const handleSearch = (newSearchType, newSearchKeyword) => {
         setSearchType(newSearchType);
         setSearchKeyword(newSearchKeyword);
         setPage(0);
-        fetchPosts(0, sortOption, newSearchType, newSearchKeyword); // 검색 시 fetchPosts 실행
+        fetchPosts(0, sortOption, newSearchType, newSearchKeyword);
     };
 
-    // 페이지 변경 시 스크롤 최상단으로 이동
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -122,7 +121,7 @@ const PostBody = () => {
     };
 
     if (isCreating) {
-        return <PostForm onSubmit={handleCreate} onCancel={handleBack} />;
+        return <PostForm onSubmit={handleCreate} onCancel={handleBack} userId={userInfo.userId} />;
     }
 
     if (selectedPost) {

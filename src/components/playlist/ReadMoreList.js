@@ -9,9 +9,8 @@ const sortOptionList = [
     { value: "oldest", name: "오래된 순" },
 ];
 
-const ReadMoreList = ({ data }) => {
+const ReadMoreList = ({ data, onSelect }) => {
     const [sortType, setSortType] = useState("latest");
-    const navigate = useNavigate();
     const [sortedData, setSortedData] = useState([]);
 
     useEffect(() => {
@@ -26,13 +25,11 @@ const ReadMoreList = ({ data }) => {
             }
         };
 
-        // 데이터가 유효하고 playlistDate 속성이 있는지 확인
         if (Array.isArray(data) && data.every(item => item.playlistDate)) {
             const copyList = [...data];
             copyList.sort(compare);
             setSortedData(copyList);
         } else {
-            // 데이터가 없거나 유효하지 않은 경우 빈 배열로 설정
             setSortedData([]);
         }
     }, [data, sortType]);
@@ -61,14 +58,15 @@ const ReadMoreList = ({ data }) => {
 
             <div className="list_lower">
                 {sortedData.map((it) => (
-                    <ReadMoreItem 
-                        key={it.playlistId} 
-                        playlistId={it.playlistId}
-                        playlistTitle={it.playlistTitle}
-                        playlistComment={it.playlistComment}
-                        playlistPhoto={it.playlistPhoto}
-                        playlistDate={it.playlistDate}
-                    />
+                    <div key={it.playlistId} onClick={() => onSelect(it.playlistId)}>
+                        <ReadMoreItem 
+                            playlistId={it.playlistId} 
+                            playlistTitle={it.playlistTitle}
+                            playlistComment={it.playlistComment}
+                            playlistPhoto={it.playlistPhoto}
+                            playlistDate={it.playlistDate}
+                        />
+                    </div>
                 ))}
             </div>
         </div>

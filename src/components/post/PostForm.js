@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/PostForm.css";
+import axiosInstance from "../../api/axiosInstance";
+import ReadMoreList from "../playlist/ReadMoreList";
 
-const PostForm = ({ onSubmit, onCancel }) => {
+const PostForm = ({ onSubmit, onCancel, userId }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [playlists, setPlaylists] = useState([]);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+
+    useEffect(() => {
+        const fetchPlaylists = async () => {
+            try {
+                const response = await axiosInstance.get(`/user/${userId}/playlists`);
+                setPlaylists(response.data);
+            } catch (error) {
+                console.error("Failed to fetch playlists", error);
+            }
+        };
+
+        fetchPlaylists();
+    }, [userId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit({ title, description });
+        if (!selectedPlaylist) {
+            alert("플레이리스트를 선택해주세요.");
+            return;
+        }
+        onSubmit({ title, description, playlistId: selectedPlaylist });
     };
 
     return (
@@ -29,6 +50,10 @@ const PostForm = ({ onSubmit, onCancel }) => {
                         onChange={(e) => setDescription(e.target.value)}
                         required
                     ></textarea>
+                </div>
+                <div className="form-group">
+                    <label>플레이리스트 선택</label>
+                    <ReadMoreList data={playlists} onSelect={setSelectedPlaylist} />
                 </div>
                 <div className="form-actions">
                     <button type="submit" className="submit-button">작성</button>
