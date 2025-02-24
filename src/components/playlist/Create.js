@@ -25,6 +25,9 @@ const Create = () => {
         user: userInfo, // 사용자 정보 추가
     });
 
+    // 최대 파일 크기 설정 (예: 5MB)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     // userInfo가 변경될 때마다 상태 업데이트
     useEffect(() => {
         if (userInfo) {
@@ -36,7 +39,7 @@ const Create = () => {
     }, [userInfo]);
 
     const handleSubmit = () => {
-        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate || state.selectedTracks.length < 0) {
+        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate || state.selectedTracks.length <= 0) {
             alert("모든 필드를 입력해주세요.");
             return;
         }
@@ -98,9 +101,14 @@ const Create = () => {
     };
 
     const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+            alert("파일 크기가 너무 큽니다. 최대 5MB 이하의 파일을 업로드해주세요.");
+            return;
+        }
         setState((prev) => ({
             ...prev,
-            playlistPhoto: e.target.files[0],
+            playlistPhoto: file,
         }));
     };
 

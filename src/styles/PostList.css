@@ -1,9 +1,45 @@
 /* PostList.css */
 .post-list {
     width: 100%;
-    margin: 20px 0;
 }
 
+.list-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    min-width: 30%;
+    flex-direction: row;
+}
+
+.search-form select {
+    margin-right: 5px;
+    padding: 9px;
+    border-radius: 6px;
+}
+
+.search-form input {
+    margin-right: 5px;
+}
+.search-form button {
+    min-width: 60px;
+}
+
+
+.sort-options {
+    margin-left: auto; /* 정렬 옵션을 오른쪽으로 밀어냅니다. */
+}
+
+.sort-options select {
+    margin-right: 5px;
+    padding: 9px;
+    border-radius: 6px;
+}
 .post-list-header {
     display: flex;
     justify-content: space-between;
@@ -11,6 +47,7 @@
     padding: 10px;
     background-color: #333;
     border-bottom: 2px solid #444;
+    font-weight: bold;
 }
 
 .post-list-header div {
@@ -39,4 +76,20 @@
 .post-list-header .post-report {
     flex: 0.5;
     text-align: center;
+}
+
+.no-posts {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.notice {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.notice-label {
+    color: red;
+    margin-right: 5px;
 }

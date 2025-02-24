@@ -16,18 +16,26 @@ const ReadMoreList = ({ data }) => {
 
     useEffect(() => {
         const compare = (a, b) => {
+            const dateA = new Date(a.playlistDate);
+            const dateB = new Date(b.playlistDate);
+
             if (sortType === "latest") {
-                return new Date(b.date) - new Date(a.date);
+                return dateB - dateA;
             } else {
-                return new Date(a.date) - new Date(b.date);
+                return dateA - dateB;
             }
         };
 
-        const copyList = Array.isArray(data) ? [...data] : [];
-        copyList.sort(compare);
-        setSortedData(copyList);
+        // 데이터가 유효하고 playlistDate 속성이 있는지 확인
+        if (Array.isArray(data) && data.every(item => item.playlistDate)) {
+            const copyList = [...data];
+            copyList.sort(compare);
+            setSortedData(copyList);
+        } else {
+            // 데이터가 없거나 유효하지 않은 경우 빈 배열로 설정
+            setSortedData([]);
+        }
     }, [data, sortType]);
-
 
     const onChangeSortType = (e) => {
         setSortType(e.target.value);
@@ -35,7 +43,6 @@ const ReadMoreList = ({ data }) => {
 
     return (
         <div className="ReadMoreList">
-
             <div className="searchText">
                 <input
                     type="text"
