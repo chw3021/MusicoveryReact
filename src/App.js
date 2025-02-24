@@ -173,7 +173,7 @@ if(!isDataLoaded){
       <Route path="/createplaylist" element={<PlaylistCreatePage />} />
   
       <Route path="/PlusMusic" element={<PlusMusic />} /> 
-      <Route path="/playlist/:playlistId" element={<PlaylistDetail />} />
+      <Route path="/playlist/:playlistId" element={<PlaylistDetail key={window.location.pathname} />} />
       <Route path="/PlaylistPage" element={<PlaylistPage />} />
       <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
       <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />

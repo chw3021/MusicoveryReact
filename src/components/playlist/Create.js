@@ -36,7 +36,7 @@ const Create = () => {
     }, [userInfo]);
 
     const handleSubmit = () => {
-        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate) {
+        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate || state.selectedTracks.length < 0) {
             alert("모든 필드를 입력해주세요.");
             return;
         }
