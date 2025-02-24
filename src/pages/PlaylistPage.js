@@ -22,10 +22,6 @@ const PlaylistPage = () =>{
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     
-    
-    const listArray = `${pivotDate.getFullYear()}년
-                        ${pivotDate.getMonth()+1}월`;
-
 
     const getPlaylistsByUserId = async (userId) => {
         try {

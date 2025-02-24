@@ -48,7 +48,7 @@ const ChatRoom = () => {
         fetchUser();
         
         // SockJS를 사용하여 WebSocket 설정
-        const socket = new SockJS("http://localhost:8080/chat");
+        const socket = new SockJS(`${process.env.REACT_APP_API_URL}/chat`);
         const stompClient = new Client({
             webSocketFactory: () => socket,
             connectHeaders: {

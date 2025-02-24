@@ -43,3 +43,49 @@
 .cancel-button:hover {
     background-color: #1ed760;
 }
+
+.playlist-list-container {
+    width: 100%;
+    overflow-x: auto; /* 가로 스크롤 */
+    margin-top: 10px;
+}
+
+.playlist-list {
+    display: flex; /* 가로로 나열 */
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
+    padding-bottom: 10px; /* 스크롤바 공간 확보 */
+}
+
+.playlist-item {
+    width: 150px; /* 아이템 너비 */
+    margin-right: 10px; /* 아이템 간 간격 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.playlist-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-item.selected {
+    border-color: blue;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.playlist-info {
+    font-size: 14px;
+}

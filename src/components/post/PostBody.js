@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
 import PostForm from "./PostForm";
-import axiosInstance from "../../api/axiosInstance";
 import "../../styles/PostBody.css";
 import { useLocation, useNavigate } from 'react-router-dom';
-import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
+import axiosInstance from "../../api/axiosInstance";
 
 const PostBody = () => {
     const [posts, setPosts] = useState([]);
@@ -17,7 +16,6 @@ const PostBody = () => {
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchType, setSearchType] = useState('title');
-    const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,7 +36,7 @@ const PostBody = () => {
             if (searchType && keyword) url += `&searchType=${searchType}&keyword=${keyword}`;
 
             const response = await axiosInstance.get(url);
-            console.log(response);
+            //console.log(response);
             
             setPosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
@@ -54,6 +52,7 @@ const PostBody = () => {
     useEffect(() => {
         fetchPosts(page, sortOption, searchType, searchKeyword);
     }, [page, sortOption, fetchPosts]);
+
 
     const updateURL = useCallback(() => {
         const params = new URLSearchParams();
@@ -91,16 +90,6 @@ const PostBody = () => {
         setIsCreating(false);
     };
 
-    const handleCreate = async (post) => {
-        try {
-            await axiosInstance.post('/post', post);
-            setIsCreating(false);
-            fetchPosts(page, sortOption, searchType, searchKeyword);
-        } catch (error) {
-            console.error("Failed to create post", error);
-        }
-    };
-
     const handleSortChange = (newSortOption) => {
         setSortOption(newSortOption);
         setPage(0);
@@ -121,7 +110,15 @@ const PostBody = () => {
     };
 
     if (isCreating) {
-        return <PostForm onSubmit={handleCreate} onCancel={handleBack} userId={userInfo.userId} />;
+        return (
+            <PostForm
+                onSubmit={() => {
+                    setIsCreating(false);
+                    fetchPosts(page, sortOption, searchType, searchKeyword);
+                }}
+                onCancel={handleBack}
+            />
+        );
     }
 
     if (selectedPost) {

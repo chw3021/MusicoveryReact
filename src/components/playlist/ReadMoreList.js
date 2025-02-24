@@ -9,7 +9,7 @@ const sortOptionList = [
     { value: "oldest", name: "오래된 순" },
 ];
 
-const ReadMoreList = ({ data, onSelect }) => {
+const ReadMoreList = ({ data, onSelect = () => {} }) => {
     const [sortType, setSortType] = useState("latest");
     const [sortedData, setSortedData] = useState([]);
 
