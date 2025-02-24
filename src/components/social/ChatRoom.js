@@ -3,99 +3,110 @@ import { useParams } from "react-router-dom";
 import Header from "../common/Header";
 import Nav from "../common/Nav";
 import axiosInstance from "../../api/axiosInstance";
+import SockJS from "sockjs-client"; // ✅ SockJS 추가
+import { Client } from "@stomp/stompjs"; // ✅ STOMP 클라이언트 추가
 import "../../styles/ChatRoom.css";
 
 const ChatRoom = () => {
-    const { streamId } = useParams(); // URL에서 streamId 가져오기
-    const [messages, setMessages] = useState([]); // 채팅 메시지 목록
-    const [newMessage, setNewMessage] = useState(""); // 입력한 메시지
-    const [user, setUser] = useState(null); // 현재 로그인한 유저 정보
-    const [stream, setStream] = useState(null); // 현재 스트리밍 정보
+    const { streamId } = useParams();
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const [user, setUser] = useState(null);
+    const [stream, setStream] = useState(null);
+    const [client, setClient] = useState(null);
 
-    // 현재 스트리밍 정보 가져오기
     useEffect(() => {
+        // 스트리밍 정보 가져오기
         axiosInstance.get(`/api/streaming/${streamId}`)
-            .then(response => {
-                console.log("📡 스트리밍 API 응답 데이터:", response.data);
-                setStream(response.data);
-                console.log("📡 스트리밍 데이터:", response.data); // stream 데이터 콘솔 로그
-            })
-            .catch(error => console.error("❌ 스트리밍 정보를 가져오는 데 실패:", error));
-    }, [streamId]);
+            .then(response => setStream(response.data))
+            .catch(error => console.error("스트리밍 정보를 가져오는 데 실패:", error));
 
-    // ✅ 로그인한 유저 정보 가져오기
-    useEffect(() => {
-        axiosInstance.get("/api/spotify/userInfo") // 사용자 정보 API 호출
-            .then(response => {
-                console.log("👤 유저 데이터:", response.data);
-                setUser(response.data);
-            })
-            .catch(error => console.error("❌ 유저 정보를 가져오는 데 실패:", error));
-    }, []);
+        // 로그인한 유저 정보 가져오기
+        axiosInstance.get("/api/spotify/userInfo")
+            .then(response => setUser(response.data))
+            .catch(error => console.error("유저 정보를 가져오는 데 실패:", error));
 
-    // ✅ 채팅 메시지 가져오기
-    useEffect(() => {
-        axiosInstance.get(`/api/chat/${streamId}`)
-           .then(response => {
-              console.log("💬 기존 채팅 데이터:", response.data);
-              setMessages(response.data);
-        })
-        .catch(error => console.error("❌ 채팅 데이터를 가져오는 데 실패:", error));
+        // ✅ SockJS를 사용하여 WebSocket 설정
+        const socket = new SockJS("http://localhost:8080/chat");
+        const stompClient = new Client({
+            webSocketFactory: () => socket, // SockJS 사용
+            connectHeaders: {
+                login: "user",
+                passcode: "password",
+            },
+            onConnect: () => {
+                console.log("STOMP 연결 성공");
+                stompClient.subscribe(`/topic/chat/${streamId}`, (message) => {
+                    const newMessage = JSON.parse(message.body);
+                    setMessages((prevMessages) => [...prevMessages, newMessage]);
+                });
+            },
+            onStompError: (frame) => {
+                console.error("STOMP 오류:", frame.headers["message"]);
+            },
+            onWebSocketError: (error) => {
+                console.error("WebSocket 오류:", error);
+            },
+            debug: (str) => {
+                console.log(str);
+            },
+        });
+
+        setClient(stompClient);
+        stompClient.activate(); // STOMP 클라이언트 활성화
+
+        return () => {
+            stompClient.deactivate(); // 컴포넌트 언마운트 시 STOMP 클라이언트 비활성화
+        };
     }, [streamId]);
 
     const sendMessage = () => {
         if (!newMessage.trim()) return;
-    
+
         const messageData = {
             streamId,
-            sender: user ? user.display_name : "Unknown User", // 현재 사용자 닉네임을 display_name으로 설정
+            sender: user ? user.display_name : "Unknown User",
             content: newMessage,
-            receiver: "receiver_nickname", // 수신자 닉네임 또는 ID를 여기 설정
-            roomId: streamId // room_id를 streamId로 설정 (적절한 값으로 수정 가능)
+            receiver: "receiver_nickname",
         };
-    
-        console.log("✉️ 전송할 메시지 데이터:", messageData);
-        console.log("현재 사용자:", user); // 현재 사용자 확인
-    
-        axiosInstance.post("/api/chat/send", messageData)
-            .then(() => {
-                setMessages(prevMessages => [...prevMessages, messageData]); // 기존 메시지 유지하며 추가
-                setNewMessage(""); // 입력 필드 초기화
-            })
-            .catch(error => console.error("❌ 메시지 전송 실패:", error));
+
+        if (client && client.connected) {
+            client.publish({
+                destination: `/app/chat/${streamId}`,
+                body: JSON.stringify(messageData),
+            });
+            setNewMessage(""); // 입력 필드 초기화
+        } else {
+            console.error("STOMP 클라이언트가 연결되어 있지 않습니다.");
+        }
     };
 
-    const messageData = {
-        streamId,
-        sender: user ? user.nickname : "Unknown User", // 현재 사용자 닉네임
-        content: newMessage,
-        receiver: "receiver_nickname", // 수신자 닉네임 또는 ID를 여기 설정
-        roomId: streamId // room_id를 streamId로 설정 (적절한 값으로 수정 가능)
-    };
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            sendMessage(); // Enter 키를 눌렀을 때 메시지 전송
+            sendMessage();
         }
     };
 
     return (
         <div className="chat-container">
             <Header />
-            <Nav />
+            <div className="social-layout">
+                <Nav />
+                <div className="chat-content">
+                    <h2>채팅방: {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}</h2>
+                    <p>플레이리스트: {stream ? stream.playlist?.playlistTitle : "로딩 중..."}</p>
 
-            <div className="chat-content">
-                <h2>채팅방: {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}</h2>
-                <p>플레이리스트: {stream ? stream.playlist?.playlistTitle : "로딩 중..."}</p>
-
-                <div className="chat-box">
-                    {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.sender === user?.display_name ? "mine" : "other"}`}
-                            >
-                            <strong>{msg.sender}:</strong> {msg.content}
-                        </div>
-                    ))}
+                    <div className="chat-box">
+                        {messages.length > 0 ? (
+                            messages.map((msg, index) => (
+                                <div key={index} className="chat-message">
+                                    <strong>{msg.sender}:</strong> <span>{msg.content}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="no-messages">메시지가 없습니다.</div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="chat-input">
@@ -103,7 +114,7 @@ const ChatRoom = () => {
                         type="text"
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyDown={handleKeyDown} // Enter 키 처리
+                        onKeyDown={handleKeyDown}
                         placeholder="메시지를 입력하세요..."
                     />
                     <button onClick={sendMessage}>전송</button>

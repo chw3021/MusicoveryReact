@@ -6,6 +6,7 @@ import MusicSearch from "../music/MusicSearch";
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import Button from "../common/Button"; // Button 컴포넌트 임포트
+import { parseTracks } from "../../utils/trackUtils"; // parseTracks 유틸 함수 임포트
 import { getFormattedDate } from "../../utils/util"; // getFormattedDate 유틸 함수 임포트
 import "./PlaylistDetail.css"; // 스타일 파일 임포트
 import Header from "../common/Header";
@@ -33,16 +34,8 @@ const PlaylistDetail = () => {
             try {
                 const response = await axiosInstance.get(`/playlist/detail/${playlistId}`);
     
-                // tracks가 문자열이면 JSON으로 파싱
-                let parsedTracks = typeof response.data.tracks === "string"
-                    ? JSON.parse(response.data.tracks)
-                    : response.data.tracks;
-
-                // tracks.items에서 track 정보만 추출
-                const trackList = parsedTracks.items.map(item => ({
-                    id: item.track.id, // track.id 추가
-                    ...item.track, // track 객체 전체 추가
-                }));
+                // tracks 데이터를 파싱하고 변환
+                const trackList = parseTracks(response.data.tracks);
                 
                 setState(prevState => ({
                     ...prevState,
@@ -88,10 +81,10 @@ const PlaylistDetail = () => {
         formData.append("isPublic", state.isPublic);
         formData.append("userId", state.user.userId); // 예시로 userId 값 사용
     
-        if (state.playlistPhoto) {
+        if (state.playlistPhoto && typeof state.playlistPhoto !== "string") {
             formData.append("playlistPhoto", state.playlistPhoto);
         } else {
-            formData.append("playlistPhoto", state.playlistPhoto || ""); // 기존 이미지를 그대로 사용
+            formData.append("existingPlaylistPhoto", state.playlistPhoto || ""); // 기존 이미지를 그대로 사용
         }
     
         formData.append("tracks", state.tracksData.map(track => track.uri));
@@ -136,13 +129,13 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
-    // 기본 이미지 설정
-    const defaultImage = "/images/default.jpg";  // 기본 이미지 파일 추가 필요
 
-    // playlistPhoto가 null이면 기본 이미지 사용
+    // playlistPhoto가 파일 객체인지 URL 문자열인지 확인
     const imageUrl = state.playlistPhoto 
-        ? (state.playlistPhoto.startsWith("/images/") ? `${SPRING_SERVER_URL}${state.playlistPhoto}` : URL.createObjectURL(state.playlistPhoto))
-        : defaultImage;
+        ? (typeof state.playlistPhoto === "string" && state.playlistPhoto.startsWith("/images/") 
+            ? `${SPRING_SERVER_URL}${state.playlistPhoto}` 
+            : URL.createObjectURL(state.playlistPhoto))
+        : state.playlistPhoto;
         
     return (
         <div className="container1">
