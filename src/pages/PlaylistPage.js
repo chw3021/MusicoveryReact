@@ -74,11 +74,13 @@ const PlaylistPage = () =>{
         <div className="container1">
             <Header />
             <div className="grayBackground">
-                <div className="Textplace">
-                    <div id="libText">내 라이브러리</div>
-                </div>
-                <div className="goCreateView">
-                    <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
+                <div className="arraywithButton">
+                    <div className="Textplace">
+                        <div id="libText">내 라이브러리</div>
+                    </div>
+                    <div className="goCreateView">
+                        <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
+                    </div>
                 </div>
                 <div className="list">
                     <ReadMoreList data={filteredData} />

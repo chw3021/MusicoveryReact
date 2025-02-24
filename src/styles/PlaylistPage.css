@@ -1,8 +1,10 @@
 .grayBackground{
     background-color:rgb(37, 37, 37);
     height: 750px;
-    width: 100%;
+    width: 90%;
     margin-top: 35px;
+    margin-left: 5%;
+
 }
 
 /* 내 라이브러리 */
@@ -12,5 +14,23 @@
     height:30px;
     width: 150px;
     text-justify: auto;
+    margin-left: 520%;
+    margin-top: 5px;
+}
+
+.list{
+    width: 80%;
     margin: auto;
+}
+
+.goCreateView{
+width: 20%;
+height: 5%;
+margin-right: 10px;
+}
+
+.arraywithButton{
+    display: flex;
+    justify-content: space-between;
+
 }
