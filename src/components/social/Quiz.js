@@ -3,7 +3,7 @@ import "../../styles/Quiz.css";
 import Button from "../common/Button";
 
 
-const Quiz = () => {
+const Quiz = () => { 
     return (
         <div>
             <Header />
