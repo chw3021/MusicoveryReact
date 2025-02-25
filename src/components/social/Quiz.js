@@ -1,96 +1,183 @@
+import { useState } from "react";
 import Header from "../common/Header";
 import "../../styles/Quiz.css";
-import Button from "../common/Button";
+import axiosInstance from "../../api/axiosInstance";
+import Nav from "../common/Nav";
 
+const Quiz = () => {
+    const [artist, setArtist] = useState("");
+    const [songs, setSongs] = useState([]);
+    const [lyrics, setLyrics] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [currentTitle, setCurrentTitle] = useState("");
+    const [userInput, setUserInput] = useState("");
+    const [synth, setSynth] = useState(null);
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [showFetchLyricsButton, setShowFetchLyricsButton] = useState(false); // 추가된 상태
 
-const Quiz = () => { 
+    const handleFetchSongs = async (event) => {
+        event.preventDefault();
+        if (!artist.trim()) {
+            console.error("가수명을 입력하세요.");
+            return;
+        }
+
+        setLoading(true); // 로딩 시작
+        try {
+            const response = await axiosInstance.get(`/api/quizlist`, { params: { artist } });
+            if (response.data.length === 0) {
+                console.error("노래 목록이 없습니다.");
+                return;
+            }
+
+            const shuffledSongs = response.data.sort(() => 0.5 - Math.random());
+            const selectedSongs = shuffledSongs.slice(0, 10);
+            setSongs(selectedSongs);
+            console.log("노래 목록:", selectedSongs);
+            setShowFetchLyricsButton(true); // 버튼 표시 설정
+        } catch (error) {
+            console.error("노래 목록을 가져오는 중 오류 발생:", error);
+        } finally {
+            setLoading(false); // 로딩 종료
+        }
+    };
+
+    const handleSubmitGuess = async (event) => {
+        event.preventDefault();
+        const normalizedInput = userInput.trim().toLowerCase();
+        const normalizedTitle = currentTitle.toLowerCase();
+    
+        try {
+            const response = await axiosInstance.get('/api/sometitle', {
+                params: {
+                    title: currentTitle
+                }
+            });
+    
+            const alternativeTitles = response.data || [];
+            const normalizedAlternatives = alternativeTitles.map(title => title.trim().toLowerCase());
+    
+            if (normalizedInput === normalizedTitle || normalizedAlternatives.includes(normalizedInput)) {
+                alert("정답입니다! 같은 아티스트의 다른 곡을 맞춰보세요.");
+                if (synth) {
+                    synth.cancel();
+                    setIsSpeaking(false);
+                }
+                setUserInput("");
+                fetchLyrics();
+            } else {
+                alert("틀렸습니다. 다시 시도해 보세요.");
+                setUserInput("");
+            }
+        } catch (error) {
+            console.error("대체 제목을 가져오는 중 오류 발생:", error);
+            alert("오류가 발생했습니다. 다시 시도해 주세요.");
+        }
+    };
+
+    const fetchLyrics = async () => {
+        if (songs.length === 0) {
+            console.error("노래 목록이 없습니다.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const randomSong = songs[Math.floor(Math.random() * songs.length)];
+            const encodedArtist = encodeURIComponent(randomSong.artist);
+            const encodedTitle = encodeURIComponent(randomSong.title);
+
+            const response = await axiosInstance.get(`/api/lyrics`, {
+                params: { artist: encodedArtist, title: encodedTitle }
+            });
+
+            setLyrics(response.data.lyrics);
+            setCurrentTitle(randomSong.title);
+            speakLyrics(response.data.lyrics);
+
+            console.log("제목:", randomSong.title);
+        } catch (error) {
+            console.error("가사를 불러오는 중 오류 발생:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const speakLyrics = (lyricsText) => {
+        if (!lyricsText) {
+            console.error("읽을 가사가 없습니다.");
+            return;
+        }
+
+        const speechSynth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(lyricsText);
+
+        utterance.lang = "ko-KR";
+        utterance.rate = 0.9;
+        utterance.pitch = Math.random() * (1.5 - 0.8) + 0.8;
+        utterance.volume = 1.0;
+
+        setSynth(speechSynth);
+        setIsSpeaking(true);
+        speechSynth.speak(utterance);
+
+        utterance.onend = () => {
+            setIsSpeaking(false);
+        };
+    };
+
+    const handleStopSpeaking = () => {
+        if (synth) {
+            synth.cancel();
+            setIsSpeaking(false);
+        }
+    };
+
     return (
-        <div>
+        <div className="quiz-container">
             <Header />
-            <div className="quizView">
-                <div>
-                    <div className="friendsListTool">
-                        <div className="friendsListToolsection">
-                            <section className="tool">친구</section>
-                            <div className="friendsListToolsection2">
-                                <div className="friendsListToolSelectsection">
-                                    <section className="friendsName">홍길동</section>
-                                    <button type="button" className="friendsListsettingToolsection">추가</button>
-                                    <button type="button" className="friendsListsettingToolsection">삭제</button>
-                                </div>
-                                <div className="friendsListToolSelectsection">
-                                    <section className="friendsName">고양이</section>
-                                    <button type="button" className="friendsListsettingToolsection">추가</button>
-                                    <button type="button" className="friendsListsettingToolsection">삭제</button>
-                                </div>
-                                <div className="friendsListToolSelectsection">
-                                    <section className="friendsName">강아지</section>
-                                    <button type="button" className="friendsListsettingToolsection">추가</button>
-                                    <button type="button" className="friendsListsettingToolsection">삭제</button>
-                                </div>
-                                <div className="friendsListToolSelectsection">
-                                    <section className="friendsName">호랑이</section>
-                                    <button type="button" className="friendsListsettingToolsection">추가</button>
-                                    <button type="button" className="friendsListsettingToolsection">삭제</button>
-                                </div>
-                                <div className="friendsListToolSelectsection">
-                                    <section className="friendsName">고라니</section>
-                                    <button type="button" className="friendsListsettingToolsection">추가</button>
-                                    <button type="button" className="friendsListsettingToolsection">삭제</button>
-                                </div>
-                                <div>
-                                    <button type="button" className="next">next</button>
-                                </div>
-                            </div>
+            <div className="social-layout">
+                <Nav />
+                <div className="content-wrapper">
+                    <div className="quiz-content">
+                        <h2 className="quiz-title">🎵 AI 가사 맞히기 퀴즈</h2>
+                        <div className="search-box">
+                            <input 
+                                type="text" 
+                                className="search-input"
+                                placeholder="가수명을 입력하세요" 
+                                value={artist} 
+                                onChange={(e) => setArtist(e.target.value)}
+                            />
+                            <button className="quiz-button" onClick={handleFetchSongs}>노래 가져오기</button>
                         </div>
+                        {showFetchLyricsButton && ( // 조건부 렌더링
+                            <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
+                                {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
+                            </button>
+                        )}
+                        {isSpeaking && (
+                            <button className="quiz-button" onClick={handleStopSpeaking}>
+                                음성 멈추기
+                            </button>
+                        )}
+                        {currentTitle && (
+                            <form onSubmit={handleSubmitGuess}>
+                                <input
+                                    type="text"
+                                    className="guess-input"
+                                    placeholder="노래 제목을 맞혀보세요"
+                                    value={userInput}
+                                    onChange={(e) => setUserInput(e.target.value)}
+                                />
+                                <button className="quiz-button" type="submit">확인</button>
+                            </form>
+                        )}
                     </div>
-                    <div className="QuizRanking">
-                        <div className="QuizRankingtool">
-                            <section className="QuizRankingTitle">이번달 솔로모드 랭킹</section>
-                            <section className="QuizRankingTitle2">1등 : 홍길동</section>
-                            <section className="QuizRankingTitle2">2등 : 고양이</section>
-                            <section className="QuizRankingTitle2">3등 : 강아지</section>
-                            <div className="QuizRankingView">
-                            </div>
-                        </div>
-                    </div>
-                    <div className="playlistPygsong">
-                        <div className="playlistPygsongtool">
-                            <section className="playlistPygsongTitle">실행중인 플레이리스트</section>
-                            <div className="playlistPygsongView">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="MainBackground">
-                    <div>
-                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA5MjRfOSAg%2FMDAxNzI3MTY3MjUxODA5.6Nvvr1j2TiEjhaQ8OS9iwGxjjwNGn2pPZyV-NQnx0WAg.I-Pq44URMdviIg4xG_9sD-tTRwuGKqJMdz3ppYbBx4Yg.PNG%2F%25C1%25A4%25BA%25B8%25B2%25C4%25B2%25C4%25C8%25F7.png&type=sc960_832" className="img"></img>
-                        
-                        <div className="quizExplainsection">
-                            <div>
-                                <h4 className="quizExplain">랜덤 ! 노래 맞추기 !!<br />
-                                    설명 ... <br />
-                                    참여 가능 인원 수 : 1 ~ n 명   <br />
-                                    플레이타임 : 10분</h4>
-                            </div> 
-                            <div> 
-                                <input type="text" className="settingName" placeholder="설정 가수명 입력"></input>
-                            </div>
-                            <div> 
-                                <section className="friendsPlus"></section>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div className="quizStartBtn">
-                        <Button type="button" className="quizStart" text={"시작(솔로모드)"} link={"/QuizSOLOPlay "} />
-                        <Button type="button" className="quizStart2" text={"시작(멀티모드)"} link={"/QuizMULTIPlay "} />
-                    </div>
-                   
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Quiz;
