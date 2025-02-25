@@ -32,6 +32,8 @@ const FriendsList = () => {
         try {
             const response = await axiosInstance.get(`/friends/friendOf?friendId=${userInfo.id}`);
             setFriendRequests(response.data);
+            console.log("친구 요청 목록:", response.data);
+            
         } catch (error) {
             console.error("친구 요청 목록을 가져오는 데 실패했습니다.", error);
         }
@@ -97,7 +99,7 @@ const FriendsList = () => {
                     {friendRequests.map((request) => (
                         <div key={request.id} className="friend-request-item">
                             <p>
-                                <strong>요청한 사용자 ID:</strong> {request.user.id}
+                                <strong>요청한 사용자 ID:</strong> {request.friend.id}
                             </p>
                             <button onClick={() => handleAcceptFriendRequest(request.id)}>수락</button>
                         </div>
