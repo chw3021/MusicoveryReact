@@ -93,3 +93,9 @@
     cursor: pointer;
     min-width: 50px;
 }
+
+.track-album-image-music {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}

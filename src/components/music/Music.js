@@ -18,7 +18,7 @@ const Music = ({ track, handlePlay, isPremium }) => {
 
     return (
         <div key={track.id} className="track-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <img src={track.album.images[0].url} alt={track.name} />
+            <img className="track-album-image-music" src={track.album.images[0].url} alt={track.name} />
             <div className="track-info">
                 <h4>{track.name}</h4>
                 <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
