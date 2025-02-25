@@ -24,7 +24,7 @@ const QuizMULTIPlay = lazy(() => import("../components/social/QuizMULTIPlay"));
 const ChallengeSOLOPlay = lazy(() => import("../components/social/ChallengeSOLOPlay"));
 const ChallengeMULTIPlay = lazy(() => import("../components/social/ChallengeMULTIPlay"));
 const ChatRoom = lazy(() => import("../components/social/ChatRoom"));
-const AdminMain = lazy(() => import("../pages/AdminMain"));
+const AdminMain = lazy(() => import("../pages/AdminPage"));
 
 const root = createBrowserRouter(
     createRoutesFromElements(
