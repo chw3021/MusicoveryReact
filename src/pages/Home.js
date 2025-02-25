@@ -5,12 +5,12 @@ import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import React, { useState } from "react";
 import OAuth from "../components/auth/OAuth";
+import { Outlet } from "react-router-dom";
 
 import "../styles/Home.css";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../components/auth/auth";
 
-import AdminMain from "../pages/AdminMain";
 // import useReadMore from "../hooks/useReadMore.js";
 // import useReadMore from "../hooks/"
 // import PlaylistPage from "./PlaylistPage";
@@ -49,12 +49,12 @@ const Home = () => {
             {" "}
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <Link to={"/Login"} className="hero-button1">
+          <a href="#" className="hero-button1">
             로그인
-          </Link>
-          <Link to={"/Signup"} className="hero-button2">
+          </a>
+          <a href="#" className="hero-button2">
             회원가입
-          </Link>
+          </a>
           <hr></hr>
           <button className="hero-button1" onClick={handleLoginClick}>
             임시 로그인(스포티파이로 로그인)
@@ -76,6 +76,7 @@ const Home = () => {
         </div>
       </div>
       {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
+      <Outlet />
     </div>
   );
 };
