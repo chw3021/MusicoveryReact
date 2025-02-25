@@ -49,12 +49,12 @@ const Home = () => {
             {" "}
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <a href="#" className="hero-button1">
+          <Link to={"/spotify-login"} className="hero-button1">
             로그인
-          </a>
-          <a href="#" className="hero-button2">
+          </Link>
+          <Link to={"/Signup"} className="hero-button2">
             회원가입
-          </a>
+          </Link>
           <hr></hr>
           <button className="hero-button1" onClick={handleLoginClick}>
             임시 로그인(스포티파이로 로그인)
