@@ -39,7 +39,7 @@ const FriendsList = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axiosInstance.get(`/friends/search?keyword=${searchKeyword}`);
+            const response = await axiosInstance.get(`/users/search?keyword=${searchKeyword}`);
             setSearchResults(response.data);
         } catch (error) {
             console.error("사용자 검색에 실패했습니다.", error);
@@ -66,6 +66,11 @@ const FriendsList = () => {
         }
     };
 
+    const isFriendOrRequested = (userId) => {
+        return friends.some(friend => friend.friend.id === userId) || 
+               friendRequests.some(request => request.user.id === userId);
+    };
+
     return (
         <div>
             <Header />
@@ -77,6 +82,9 @@ const FriendsList = () => {
                         <div key={friend.id} className="friend-item">
                             <p>
                                 <strong>친구 ID:</strong> {friend.friend.id}
+                            </p>
+                            <p>
+                                <strong>친구 별명:</strong> {friend.friend.nickname}
                             </p>
                             <p>
                                 <strong>친구 상태:</strong> {friend.isAccepted ? "수락됨" : "대기 중"}
@@ -121,7 +129,12 @@ const FriendsList = () => {
                                     <p>
                                         <strong>닉네임:</strong> {user.nickname}
                                     </p>
-                                    <button onClick={() => handleAddFriend(user.id)}>친구 추가</button>
+                                    <button 
+                                        onClick={() => handleAddFriend(user.id)} 
+                                        disabled={isFriendOrRequested(user.id)}
+                                    >
+                                        {isFriendOrRequested(user.id) ? "요청됨" : "친구 추가"}
+                                    </button>
                                 </div>
                             ))}
                         </div>
