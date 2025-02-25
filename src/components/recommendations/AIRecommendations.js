@@ -18,10 +18,12 @@ const AIRecommendations = () => {
         loading: false,
         playlistTitle: '',
         playlistComment: '',
-        playlistPhoto: null, // 사진 필드 추가
+        playlistPhoto: null,
         playlistDate: getFormattedDate(new Date()),
         showSaveForm: false,
-        user: userInfo, // 사용자 정보 추가
+        user: userInfo,
+        aiFailed: false, // AI 추천 실패 여부
+        surpriseLoading: false, // 깜짝 추천 로딩 상태
     });
 
     // 최대 파일 크기 설정 (예: 5MB)
@@ -68,18 +70,51 @@ const AIRecommendations = () => {
         setState((prev) => ({ ...prev, loading: true }));
         try {
             const response = await axiosInstance.get(`/recommendation/ai?userId=${state.user.userId}`);
+            if (response.status === 204) {
+                // AI 추천 실패
+                //console.log("AI 추천 실패: 서버에서 빈 응답을 받았습니다.");
+                setState((prev) => ({
+                    ...prev,
+                    loading: false,
+                    showSaveForm: false,
+                    aiFailed: true, // AI 추천 실패 설정
+                }));
+                // 깜짝 추천 가져오기
+                getSurpriseRecommendations();
+            } else {
+                const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
+                setState((prev) => ({
+                    ...prev,
+                    recommendations: parsedRecommendations,
+                    loading: false,
+                    showSaveForm: true,
+                    aiFailed: false, // AI 추천 성공 설정
+                }));
+                //console.log("추천된 트랙 목록:", parsedRecommendations);
+            }
+        } catch (error) {
+            //console.error("추천 요청 실패:", error);
+            setState((prev) => ({ ...prev, loading: false, aiFailed: true })); // AI 추천 실패 설정
+            // 깜짝 추천 가져오기
+            getSurpriseRecommendations();
+        }
+    };
+
+    const getSurpriseRecommendations = async () => {
+        setState((prev) => ({ ...prev, surpriseLoading: true }));
+        try {
+            const response = await axiosInstance.get('/recommendation/surprise');
             const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
             setState((prev) => ({
                 ...prev,
                 recommendations: parsedRecommendations,
-                loading: false,
+                surpriseLoading: false,
                 showSaveForm: true,
             }));
-            console.log("추천된 트랙 목록:", parsedRecommendations);
-
+            console.log("깜짝 추천된 트랙 목록:", parsedRecommendations);
         } catch (error) {
-            console.error("추천 요청 실패:", error);
-            setState((prev) => ({ ...prev, loading: false }));
+            console.error('깜짝 추천 목록을 가져오는 중 오류 발생:', error);
+            setState((prev) => ({ ...prev, surpriseLoading: false }));
         }
     };
 
@@ -134,12 +169,20 @@ const AIRecommendations = () => {
                     <Button text="AI 추천 받기" onClick={handleSubmit} />
                 </div>
             </div>
-
+            
             <div className="results-container">
                 {state.loading ? (
                     <div>로딩 중...</div>
                 ) : (
                     <div>
+                        {state.aiFailed && (
+                            <div className="ai-failed">
+                                <p>AI 추천 데이터가 부족합니다.. 깜짝 추천을 대신 제공합니다.</p>
+                                {state.surpriseLoading ? (
+                                    <div>깜짝 추천 로딩 중...</div>
+                                ) : null}
+                            </div>
+                        )}
                         {state.recommendations.length > 0 && (
                             <div className="keyword-recommendations">
                                 <h5>추천된 트랙 목록</h5>

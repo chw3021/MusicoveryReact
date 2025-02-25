@@ -1,6 +1,7 @@
 .ReadMoreList {
     padding: 20px;
     background-color: #f9f9f9;
+    max-height: 90%;
 }
 
 .goCreateView {
@@ -34,5 +35,9 @@
 .list_lower {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    white-space: nowrap;
+    max-height: 40rem;
+    height: 90%;
     gap: 20px;
 }

@@ -78,9 +78,7 @@ const PlaylistPage = () =>{
                         <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
                     </div>
                 </div>
-                <div className="list">
-                    <ReadMoreList data={filteredData} />
-                </div>
+                <ReadMoreList data={filteredData} />
             </div>
         </div>
   
