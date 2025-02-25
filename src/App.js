@@ -23,7 +23,7 @@ import ChallengeSOLOPlay from "./components/social/ChallengeSOLOPlay";
 import ChallengeMULTIPlay from "./components/social/ChallengeMULTIPlay";
 import ChatRoom from "./components/social/ChatRoom"; // ChatRoom 임포트
 
-import AdminMain from "./pages/AdminMain"; // admin 메인페이지
+import AdminMain from "./pages/AdminPage"; // admin 메인페이지
 
 
 
