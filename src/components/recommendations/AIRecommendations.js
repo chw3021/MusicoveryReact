@@ -3,30 +3,27 @@ import axiosInstance from "../../api/axiosInstance";
 import { getFormattedDate } from "../../utils/util";
 import "../../styles/KeywordRecommendation.css";
 import Button from "../common/Button";
-import genreSeeds from "../../assets/genre-seeds.json"; // 장르 리스트 파일 임포트
 import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 
-const KeywordRecommendation = () => {
+const AIRecommendations = () => {
     const navigate = useNavigate();
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
     const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
 
     const [state, setState] = useState({
-        genre: '',
-        bpm: '',
-        mood: '',
-        selectedGenres: [],
         recommendations: [],
         loading: false,
         playlistTitle: '',
         playlistComment: '',
-        playlistPhoto: null, // 사진 필드 추가
+        playlistPhoto: null,
         playlistDate: getFormattedDate(new Date()),
         showSaveForm: false,
-        user: userInfo, // 사용자 정보 추가
+        user: userInfo,
+        aiFailed: false, // AI 추천 실패 여부
+        surpriseLoading: false, // 깜짝 추천 로딩 상태
     });
 
     // 최대 파일 크기 설정 (예: 5MB)
@@ -41,13 +38,6 @@ const KeywordRecommendation = () => {
             }));
         }
     }, [userInfo]);
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setState((prev) => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
-    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -61,7 +51,6 @@ const KeywordRecommendation = () => {
         }));
     };
 
-
     const handleChangeDate = (e) => {
         setState((prev) => ({
             ...prev,
@@ -69,49 +58,63 @@ const KeywordRecommendation = () => {
         }));
     };
 
-    const handleGenreSelect = (e) => {
-        const { value } = e.target;
-        if (value && !state.selectedGenres.includes(value)) {
-            setState((prev) => ({
-                ...prev,
-                selectedGenres: [...prev.selectedGenres, value],
-                genre: '',
-            }));
-        }
-    };
-
-    const handleGenreRemove = (genre) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setState((prev) => ({
             ...prev,
-            selectedGenres: prev.selectedGenres.filter((g) => g !== genre),
+            [name]: value,
         }));
     };
 
     const handleSubmit = async () => {
-        if (state.selectedGenres.length<=0 || !state.bpm || !state.mood) {
-            alert("모든 필드를 입력해주세요.");
-            return;
-        }
-
         setState((prev) => ({ ...prev, loading: true }));
         try {
-            const response = await axiosInstance.post('/recommendation/keyword', {
-                genre: state.selectedGenres.join(','),
-                bpm: state.bpm,
-                mood: state.mood,
-            });
+            const response = await axiosInstance.get(`/recommendation/ai?userId=${state.user.userId}`);
+            if (response.status === 204) {
+                // AI 추천 실패
+                //console.log("AI 추천 실패: 서버에서 빈 응답을 받았습니다.");
+                setState((prev) => ({
+                    ...prev,
+                    loading: false,
+                    showSaveForm: false,
+                    aiFailed: true, // AI 추천 실패 설정
+                }));
+                // 깜짝 추천 가져오기
+                getSurpriseRecommendations();
+            } else {
+                const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
+                setState((prev) => ({
+                    ...prev,
+                    recommendations: parsedRecommendations,
+                    loading: false,
+                    showSaveForm: true,
+                    aiFailed: false, // AI 추천 성공 설정
+                }));
+                //console.log("추천된 트랙 목록:", parsedRecommendations);
+            }
+        } catch (error) {
+            //console.error("추천 요청 실패:", error);
+            setState((prev) => ({ ...prev, loading: false, aiFailed: true })); // AI 추천 실패 설정
+            // 깜짝 추천 가져오기
+            getSurpriseRecommendations();
+        }
+    };
+
+    const getSurpriseRecommendations = async () => {
+        setState((prev) => ({ ...prev, surpriseLoading: true }));
+        try {
+            const response = await axiosInstance.get('/recommendation/surprise');
             const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
             setState((prev) => ({
                 ...prev,
                 recommendations: parsedRecommendations,
-                loading: false,
+                surpriseLoading: false,
                 showSaveForm: true,
             }));
-            console.log("추천된 트랙 목록:", parsedRecommendations);
-
+            console.log("깜짝 추천된 트랙 목록:", parsedRecommendations);
         } catch (error) {
-            console.error("추천 요청 실패:", error);
-            setState((prev) => ({ ...prev, loading: false }));
+            console.error('깜짝 추천 목록을 가져오는 중 오류 발생:', error);
+            setState((prev) => ({ ...prev, surpriseLoading: false }));
         }
     };
 
@@ -130,8 +133,7 @@ const KeywordRecommendation = () => {
         formData.append("tracks", state.recommendations.map(track => track.uri));
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
-        }
-        else{
+        } else {
             formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
         }
 
@@ -164,67 +166,23 @@ const KeywordRecommendation = () => {
         <div className="keyword-recommendation">
             <div className="form-container">
                 <div className="form-group">
-                    <label htmlFor="genre">장르</label>
-                    <select
-                        name="genre"
-                        value={state.genre}
-                        onChange={handleGenreSelect}
-                        placeholder="장르를 선택하세요..."
-                    >
-                        <option value="">장르 선택</option>
-                        {genreSeeds.genres.map((genre, index) => (
-                            <option key={index} value={genre}>
-                                {genre}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="selected-genres">
-                    {state.selectedGenres.map((genre, index) => (
-                        <div key={index} className="genre-tag">
-                            {genre}
-                            <button onClick={() => handleGenreRemove(genre)}>x</button>
-                        </div>
-                    ))}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="bpm">BPM</label>
-                    <input
-                        type="number"
-                        name="bpm"
-                        value={state.bpm}
-                        onChange={handleChange}
-                        placeholder="BPM을 입력하세요..."
-                        min="30"     // 최소값 30
-                        max="990"    // 최대값 990
-                        step="5"     // 1단위로 선택 가능
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="mood">분위기</label>
-                    <select
-                        name="mood"
-                        value={state.mood}
-                        onChange={handleChange}
-                        placeholder="분위기를 선택하세요..."
-                    >
-                        <option value="">분위기 선택</option>
-                        <option value="신나는">신나는</option>
-                        <option value="행복한">행복한</option>
-                        <option value="잔잔한">잔잔한</option>
-                        <option value="우울한">우울한</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <Button text="생성하기!" onClick={handleSubmit} />
+                    <Button text="AI 추천 받기" onClick={handleSubmit} />
                 </div>
             </div>
-
+            
             <div className="results-container">
                 {state.loading ? (
                     <div>로딩 중...</div>
                 ) : (
                     <div>
+                        {state.aiFailed && (
+                            <div className="ai-failed">
+                                <p>AI 추천 데이터가 부족합니다.. 깜짝 추천을 대신 제공합니다.</p>
+                                {state.surpriseLoading ? (
+                                    <div>깜짝 추천 로딩 중...</div>
+                                ) : null}
+                            </div>
+                        )}
                         {state.recommendations.length > 0 && (
                             <div className="keyword-recommendations">
                                 <h5>추천된 트랙 목록</h5>
@@ -282,4 +240,4 @@ const KeywordRecommendation = () => {
     );
 };
 
-export default KeywordRecommendation;
+export default AIRecommendations;

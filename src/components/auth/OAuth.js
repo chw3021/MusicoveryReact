@@ -15,7 +15,7 @@ const OAuth = () => {
 
                 const handleMessage = async (event) => {
                     console.log('메시지 수신:', event.data, '출처:', event.origin);
-                    if (event.origin === 'http://localhost:8080' && event.data.type === 'auth_complete') {
+                    if (event.origin === `${process.env.REACT_APP_API_URL}` && event.data.type === 'auth_complete') {
                         console.log('인증 완료 메시지 받음');
                         
                         // 토큰 저장

@@ -22,10 +22,6 @@ const PlaylistPage = () =>{
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     
-    
-    const listArray = `${pivotDate.getFullYear()}년
-                        ${pivotDate.getMonth()+1}월`;
-
 
     const getPlaylistsByUserId = async (userId) => {
         try {
@@ -82,9 +78,7 @@ const PlaylistPage = () =>{
                         <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
                     </div>
                 </div>
-                <div className="list">
-                    <ReadMoreList data={filteredData} />
-                </div>
+                <ReadMoreList data={filteredData} />
             </div>
         </div>
   

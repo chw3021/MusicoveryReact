@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
 import PostForm from "./PostForm";
-import axiosInstance from "../../api/axiosInstance";
 import "../../styles/PostBody.css";
 import { useLocation, useNavigate } from 'react-router-dom';
+import axiosInstance from "../../api/axiosInstance";
 
 const PostBody = () => {
     const [posts, setPosts] = useState([]);
@@ -20,7 +20,6 @@ const PostBody = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // URL 파라미터 초기화
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         setPage(parseInt(params.get('page') || '0', 10));
@@ -37,9 +36,8 @@ const PostBody = () => {
             if (searchType && keyword) url += `&searchType=${searchType}&keyword=${keyword}`;
 
             const response = await axiosInstance.get(url);
-            console.log(response);
+            //console.log(response);
             
-            // playlistPostDTOList가 없을 경우 빈 배열로 처리
             setPosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
         } catch (error) {
@@ -54,6 +52,7 @@ const PostBody = () => {
     useEffect(() => {
         fetchPosts(page, sortOption, searchType, searchKeyword);
     }, [page, sortOption, fetchPosts]);
+
 
     const updateURL = useCallback(() => {
         const params = new URLSearchParams();
@@ -91,29 +90,18 @@ const PostBody = () => {
         setIsCreating(false);
     };
 
-    const handleCreate = async (post) => {
-        try {
-            await axiosInstance.post('/post', post);
-            setIsCreating(false);
-            fetchPosts(page, sortOption, searchType, searchKeyword); // 게시글 생성 후 현재 페이지 새로고침
-        } catch (error) {
-            console.error("Failed to create post", error);
-        }
-    };
-
     const handleSortChange = (newSortOption) => {
         setSortOption(newSortOption);
-        setPage(0); // 정렬 변경 시 페이지 초기화
+        setPage(0);
     };
 
     const handleSearch = (newSearchType, newSearchKeyword) => {
         setSearchType(newSearchType);
         setSearchKeyword(newSearchKeyword);
         setPage(0);
-        fetchPosts(0, sortOption, newSearchType, newSearchKeyword); // 검색 시 fetchPosts 실행
+        fetchPosts(0, sortOption, newSearchType, newSearchKeyword);
     };
 
-    // 페이지 변경 시 스크롤 최상단으로 이동
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -122,7 +110,15 @@ const PostBody = () => {
     };
 
     if (isCreating) {
-        return <PostForm onSubmit={handleCreate} onCancel={handleBack} />;
+        return (
+            <PostForm
+                onSubmit={() => {
+                    setIsCreating(false);
+                    fetchPosts(page, sortOption, searchType, searchKeyword);
+                }}
+                onCancel={handleBack}
+            />
+        );
     }
 
     if (selectedPost) {

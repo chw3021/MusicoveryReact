@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 기본 axios 인스턴스 (인증이 필요없는 요청용)
 export const baseAxiosInstance = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: `${process.env.REACT_APP_API_URL}`,
     headers: {
         'Content-Type': 'application/json'
     },
@@ -11,11 +11,12 @@ export const baseAxiosInstance = axios.create({
 
 // 인증이 필요한 요청을 위한 axios 인스턴스
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: `${process.env.REACT_APP_API_URL}`,
     headers: {
         'Content-Type': 'application/json'
     },
     withCredentials: true
+    
 });
 
 // 토큰 갱신 중인지 확인하는 플래그

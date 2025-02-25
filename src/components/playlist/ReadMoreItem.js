@@ -8,11 +8,11 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
     const navigate = useNavigate();
 
     // 기본 이미지 설정
-    const defaultImage = "http://localhost:8080/images/default.png";  // 기본 이미지 파일 추가 필요
+    const defaultImage = `${process.env.react_app_api_url}/images/default.png`;  // 기본 이미지 파일 추가 필요
 
     // playlistPhoto가 null이면 기본 이미지 사용
     const imageUrl = playlistPhoto 
-        ? (playlistPhoto.startsWith("/images/") ? `http://localhost:8080${playlistPhoto}` : playlistPhoto)
+        ? (playlistPhoto.startsWith("/images/") ? `${process.env.REACT_APP_API_URL}${playlistPhoto}` : playlistPhoto)
         : defaultImage;
 
     const handleClick = () => {

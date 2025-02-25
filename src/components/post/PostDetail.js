@@ -13,6 +13,11 @@ const PostDetail = ({ post, onBack }) => {
     const [newReply, setNewReply] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false); // 로딩 상태 추가
     const [isLiking, setIsLiking] = useState(false); // 좋아요 상태 추가
+    const [isEditing, setIsEditing] = useState(false); // 수정 상태 추가
+    const [isUpdating, setIsUpdating] = useState(false); // 업데이트 상태 추가
+    const [editedTitle, setEditedTitle] = useState(post.title); // 수정된 제목 상태
+    const [editedDescription, setEditedDescription] = useState(post.description); // 수정된 내용 상태
+    const [currentPost, setCurrentPost] = useState(post); // 현재 게시글 상태 추가
     const navigate = useNavigate();
     const userInfo = useUserInfo(); 
 
@@ -98,20 +103,106 @@ const PostDetail = ({ post, onBack }) => {
         }
     };
 
+    const handleEditClick = () => {
+        setIsEditing(true); // 수정 모드 활성화
+        setEditedTitle(currentPost.title); // 수정 모드 시작 시 제목 초기화
+        setEditedDescription(currentPost.description); // 수정 모드 시작 시 내용 초기화
+    };
+
+    const handleUpdate = async () => {
+        setIsUpdating(true);
+        try {
+            await axiosInstance.put(`/post/update/${post.id}`, null, {
+                params: {
+                    title: editedTitle,
+                    description: editedDescription,
+                },
+            });
+
+            setCurrentPost(prevState => ({
+                ...prevState,
+                title: editedTitle,
+                description: editedDescription,
+            }));
+            
+        } catch (error) {
+            console.error("Error updating post", error);
+        } finally {
+            setIsUpdating(false); // 로딩 상태 종료
+            setIsEditing(false); // 수정 모드 비활성화
+        }
+    };
+
+    const handleDelete = async (e) => {
+        e.stopPropagation();
+        const confirmDelete = window.confirm("정말로 이 게시글을 삭제하시겠습니까?");
+        if (!confirmDelete) {
+            return;
+        }
+        try {
+            await axiosInstance.delete(`/post/delete/${post.id}`);
+            window.location.reload();
+            
+            navigate("/post"); // 삭제 후 페이지로 이동
+        } catch (error) {
+            console.error("게시글 삭제 실패:", error);
+        }
+    };
+
+    const handleEditCancel = () => {
+        setIsEditing(false); // 수정 모드 비활성화
+        setEditedTitle(currentPost.title); // 수정 전 제목으로 복원
+        setEditedDescription(currentPost.description); // 수정 전 내용으로 복원
+    };
+
     return (
         <div className="post-detail">
             <div className="post-meta">
-                <span>조회수: {post.viewCount}</span>
+                <span>조회수: {currentPost.viewCount}</span>
                 <button className="back-button" onClick={onBack}>뒤로가기</button>
                 <button className="like-button" onClick={handleLike} disabled={isLiking}>
                     {isLiking ? "좋아요 반영 중..." : `👍 ${likeCount}`}
                 </button>
+                {/* 수정 및 삭제 버튼 추가 */}
+                {userInfo && currentPost.user.userId === userInfo.userId && (
+                    <>
+                        {isEditing ? (
+                            <>
+                                <button className="save-button" onClick={handleUpdate}>저장</button>
+                                <button className="cancel-button" onClick={handleEditCancel}>취소</button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="edit-button" onClick={handleEditClick} disabled={isUpdating}>
+                                    {isUpdating ? "수정 중..." : "수정"}
+                                </button>
+                                <button className="delete-button" onClick={handleDelete}>삭제</button>
+                            </>
+                        )}
+                    </>
+                )}
             </div>
-            <h2>{post.title}</h2>
-            <p>{post.description}</p>
+            {isEditing ? (
+                <>
+                    <input
+                        type="text"
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                    <textarea
+                        value={editedDescription}
+                        onChange={(e) => setEditedDescription(e.target.value)}
+                    />
+                </>
+            ) : (
+                <>
+                    <h2>{currentPost.title}</h2>
+                    <p>{currentPost.description}</p>
+                </>
+            )}
             <div className="post-meta">
-                <span>작성일: {new Date(post.createdDate).toLocaleDateString()}</span>
-                <span>작성자: {post.user.nickname}</span>
+                <span>작성일: {new Date(currentPost.createdDate).toLocaleDateString()}</span>
+                <span>작성자: {currentPost.user.nickname}</span>
             </div>
 
             {playlist ? (

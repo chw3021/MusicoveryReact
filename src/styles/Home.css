@@ -102,3 +102,16 @@
     background-color: #0092e0;
     transform: translateY(-2px);
 }
+
+.hero-button3{
+    display: inline-block;
+    color: white;
+    background-color: rgb(28, 28, 140);
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-top: 180px;
+}

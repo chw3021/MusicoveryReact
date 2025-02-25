@@ -27,7 +27,7 @@ const PlaylistDetail = () => {
         user: userInfo,
     });
 
-    const SPRING_SERVER_URL = "http://localhost:8080"; // 스프링 서버 URL 선언
+    const SPRING_SERVER_URL = `${process.env.REACT_APP_API_URL}`; // 스프링 서버 URL 선언
 
     useEffect(() => {
         const fetchPlaylist = async () => {
