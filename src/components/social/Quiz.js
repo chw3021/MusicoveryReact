@@ -48,11 +48,13 @@ const Quiz = () => {
         const normalizedTitle = currentTitle.toLowerCase();
     
         try {
+            console.log(`/api/sometitle 요청: title=${currentTitle}`);
             const response = await axiosInstance.get('/api/sometitle', {
                 params: {
                     title: currentTitle
                 }
             });
+            console.log(`/api/sometitle 응답:`, response.data);
     
             const alternativeTitles = response.data || [];
             const normalizedAlternatives = alternativeTitles.map(title => title.trim().toLowerCase());
@@ -80,24 +82,31 @@ const Quiz = () => {
             console.error("노래 목록이 없습니다.");
             return;
         }
-
+    
         setLoading(true);
         try {
             const randomSong = songs[Math.floor(Math.random() * songs.length)];
             const encodedArtist = encodeURIComponent(randomSong.artist);
             const encodedTitle = encodeURIComponent(randomSong.title);
-
+    
             const response = await axiosInstance.get(`/api/lyrics`, {
                 params: { artist: encodedArtist, title: encodedTitle }
             });
-
+    
             setLyrics(response.data.lyrics);
             setCurrentTitle(randomSong.title);
             speakLyrics(response.data.lyrics);
-
+    
             console.log("제목:", randomSong.title);
         } catch (error) {
-            console.error("가사를 불러오는 중 오류 발생:", error);
+            if (error.response && error.response.status === 429) {
+                console.error("요청 제한 초과. 잠시 후 다시 시도해주세요.");
+                alert("서버에 과도한 요청을 보내고 있습니다. 잠시 후 다시 시도해주세요.");
+                // Optional: Delay before trying again
+                setTimeout(fetchLyrics, 5000); // 5초 후 재시도
+            } else {
+                console.error("가사를 불러오는 중 오류 발생:", error);
+            }
         } finally {
             setLoading(false);
         }
@@ -133,6 +142,16 @@ const Quiz = () => {
         }
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            if (event.target.name === 'artist') {
+                handleFetchSongs(event);
+            } else if (event.target.name === 'userInput') {
+                handleSubmitGuess(event);
+            }
+        }
+    };
+
     return (
         <div className="quiz-container">
             <Header />
@@ -148,6 +167,8 @@ const Quiz = () => {
                                 placeholder="가수명을 입력하세요" 
                                 value={artist} 
                                 onChange={(e) => setArtist(e.target.value)}
+                                onKeyPress={handleKeyPress} // Enter 키 이벤트 추가
+                                name="artist"
                             />
                             <button className="quiz-button" onClick={handleFetchSongs}>노래 가져오기</button>
                         </div>
@@ -162,16 +183,18 @@ const Quiz = () => {
                             </button>
                         )}
                         {currentTitle && (
-                            <form onSubmit={handleSubmitGuess}>
-                                <input
+                            <div className="guess-box">
+                                <input 
                                     type="text"
                                     className="guess-input"
                                     placeholder="노래 제목을 맞혀보세요"
                                     value={userInput}
                                     onChange={(e) => setUserInput(e.target.value)}
+                                    onKeyPress={handleKeyPress} // Enter 키 이벤트 추가
+                                    name="userInput"
                                 />
-                                <button className="quiz-button" type="submit">확인</button>
-                            </form>
+                                <button className="quiz-button" type="submit" onClick={handleSubmitGuess}>확인</button>
+                            </div>
                         )}
                     </div>
                 </div>
