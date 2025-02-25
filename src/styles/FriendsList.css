@@ -2,7 +2,7 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
     background-color: #f9f9f9;
 }
@@ -29,26 +29,32 @@
     background-color: #0056b3;
 }
 
+
+
 .friends-list,
+.pending-requests-list,
 .friend-requests-list {
     max-height: 300px;
     overflow-y: auto;
     padding: 10px;
-    border: 1px solid #eee;
+    border: 1px solid #8b8b8b;
     border-radius: 4px;
     background-color: #fff;
+    color: #666;
 }
 
 .friend-item,
+.pending-request-item,
 .friend-request-item {
     margin-bottom: 15px;
     padding: 10px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #646464;
     border-radius: 4px;
     background-color: #f9f9f9;
 }
 
 .friend-item p,
+.pending-request-item p,
 .friend-request-item p {
     margin: 5px 0;
     font-size: 14px;
@@ -56,8 +62,23 @@
 }
 
 .friend-item p strong,
+.pending-request-item p strong,
 .friend-request-item p strong {
     color: #333;
+}
+
+.delete-button,
+.accept-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.delete-button:hover,
+.accept-button:hover {
+    color: red;
 }
 
 .modal {
