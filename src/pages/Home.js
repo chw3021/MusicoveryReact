@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import React, { useState } from "react";
 import OAuth from "../components/auth/OAuth";
+import { Outlet } from "react-router-dom";
 
 import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +67,7 @@ const Home = () =>{
                 </div>
             </div>
             {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
-            
+            <Outlet />
         </div>
   
     );

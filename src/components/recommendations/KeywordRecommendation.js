@@ -131,6 +131,9 @@ const KeywordRecommendation = () => {
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
         }
+        else{
+            formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
+        }
 
         axiosInstance.post("/playlist/create", formData, {
             headers: {

@@ -1,31 +1,10 @@
-import {Route, Routes, Link} from "react-router-dom";
-import Home from "./pages/Home";
-import PostPage from "./pages/PostPage";
-import SocialPage from "./pages/SocialPage"; // SocialPage 임포트
-import Edit from "./components/playlist/Edit";
-import PlaylistDetail from "./components/playlist/PlaylistDetail";
+
 import React ,{ useEffect, useReducer, useRef, useState } from "react";
 import "./App.css";
-import PlaylistPage from "./pages/PlaylistPage";
-import PlaylistCreatePage from "./pages/PlaylistCreatePage";
-import PlusMusic from "./components/playlist/PlusMusic";
-import UserReport from "./components/social/UserReport"; // UserReport 임포트
-import OAuthCallback from "./components/auth/OAuthCallback";
-
-import Streaming from "./components/social/Streaming"; // Streaming 임포트
-import Challenge from "./components/social/Challenge"; // Challenge 임포트
-import FriendsList from "./components/social/FriendsList"; // FriendsList 임포트
-import Quiz from "./components/social/Quiz"; // Quiz 임포트
-import CustomerSupport from "./components/social/CustomerSupport"; // CustomerSupport 임포트
-import QuizSOLOPlay from "./components/social/QuizSOLOPlay";
-import QuizMULTIPlay from "./components/social/QuizMULTIPlay";
-import ChallengeSOLOPlay from "./components/social/ChallengeSOLOPlay";
-import ChallengeMULTIPlay from "./components/social/ChallengeMULTIPlay";
-import ChatRoom from "./components/social/ChatRoom"; // ChatRoom 임포트
-
-import AdminMain from "./pages/AdminMain"; // admin 메인페이지
 
 
+import { RouterProvider } from "react-router-dom";
+import root from "./router/root";
 
 
 const day = new Date();
@@ -144,54 +123,20 @@ function App() {
     
 
 
-if(!isDataLoaded){
-  return <div>데이터를 불러오는 중입니다.</div>
-}else{
-
-
-  return (  
-    <ReadMoreStateContext.Provider value={data}>
-       <ReadMoreDispatchContext.Provider 
-       value={{onCreate, onUpdate, onDelete,}}>
-  <div className="App">
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/post" element={<PostPage />} />
-      <Route path="/social" element={<SocialPage />} />
-
-       {/* 소셜 페이지 추가 */}
-      <Route path="/streaming" element={<Streaming />} />
-      <Route path="/challenge" element={<Challenge />} />
-      <Route path="/friendslist" element={<FriendsList />} />
-      <Route path="/quiz" element={<Quiz />} />
-      <Route path="/userreport" element={<UserReport />} />
-      <Route path="/customersupport" element={<CustomerSupport />} />
-
-      <Route path="/chat/:streamId" element={<ChatRoom />} /> {/* ✅ 추가 */}
-      {/* 소셜 페이지 추가 끝 */}
-
-      <Route path="/userreport" element={<UserReport />} /> {/* 신고 페이지 */}
-      <Route path="/createplaylist" element={<PlaylistCreatePage />} />
-  
-      <Route path="/PlusMusic" element={<PlusMusic />} /> 
-      <Route path="/playlist/:playlistId" element={<PlaylistDetail key={window.location.pathname} />} />
-      <Route path="/PlaylistPage" element={<PlaylistPage />} />
-      <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
-      <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />
-      <Route path="/ChallengeSOLOPlay" element={<ChallengeSOLOPlay />} />
-      <Route path="/ChallengeMULTIPlay" element={<ChallengeMULTIPlay />} />
-
-      <Route path="/oauth-callback" element={<OAuthCallback />} />
-      
-      {/* 관리자 페이지 */}
-      <Route path="/admin" element={<AdminMain />} />
-    </Routes>
-
-  </div>
-  </ReadMoreDispatchContext.Provider>
-  </ReadMoreStateContext.Provider>
-  );
-}
+  if(!isDataLoaded){
+      return <div>데이터를 불러오는 중입니다.</div>
+  } else{
+    return (  
+      <ReadMoreStateContext.Provider value={data}>
+          <ReadMoreDispatchContext.Provider 
+            value={{onCreate, onUpdate, onDelete,}}>
+            <div className="App">
+                  <RouterProvider router={root} />
+            </div>
+          </ReadMoreDispatchContext.Provider>
+      </ReadMoreStateContext.Provider>
+    );
+  }
 }
 
 export default App;
