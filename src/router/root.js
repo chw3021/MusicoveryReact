@@ -37,7 +37,6 @@ const root = createBrowserRouter(
             <Route path="friendslist" element={<Suspense fallback={Loading}><FriendsList /></Suspense>} />
             <Route path="quiz" element={<Suspense fallback={Loading}><Quiz /></Suspense>} />
             <Route path="userreport" element={<Suspense fallback={Loading}><UserReport /></Suspense>} />
-            <Route path="customersupport" element={<Suspense fallback={Loading}><CustomerSupport /></Suspense>} />
             <Route path="chat/:streamId" element={<Suspense fallback={Loading}><ChatRoom /></Suspense>} />
             <Route path="createplaylist" element={<Suspense fallback={Loading}><PlaylistCreatePage /></Suspense>} />
             <Route path="PlusMusic" element={<Suspense fallback={Loading}><PlusMusic /></Suspense>} />
