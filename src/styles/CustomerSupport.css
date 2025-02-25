@@ -1,5 +1,5 @@
 .customer-support-container {
-    max-width: 80%;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ddd;
@@ -32,8 +32,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: none;
-    max-width: 95%;
+    resize: vertical;
     font-size: 16px;
 }
 
@@ -49,4 +48,43 @@
 
 .submit-button:hover {
     background-color: #0056b3;
+}
+
+.inquiry-list-container {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.inquiry-list-container h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: rgb(17, 2, 2);
+}
+
+.inquiry-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.inquiry-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.inquiry-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.inquiry-item p strong {
+    color: #333;
 }
