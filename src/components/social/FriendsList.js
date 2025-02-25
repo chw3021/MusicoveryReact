@@ -41,7 +41,7 @@ const FriendsList = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axiosInstance.get(`/users/search?keyword=${searchKeyword}`);
+            const response = await axiosInstance.get(`/friends/search?keyword=${searchKeyword}`);
             setSearchResults(response.data);
         } catch (error) {
             console.error("사용자 검색에 실패했습니다.", error);
