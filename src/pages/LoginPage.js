@@ -2,41 +2,38 @@ import React, { useState, useEffect } from "react";
 import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import "../styles/Home.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-// axios 기본 URL 설정 (필요에 따라 수정)
-axios.defaults.baseURL = "http://localhost:8080";
+import axiosInstance from "../api/axiosInstance"; // axiosInstance 불러오기
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [passwd, setPasswd] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("MUSICOVERY_ACCESS_TOKEN");
     if (token) {
-      navigate("/main");
+      navigate("/");
     }
   }, [navigate]);
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/auth/login", {
+      const response = await axiosInstance.post("/auth/login", {
         email,
-        password,
+        passwd,
       });
 
-      if (response.status === 200) {
-        // 로그인 성공 시 토큰 저장
-        localStorage.setItem("token", response.data.token);
+      // 요청이 성공한 경우
+      const data = response.data;
+      localStorage.setItem("MUSICOVERY_ACCESS_TOKEN", data.token);
 
-        // 메인 페이지로 이동
-        navigate("/main");
-      }
+      // 로그인 성공 후 main 페이지로 이동
+      navigate("/");
     } catch (error) {
       if (error.response) {
+        // 서버가 응답했지만 상태 코드가 2xx가 아닌 경우
         if (error.response.status === 401) {
           setErrorMessage("이메일 또는 비밀번호가 일치하지 않습니다.");
         } else {
@@ -45,6 +42,7 @@ const LoginPage = () => {
           );
         }
       } else {
+        // 요청 자체가 실패한 경우
         setErrorMessage("네트워크 오류가 발생했습니다.");
       }
     }
@@ -55,7 +53,17 @@ const LoginPage = () => {
   };
 
   const handleSpotifyLogin = () => {
-    window.location.href = "/oauth2/authorization/spotify";
+    const baseUrl = process.env.REACT_APP_BASE_URL || "http://localhost:8080"; // 기본 값 설정
+    const redirectUri = `${baseUrl}/api/spotify/callback`; // 콜백 URI 설정
+
+    // Spotify API 설정
+    const clientId = "432fcaefc80a48469e536fa91cc55064"; // application.properties에서 가져온 Spotify client id
+    const scopes = "user-read-email"; // 필요한 스코프 (예: user-read-email)
+
+    // Spotify OAuth 요청 URL
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&scope=${scopes}`;
   };
 
   return (
@@ -73,8 +81,8 @@ const LoginPage = () => {
         <input
           type="password"
           placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={passwd}
+          onChange={(e) => setPasswd(e.target.value)}
           className="login-input"
         />
         {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -82,7 +90,7 @@ const LoginPage = () => {
           onClick={handleLogin}
           className="hero-button1"
           text={"로그인"}
-          disabled={!email || !password} // 이메일과 비밀번호가 비어있으면 비활성화
+          disabled={!email || !passwd}
         />
         <Button
           onClick={handleSignup}
