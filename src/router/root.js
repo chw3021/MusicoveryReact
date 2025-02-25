@@ -7,7 +7,6 @@ import { Suspense, lazy } from "react";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import SpotifyLoginPage from "../pages/SpotifyLoginPage";
-import SpotifyCallback from "../pages/SpotifyCallback";
 
 const Loading = <div>Loading...</div>;
 
@@ -41,6 +40,7 @@ const ChallengeMULTIPlay = lazy(() =>
 );
 const ChatRoom = lazy(() => import("../components/social/ChatRoom"));
 const AdminMain = lazy(() => import("../pages/AdminPage"));
+// const SpotifyLoginPage = lazy(() => import("../pages/SpotifyLoginPage"));
 
 const root = createBrowserRouter(
   createRoutesFromElements(
@@ -229,19 +229,12 @@ const root = createBrowserRouter(
           </Suspense>
         }
       />
+
       <Route
         path="spotify-login"
         element={
           <Suspense fallback={Loading}>
             <SpotifyLoginPage />
-          </Suspense>
-        }
-      />
-      <Route
-        path="oauth-callback"
-        element={
-          <Suspense fallback={Loading}>
-            <SpotifyCallback />
           </Suspense>
         }
       />

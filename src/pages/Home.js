@@ -49,7 +49,7 @@ const Home = () => {
             {" "}
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <Link to={"/Login"} className="hero-button1">
+          <Link to={"/spotify-login"} className="hero-button1">
             로그인
           </Link>
           <Link to={"/Signup"} className="hero-button2">
