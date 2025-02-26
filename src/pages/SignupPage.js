@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import axios from "../api/axiosInstance";
+import "../styles/Signup.css";
 
 const SignupPage = () => {
   const navigate = useNavigate();

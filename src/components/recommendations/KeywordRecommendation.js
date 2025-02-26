@@ -8,6 +8,7 @@ import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const KeywordRecommendation = () => {
     const navigate = useNavigate();
@@ -107,7 +108,7 @@ const KeywordRecommendation = () => {
                 loading: false,
                 showSaveForm: true,
             }));
-            console.log("추천된 트랙 목록:", parsedRecommendations);
+           // console.log("추천된 트랙 목록:", parsedRecommendations);
 
         } catch (error) {
             console.error("추천 요청 실패:", error);
@@ -132,7 +133,7 @@ const KeywordRecommendation = () => {
             formData.append("playlistPhoto", state.playlistPhoto);
         }
         else{
-            formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
+            formData.append("playlistPhoto", getDefaultImage());
         }
 
         axiosInstance.post("/playlist/create", formData, {
@@ -141,7 +142,7 @@ const KeywordRecommendation = () => {
             },
         })
         .then(response => {
-            console.log("✅ 플레이리스트 생성 완료:", response.data);
+            //console.log("✅ 플레이리스트 생성 완료:", response.data);
             navigate("/PlaylistPage");
         })
         .catch(error => {
@@ -194,10 +195,11 @@ const KeywordRecommendation = () => {
                         name="bpm"
                         value={state.bpm}
                         onChange={handleChange}
+                        className="bpm-form-input"
                         placeholder="BPM을 입력하세요..."
-                        min="30"     // 최소값 30
-                        max="990"    // 최대값 990
-                        step="5"     // 1단위로 선택 가능
+                        min="60"     // 최소값 30
+                        max="250"    // 최대값 990
+                        step="1"     //
                     />
                 </div>
                 <div className="form-group">
@@ -230,16 +232,16 @@ const KeywordRecommendation = () => {
                                 <h5>추천된 트랙 목록</h5>
                                 <ul>
                                     {state.recommendations.map((track, index) => (
-                                        <li key={index}>
+                                        <li className="keyword-recommendations-list-item" key={index}>
                                             <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                            <button onClick={() => removeTrack(track.id)}>제거</button>
+                                            <button onClick={() => removeTrack(track.id)}>❌</button>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         )}
                         {state.showSaveForm && (
-                            <div>
+                            <div className="playlist-save-form">
                                 <h5>플레이리스트 저장</h5>
                                 <div className="form-group">
                                     <label htmlFor="playlistDate">생성일자</label>
@@ -259,19 +261,23 @@ const KeywordRecommendation = () => {
                                         accept="image/*" // 이미지 파일만 허용
                                     />
                                 </div>
-                                <input
-                                    type="text"
-                                    name="playlistTitle"
-                                    value={state.playlistTitle}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 제목을 입력하세요..."
-                                />
-                                <textarea
-                                    name="playlistComment"
-                                    value={state.playlistComment}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 설명을 입력하세요..."
-                                ></textarea>
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        name="playlistTitle"
+                                        value={state.playlistTitle}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 제목을 입력하세요..."
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <textarea
+                                        name="playlistComment"
+                                        value={state.playlistComment}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 설명을 입력하세요..."
+                                    ></textarea>
+                                </div>
                                 <Button text="저장하기" onClick={handleSave} />
                             </div>
                         )}

@@ -175,7 +175,8 @@ const Quiz = () => {
                 <Nav />
                 <div className="content-wrapper">
                     <div className="quiz-content">
-                        <h2 className="quiz-title">🎵 AI 노래 맞히기 퀴즈</h2>
+                        <h2 className="quiz-title">🎵 AI 가사 맞히기 퀴즈</h2>
+                    <div className="oneLineView">
                         <div className="search-box">
                             <input 
                                 type="text" 
@@ -186,18 +187,24 @@ const Quiz = () => {
                                 onKeyPress={handleKeyPress}
                                 name="artist"
                             />
-                            <button className="quiz-button" onClick={handleFetchSongs}>노래 가져오기</button>
+                            <button className="quiz-button2" onClick={handleFetchSongs}>가수 선택</button>
                         </div>
+                       
                         {showFetchLyricsButton && (
                             <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
                                 {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
                             </button>
                         )}
+                        <div className="rankingPart">랭킹</div>
+                    </div>
+                    
+                    <div className="stopBtnplace">
                         {isSpeaking && (
                             <button className="quiz-button" onClick={handleStopSpeaking}>
                                 음성 멈추기
                             </button>
                         )}
+                    </div>   
                         {currentTitle && (
                             <div className="guess-box">
                                 <input 
@@ -209,7 +216,7 @@ const Quiz = () => {
                                     onKeyPress={handleKeyPress}
                                     name="userInput"
                                 />
-                                <button className="quiz-button" type="submit" onClick={handleSubmitGuess}>확인</button>
+                                <button className="quiz-button2" type="submit" onClick={handleSubmitGuess}>확인</button>
                             </div>
                         )}
                     </div>

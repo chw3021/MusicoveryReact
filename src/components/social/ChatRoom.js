@@ -8,6 +8,7 @@ import { Client } from "@stomp/stompjs";
 import "../../styles/ChatRoom.css";
 import { parseTracks } from "../../utils/trackUtils";
 import Music from "../music/Music";
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const ChatRoom = () => {
     const { streamId } = useParams();
@@ -90,7 +91,7 @@ const ChatRoom = () => {
                     setPlaylist({
                         ...response.data.playlist,
                         tracksData: trackList,
-                        playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
+                        playlistPhoto: response.data.playlist.playlistPhoto || getDefaultImage(), // 기본 이미지 설정
                     });
                 } catch (error) {
                     console.error("Error fetching playlist detail", error);

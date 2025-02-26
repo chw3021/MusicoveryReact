@@ -8,6 +8,7 @@ import Music from "../music/Music";
 import axiosInstance from "../../api/axiosInstance"; // axiosInstance 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const Create = () => {
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Create = () => {
             formData.append("playlistPhoto", state.playlistPhoto);
         }
         else{
-            formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
+            formData.append("playlistPhoto", getDefaultImage());
         }
 
         axiosInstance.post("/playlist/create", formData, {

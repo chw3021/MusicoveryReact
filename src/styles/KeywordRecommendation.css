@@ -25,7 +25,14 @@
 }
 
 .form-group label {
-    width: 100px;
+    width: 150px;
+    font-weight: bold;
+}
+
+.bpm-form-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
     font-weight: bold;
 }
 
@@ -72,10 +79,34 @@
     padding: 0;
 }
 
-.results-container li {
+.keyword-recommendations-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #f0f0f0;
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
     color: #000; /* 텍스트 색상 설정 */
+}
+
+.keyword-recommendations-list-item > button {
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    color: #ff0000;
+}
+.playlist-save-form >div> input {
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    
+}
+
+.playlist-save-form > div > textarea {
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
 }

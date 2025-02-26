@@ -1,139 +1,116 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Button from "../components/common/Button";
 import Header from "../components/common/Header";
-import "../styles/Home.css";
+import axiosInstance, { baseAxiosInstance } from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axiosInstance";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [passwd, setPasswd] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
 
-  // 로그인 상태 확인
+  // ✅ useCallback으로 감싸기
+  const handleUserAuthentication = useCallback(
+    async (accessToken) => {
+      try {
+        const response = await axiosInstance.get("/api/spotify/userInfo", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const userData = response.data;
+
+        // UserDTO 형식에 맞게 변환
+        const userDTO = {
+          userId: userData.id,
+          email: userData.email,
+          passwd: "1234",
+          profileImageUrl:
+            userData.images.length > 0 ? userData.images[0].url : null,
+          bio: userData.bio || "d",
+          nickname: userData.display_name,
+          phone: "11",
+          address: "f",
+          isActive: true,
+          spotifyConnected: true,
+          googleConnected: false,
+        };
+
+        // 사용자 정보가 없으면 회원가입, 있으면 로그인 처리
+        const userResponse = await axiosInstance.post(
+          "/auth/spotify-login",
+          userDTO
+        );
+        const user = userResponse.data;
+
+        // 사용자 정보를 로컬 스토리지에 저장
+        localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
+        setUserInfo(user); // 🔥 userInfo에 저장
+
+        // 로그인 후 홈으로 이동
+        navigate("/");
+      } catch (error) {
+        console.error("사용자 인증 에러:", error);
+        navigate("/Login");
+      }
+    },
+    [navigate]
+  ); // 🔑 navigate를 의존성 배열에 포함
+
   useEffect(() => {
     const token = localStorage.getItem("MUSICOVERY_ACCESS_TOKEN");
-    if (token) {
-      navigate("/");
+
+    // 🔥 토큰이 있고 userInfo가 없는 경우에만 인증 처리
+    if (token && !userInfo) {
+      handleUserAuthentication(token);
     }
-  }, [navigate]);
+  }, [handleUserAuthentication, userInfo]); // 🔥 handleUserAuthentication과 userInfo를 의존성으로 추가
 
-  // 일반 로그인
-  const handleLogin = async () => {
+  // 스포티파이 액세스 토큰 요청
+  const getAccessToken = async () => {
     try {
-      const response = await axiosInstance.post("/auth/login", {
-        email,
-        passwd,
-      });
+      const response = await baseAxiosInstance.get(
+        "/api/spotify/getUserAccessToken"
+      );
 
-      const data = response.data;
-      localStorage.setItem("MUSICOVERY_ACCESS_TOKEN", data.token);
+      const authWindow = window.open(
+        response.data,
+        "SpotifyAuth",
+        "width=600,height=600"
+      );
 
-      navigate("/");
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("이메일 또는 비밀번호가 일치하지 않습니다.");
-      } else {
-        setErrorMessage("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      }
-    }
-  };
+      const handleMessage = async (event) => {
+        if (
+          event.origin === `${process.env.REACT_APP_API_URL}` &&
+          event.data.type === "auth_complete"
+        ) {
+          localStorage.setItem(
+            "MUSICOVERY_ACCESS_TOKEN",
+            event.data.accessToken
+          );
+          localStorage.setItem(
+            "MUSICOVERY_REFRESH_TOKEN",
+            event.data.refreshToken
+          );
+          authWindow.close();
+          await handleUserAuthentication(event.data.accessToken);
 
-  // Spotify OAuth 로그인
-  const handleSpotifyLogin = () => {
-    const redirectUri = `${process.env.REACT_APP_API_URL}/api/spotify/callback`;
-    const clientId = "432fcaefc80a48469e536fa91cc55064";
-    const scopes = "user-read-email";
-
-    // Spotify 인증 URL로 리디렉션
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&scope=${scopes}`;
-  };
-
-  // Spotify 인증 처리 (OAuth Callback에서 사용할 함수)
-  const handleSpotifyCallback = async (code) => {
-    try {
-      // 인증 코드로 토큰 요청
-      const response = await axiosInstance.post("/auth/spotify-callback", {
-        code,
-      });
-
-      const data = response.data;
-      localStorage.setItem("MUSICOVERY_ACCESS_TOKEN", data.token);
-      localStorage.setItem("MUSICOVERY_REFRESH_TOKEN", data.refreshToken);
-
-      // 사용자 정보 처리
-      const userResponse = await axiosInstance.get("/api/spotify/userInfo", {
-        headers: {
-          Authorization: `Bearer ${data.token}`,
-        },
-      });
-
-      const userData = userResponse.data;
-      const userDTO = {
-        userId: userData.id,
-        email: userData.email,
-        passwd: "1234", // 사용자 비밀번호는 필요에 맞게 설정
-        profileImageUrl:
-          userData.images.length > 0 ? userData.images[0].url : null,
-        bio: userData.bio || "d",
-        nickname: userData.display_name,
-        phone: "11", // 필요 시 추가 정보 입력
-        address: "f", // 필요 시 추가 정보 입력
-        isActive: true,
-        spotifyConnected: true,
-        googleConnected: false,
+          window.removeEventListener("message", handleMessage);
+        }
       };
 
-      const userLoginResponse = await axiosInstance.post(
-        "/auth/spotify-login",
-        userDTO
-      );
-      const user = userLoginResponse.data;
-
-      // 로컬 스토리지에 사용자 정보 저장
-      localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
-      navigate("/"); // 로그인 후 홈 화면으로 이동
+      window.addEventListener("message", handleMessage);
     } catch (error) {
-      console.error("Spotify 로그인 처리 오류:", error);
-      navigate("/login");
+      console.error("인증 과정 에러:", error);
     }
   };
 
   return (
-    <div className="container">
+    <div>
       <Header />
-      <div className="login-wrapper">
-        <h2 className="login-title">로그인</h2>
-        <input
-          type="email"
-          placeholder="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="login-input"
-        />
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={passwd}
-          onChange={(e) => setPasswd(e.target.value)}
-          className="login-input"
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <Button
-          onClick={handleLogin}
-          className="hero-button1"
-          text="로그인"
-          disabled={!email || !passwd}
-        />
-        <Button
-          onClick={handleSpotifyLogin}
-          className="hero-button1"
-          text="스포티파이로 로그인"
-        />
-      </div>
+      <h1>스포티파이 로그인</h1>
+      <Button text="스포티파이로 로그인" onClick={getAccessToken} />
+      {/* 🔥 userInfo가 있을 때만 사용자 정보 출력 */}
+      {userInfo && <pre>{JSON.stringify(userInfo, null, 2)}</pre>}
     </div>
   );
 };
