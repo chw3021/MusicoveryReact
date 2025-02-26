@@ -3,17 +3,16 @@
 // import Edit from "./Edit";
 import Button from "../components/common/Button";
 import Header from "../components/common/Header";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OAuth from "../components/auth/OAuth";
-import { Outlet } from "react-router-dom";
-
-import "../styles/Home.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../components/auth/auth";
 
 // import useReadMore from "../hooks/useReadMore.js";
 // import useReadMore from "../hooks/"
 // import PlaylistPage from "./PlaylistPage";
+
+import "../styles/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,6 +21,13 @@ const Home = () => {
   //     navigate("/playlistPage");
   // }
   const [showOAuth, setShowOAuth] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 로그인 상태 확인
+  useEffect(() => {
+    const user = localStorage.getItem("MUSICOVERY_USER");
+    setIsLoggedIn(!!user); // 유저 정보가 있으면 true, 없으면 false
+  }, []);
 
   const handleLoginClick = () => {
     setShowOAuth(true);
@@ -29,17 +35,25 @@ const Home = () => {
 
   const handleLogoutClick = () => {
     logout();
+    setIsLoggedIn(false); // 로그아웃 시 상태 업데이트
+    navigate("/"); // 로그아웃 후 홈으로 이동
   };
 
   const adminLoginClick = () => {
     navigate("/admin");
   };
 
+  const goToLogin = () => {
+    navigate("/login");
+  };
+
+  const goToSignup = () => {
+    navigate("/Signup");
+  };
+
   return (
     <div className="container">
       <Header />
-      {/* 뮤직커버리, 홈 소셜 게시판 -> header  */}
-
       <div className="hero">
         <div className="hero-content">
           <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
@@ -49,21 +63,28 @@ const Home = () => {
             {" "}
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <Link to={"/spotify-login"} className="hero-button1">
-            로그인
-          </Link>
-          <Link to={"/Signup"} className="hero-button2">
-            회원가입
-          </Link>
+
+          {/* 로그인 상태에 따라 버튼 표시 */}
+          {!isLoggedIn ? (
+            <>
+              <button className="hero-button1" onClick={goToLogin}>
+                로그인
+              </button>
+              <button className="hero-button2" onClick={goToSignup}>
+                회원가입
+              </button>
+            </>
+          ) : (
+            <button className="hero-button1" onClick={handleLogoutClick}>
+              로그아웃
+            </button>
+          )}
+
           <hr></hr>
           <button className="hero-button1" onClick={handleLoginClick}>
             임시 로그인(스포티파이로 로그인)
           </button>
-          <button className="hero-button2" onClick={handleLogoutClick}>
-            임시 로그아웃
-          </button>
           <button
-            a
             href="#/admin"
             className="hero-button3"
             onClick={adminLoginClick}
@@ -72,12 +93,11 @@ const Home = () => {
           </button>
 
           {showOAuth && <OAuth />}
-          {/* <PlaylistPage onClick={goPlaylistPage} />     */}
         </div>
       </div>
-      {/* <ReadMoreList data={filteredData} />  이게 새로 만들기*/}
       <Outlet />
     </div>
   );
 };
+
 export default Home;
