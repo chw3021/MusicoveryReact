@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 const PostItem = ({ post, onSelectPost }) => {
     const navigate = useNavigate();
 
-    const handleReportClick = (e) => {
-        e.stopPropagation(); // PostItem 클릭 이벤트 막기
-        navigate('/userreport');
+    const handleReportClick = (user) => {
+        navigate("/userreport", { state: { reportedUser: user } });
     };
 
     return (
@@ -21,7 +20,7 @@ const PostItem = ({ post, onSelectPost }) => {
             <div className="post-date">{new Date(post.createdDate).toLocaleDateString()}</div>
             <div className="post-views">{post.viewCount}</div>
             <div className="post-report">
-                <button className="report-button" onClick={handleReportClick}>신고</button>
+                <button className="report-button" onClick={() => handleReportClick(post.user)}>신고</button>
             </div>
         </div>
     );

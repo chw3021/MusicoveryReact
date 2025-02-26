@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import "../../styles/UserReport.css";
 import Header from "../common/Header";
+import useUserInfo from "../../hooks/useUserInfo";
+import { useLocation } from "react-router-dom";
 
 const UserReport = () => {
     const [reports, setReports] = useState([]);
     const [reportedUserId, setReportedUserId] = useState("");
     const [reportReason, setReportReason] = useState("");
     const [customReason, setCustomReason] = useState(""); // 자유 입력을 위한 상태
+    const userInfo = useUserInfo();
+    const location = useLocation();
+
+    // 신고 대상 유저 정보 가져오기
+    useEffect(() => {
+        if (location.state && location.state.reportedUser) {
+            setReportedUserId(location.state.reportedUser.userId);
+        }
+    }, [location.state]);
 
     // 신고 내역 가져오기
     useEffect(() => {
-        fetchReports();
-    }, []);
+        
+        if (userInfo) {
+            fetchReports(userInfo.id);
+        }
+    }, [userInfo]);
 
-    const fetchReports = async () => {
+    const fetchReports = async (userId) => {
         try {
-            const response = await axios.get("/api/userreport/reports/1"); // 임시 userId (테스트용)
+            const response = await axiosInstance.get("/api/userreport/reporter/"+userId); 
             setReports(response.data);
         } catch (error) {
             console.error("신고 내역을 불러오는 중 오류 발생:", error);
@@ -26,10 +40,14 @@ const UserReport = () => {
     // 신고 제출하기
     const handleReportSubmit = async (e) => {
         e.preventDefault();
+        if (!reportedUserId) {
+            alert("신고할 사용자 ID를 입력하세요.");
+            return;
+        }
         try {
-            const response = await axios.post("/api/userreport/report", {
-                reporterId: 1, // 임시 reporterId (테스트용)
-                reportedUserId,
+            const response = await axiosInstance.post("/api/userreport/report", {
+                reporter: userInfo.id,
+                reportedUser: reportedUserId,
                 reason: reportReason === "직접입력" ? customReason : reportReason // 직접입력일 때만 customReason 사용
             });
             alert("신고가 접수되었습니다.");
@@ -92,7 +110,7 @@ const UserReport = () => {
                 <ul>
                     {reports.map((report) => (
                         <li key={report.id}>
-                            <strong>신고된 사용자:</strong> {report.reportedUserId} | 
+                            <strong>신고된 사용자:</strong> {report.reported.nickname} | 
                             <strong> 사유:</strong> {report.reason}
                         </li>
                     ))}
