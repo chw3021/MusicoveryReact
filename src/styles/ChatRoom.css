@@ -7,6 +7,7 @@
 .chat-input {
     display: flex; /* 플렉스 레이아웃을 활성화 */
     align-items: center; /* 수직 중앙 정렬 */
+    width: 91%;
 }
 
 /* 입력 필드 */
@@ -63,6 +64,7 @@
     overflow-y: auto; /* 자동 스크롤로 설정 */
     max-height: calc(10 * 1.5em); /* 최대 높이를 10줄로 설정 (1.5em은 줄 높이) */
     min-height: 300px; /* 최소 높이 설정 */
+    width: 89%;
 }
 /* 개별 채팅 메시지 */
 .chat-message {
@@ -103,6 +105,8 @@
 .exit {
     text-align: right; /* 오른쪽 정렬 */
     margin-top: 10px; /* 상단 여백 */
+    display: flex;
+    justify-content:flex-start;
 }
 
 /* 버튼 스타일 */
@@ -113,7 +117,10 @@
     color: white; /* 버튼 글자색 설정 */
     border-radius: 4px; /* 버튼 둥글게 설정 */
     cursor: pointer; /* 커서 모양 설정 */
+    margin-left: 80%;
+
 }
+
 
 .chat-title {
     font-size: 24px; /* 타이틀 글자 크기 */
@@ -126,6 +133,12 @@
     background-color: rgba(253, 5, 224, 0.1); /* 배경색 */
     border-radius: 8px; /* 둥글게 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 */
+    width: 90%;
+    justify-content: space-between;
+}
+#explain{
+    text-align: start;
+    margin-left: 1%;
 }
 
 /* streaming-tracks 클래스 스타일 */
@@ -138,6 +151,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     overflow-y: auto; /* 세로 스크롤 가능 */
     max-height: 300px; /* 최대 높이 설정 */
+    width: 89.5%;
 }
 
 .playlist-info button {
@@ -154,4 +168,8 @@
 
 .playlist-info button:hover {
     background-color: #d404c3; /* 마우스 오버 시 색상 변경 */
+}
+
+.playlist-info-place{
+    margin-right: 10%;
 }

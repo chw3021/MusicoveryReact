@@ -22,7 +22,7 @@ const Quiz = () => {
             console.error("가수명을 입력하세요.");
             return;
         }
-
+    
         setLoading(true);
         try {
             const response = await axiosInstance.get(`/api/quizlist`, { params: { artist } });
@@ -30,8 +30,17 @@ const Quiz = () => {
                 console.error("노래 목록이 없습니다.");
                 return;
             }
-
-            const shuffledSongs = response.data.sort(() => 0.5 - Math.random());
+    
+            // 제목을 정제하여 저장
+            const cleanedSongs = response.data.map(song => ({
+                ...song,
+                title: song.title
+                    .split(/[([{['"]/)[0] // 여러 구분자로 나누기
+                    .replace(/[\(\)\[\]{}'"]/g, '') // 괄호와 따옴표 제거
+                    .trim()
+            }));
+    
+            const shuffledSongs = cleanedSongs.sort(() => 0.5 - Math.random());
             const selectedSongs = shuffledSongs.slice(0, 10);
             setSongs(selectedSongs);
             console.log("노래 목록:", selectedSongs);
@@ -95,12 +104,7 @@ const Quiz = () => {
             }
             const randomSong = remainingSongs[Math.floor(Math.random() * remainingSongs.length)];
             const encodedArtist = encodeURIComponent(randomSong.artist);
-            const title = randomSong.title
-                .split(/[([{['"]/)[0] // 여러 구분자로 나누기
-                .replace(/[\(\)\[\]{}'"]/g, '') // 괄호와 따옴표 제거
-                .trim(); // 앞뒤 공백 제거
-            
-            const encodedTitle = encodeURIComponent(title);
+            const encodedTitle = encodeURIComponent(randomSong.title);
 
             const response = await axiosInstance.get(`/api/lyrics`, {
                 params: { artist: encodedArtist, title: encodedTitle }
@@ -134,8 +138,8 @@ const Quiz = () => {
         const utterance = new SpeechSynthesisUtterance(lyricsText);
 
         utterance.lang = "ko-KR";
-        utterance.rate = Math.random() * (1.5 - 0.8) + 0.8;//0.9;
-        utterance.pitch = Math.random() * (1.5 - 0.8) + 0.8;
+        utterance.rate = Math.random() * (10 - 0.1) + 0.1;  // 음성의 속도 0.1 ~ 10 사이의 랜덤 값
+        utterance.pitch = Math.random() * (2 - 0.1) + 0.1;  // 음성의 피치 0.1 ~ 2 사이의 랜덤 값
         utterance.volume = 1.0;
 
         setSynth(speechSynth);
