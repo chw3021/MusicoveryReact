@@ -85,7 +85,6 @@ const Home = () => {
             임시 로그인(스포티파이로 로그인)
           </button>
           <button
-            href="#/admin"
             className="hero-button3"
             onClick={adminLoginClick}
           >

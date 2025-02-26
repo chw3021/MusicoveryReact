@@ -43,7 +43,7 @@ const PostDetail = ({ post, onBack }) => {
 
         const fetchReplies = async () => {
             try {
-                const response = await axiosInstance.get(`/post/reply/${post.id}`);
+                const response = await axiosInstance.get(`/post/replies/${post.id}`);
                 setReplies(response.data);
                 console.log("Fetched replies:", response.data); // 로깅 추가
             } catch (error) {
@@ -95,7 +95,7 @@ const PostDetail = ({ post, onBack }) => {
             await axiosInstance.post(`/post/reply/${post.id}`, null, {
                 params: { userId: userInfo.userId, content: newReply },
             });
-            setReplies([...replies, { user: userInfo, content: newReply }]);
+            setReplies([...replies, { user: userInfo, content: newReply, createdDate: new Date() }]);
             setNewReply("");
         } catch (error) {
             console.error("Error adding reply", error);
@@ -103,7 +103,16 @@ const PostDetail = ({ post, onBack }) => {
             setIsSubmitting(false); // 로딩 상태 종료
         }
     };
-
+    const handleReplyDelete = async (replyId, currentPostId) => {
+        try {
+            await axiosInstance.delete(`/post/replydelete/${replyId}`, {
+                params: { postId: currentPostId },
+            });
+            setReplies(replies.filter(reply => reply.id !== replyId));
+        } catch (error) {
+            console.error("Error deleting reply", error);
+        }
+    };
     const handleEditClick = () => {
         setIsEditing(true); // 수정 모드 활성화
         setEditedTitle(currentPost.title); // 수정 모드 시작 시 제목 초기화
@@ -159,29 +168,33 @@ const PostDetail = ({ post, onBack }) => {
     return (
         <div className="post-detail">
             <div className="post-meta">
-                <span>조회수: {currentPost.viewCount}</span>
-                <button className="back-button" onClick={onBack}>뒤로가기</button>
-                <button className="like-button" onClick={handleLike} disabled={isLiking}>
-                    {isLiking ? "좋아요 반영 중..." : `👍 ${likeCount}`}
-                </button>
+                <div className="post-meta-top">
+                    <span>조회수: {currentPost.viewCount}</span>
+                    <button className="back-button" onClick={onBack}>뒤로가기</button>
+                    <button className="like-button" onClick={handleLike} disabled={isLiking}>
+                        {isLiking ? "좋아요 반영 중..." : `👍 ${likeCount}`}
+                    </button>
+                </div>
+                <div className="post-meta-bottom">
                 {/* 수정 및 삭제 버튼 추가 */}
                 {userInfo && currentPost.user.userId === userInfo.userId && (
                     <>
                         {isEditing ? (
                             <>
-                                <button className="save-button" onClick={handleUpdate}>저장</button>
-                                <button className="cancel-button" onClick={handleEditCancel}>취소</button>
+                                <button className="post-meta-bottom-button" onClick={handleUpdate}>저장</button>
+                                <button className="post-meta-bottom-button" onClick={handleEditCancel}>취소</button>
                             </>
                         ) : (
                             <>
-                                <button className="edit-button" onClick={handleEditClick} disabled={isUpdating}>
+                                <button className="post-meta-bottom-button" onClick={handleEditClick} disabled={isUpdating}>
                                     {isUpdating ? "수정 중..." : "수정"}
                                 </button>
-                                <button className="delete-button" onClick={handleDelete}>삭제</button>
+                                <button className="post-meta-bottom-button" onClick={handleDelete}>삭제</button>
                             </>
                         )}
                     </>
                 )}
+                </div>
             </div>
             {isEditing ? (
                 <>
@@ -209,10 +222,14 @@ const PostDetail = ({ post, onBack }) => {
             {playlist ? (
                 <div className="playlist-detail">
                     <h3>플레이리스트 정보</h3>
-                    <p>제목: {playlist.playlistTitle}</p>
-                    <p>설명: {playlist.playlistComment}</p>
-                    <p>작성일: {new Date(playlist.playlistDate).toLocaleDateString()}</p>
-                    <img src={playlist.playlistPhoto} alt="Playlist" />
+                    <div className="post-playlist-meta">
+                        <img className="post-playlist-meta-image" src={ getImageUrl(playlist.playlistPhoto)} alt="Playlist" />
+                        <div className="post-playlist-meta-text">
+                            <p>제목: {playlist.playlistTitle}</p>
+                            <p>설명: {playlist.playlistComment}</p>
+                            <p>작성일: {new Date(playlist.playlistDate).toLocaleDateString()}</p>
+                        </div>
+                    </div>
                     <div className="playlist-tracks">
                         {playlist.tracksData.map((track, index) => (
                             <Music key={index} track={track} />
@@ -236,12 +253,22 @@ const PostDetail = ({ post, onBack }) => {
                         {isSubmitting ? "댓글 작성 중..." : "댓글 작성"}
                     </button>
                 </div>
-                <div className="comments-list">
+                <div className="post-comments-list">
                     {replies.length > 0 ? (
                         replies.map((reply, index) => (
-                            <div key={index} className="comment">
-                                <span className="comment-author">{reply.user.nickname}:</span>
-                                <span className="comment-content">{reply.content}</span>
+                            <div key={index} className="post-comment-item">
+                                <div className="post-comment-text">
+                                    <span className="comment-author">{reply.user.nickname}:</span>
+                                    <span className="comment-content">{reply.content}</span>
+                                </div>
+                                <div className="post-comment-button">
+                                    <div>
+                                        {new Date(reply.createdDate).toLocaleDateString()}
+                                    </div>
+                                    {userInfo && reply.user.userId === userInfo.userId && (
+                                        <button onClick={() => handleReplyDelete(reply.id, currentPost.id)}>삭제</button>       
+                                    )}                          
+                                </div>
                             </div>
                         ))
                     ) : (

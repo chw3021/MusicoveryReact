@@ -7,11 +7,28 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.post-meta {
+.post-meta > div{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+}
+
+.post-meta-bottom-button{
+    cursor: pointer;
+    border: none;
+    padding: 6px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    background-color: #ebf4ff;
+}
+
+.post-meta-bottom-button:hover{
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    color: white;
 }
 
 .like-button {
@@ -21,6 +38,7 @@
     font-size: 16px;
     color: #007bff;
     transition: color 0.3s ease;
+    
 }
 
 .like-button:hover {
@@ -41,13 +59,36 @@
     padding: 15px;
     border-radius: 8px;
     background: #b8b8b8;
+    height: 30rem;
+    overflow-y: scroll;
+    white-space: inherit;
 }
 
+.post-playlist-meta{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #ebf4ff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.post-playlist-meta > .post-playlist-meta-text{
+    width: 70%;
+    color: #000000;
+}
+.post-playlist-meta > .post-playlist-meta-image{
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}
 .playlist-tracks {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
+    justify-content: center;
 }
 
 .comments-section {
@@ -62,7 +103,7 @@
 }
 
 .comment-input textarea {
-    width: 100%;
+    width: 95%;
     height: 100px;
     padding: 10px;
     border-radius: 4px;
@@ -83,20 +124,47 @@
     background-color: #218838;
 }
 
-.comments-list {
+.post-comments-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.comment {
+.post-comment-item {
     padding: 10px;
     border-radius: 4px;
     color: #000000;
     background-color: #f8f9fa;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+}
+
+.post-comment-text {
+    max-width: 70%;
+}
+.post-comment-item>.post-comment-button {
+    max-width: 15%;
+    padding: 10px;
+    border-radius: 4px;
+    color: #000000;
+    background-color: #f8f9fa;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.post-comment-button>button{
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.post-comment-button>button:hover {
+    background-color: #c82333;
 }
 
 .comment-author {
