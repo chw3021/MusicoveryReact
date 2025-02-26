@@ -172,6 +172,7 @@ const Quiz = () => {
                 <div className="content-wrapper">
                     <div className="quiz-content">
                         <h2 className="quiz-title">🎵 AI 가사 맞히기 퀴즈</h2>
+                    <div className="oneLineView">
                         <div className="search-box">
                             <input 
                                 type="text" 
@@ -190,13 +191,16 @@ const Quiz = () => {
                                 {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
                             </button>
                         )}
-                      
+                        <div className="rankingPart">랭킹</div>
+                    </div>
+                    
+                    <div className="stopBtnplace">
                         {isSpeaking && (
                             <button className="quiz-button" onClick={handleStopSpeaking}>
                                 음성 멈추기
                             </button>
                         )}
-                       
+                    </div>   
                         {currentTitle && (
                             <div className="guess-box">
                                 <input 
