@@ -7,13 +7,14 @@ import Nav from "../common/Nav";
 const Quiz = () => {
     const [artist, setArtist] = useState("");
     const [songs, setSongs] = useState([]);
+    const [matchedSongs, setMatchedSongs] = useState([]); // 맞춘 노래 목록
     const [lyrics, setLyrics] = useState("");
     const [loading, setLoading] = useState(false);
     const [currentTitle, setCurrentTitle] = useState("");
     const [userInput, setUserInput] = useState("");
     const [synth, setSynth] = useState(null);
     const [isSpeaking, setIsSpeaking] = useState(false);
-    const [showFetchLyricsButton, setShowFetchLyricsButton] = useState(false); // 추가된 상태
+    const [showFetchLyricsButton, setShowFetchLyricsButton] = useState(false);
 
     const handleFetchSongs = async (event) => {
         event.preventDefault();
@@ -22,7 +23,7 @@ const Quiz = () => {
             return;
         }
 
-        setLoading(true); // 로딩 시작
+        setLoading(true);
         try {
             const response = await axiosInstance.get(`/api/quizlist`, { params: { artist } });
             if (response.data.length === 0) {
@@ -34,11 +35,11 @@ const Quiz = () => {
             const selectedSongs = shuffledSongs.slice(0, 10);
             setSongs(selectedSongs);
             console.log("노래 목록:", selectedSongs);
-            setShowFetchLyricsButton(true); // 버튼 표시 설정
+            setShowFetchLyricsButton(true);
         } catch (error) {
             console.error("노래 목록을 가져오는 중 오류 발생:", error);
         } finally {
-            setLoading(false); // 로딩 종료
+            setLoading(false);
         }
     };
 
@@ -46,19 +47,17 @@ const Quiz = () => {
         event.preventDefault();
         const normalizedInput = userInput.trim().toLowerCase();
         const normalizedTitle = currentTitle.toLowerCase();
-    
+
         try {
             console.log(`/api/sometitle 요청: title=${currentTitle}`);
             const response = await axiosInstance.get('/api/sometitle', {
-                params: {
-                    title: currentTitle
-                }
+                params: { title: currentTitle }
             });
             console.log(`/api/sometitle 응답:`, response.data);
-    
+
             const alternativeTitles = response.data || [];
             const normalizedAlternatives = alternativeTitles.map(title => title.trim().toLowerCase());
-    
+
             if (normalizedInput === normalizedTitle || normalizedAlternatives.includes(normalizedInput)) {
                 alert("정답입니다! 같은 아티스트의 다른 곡을 맞춰보세요.");
                 if (synth) {
@@ -66,6 +65,9 @@ const Quiz = () => {
                     setIsSpeaking(false);
                 }
                 setUserInput("");
+
+                // 맞춘 노래를 matchedSongs에 추가
+                setMatchedSongs(prev => [...prev, currentTitle]);
                 fetchLyrics();
             } else {
                 alert("틀렸습니다. 다시 시도해 보세요.");
@@ -82,28 +84,38 @@ const Quiz = () => {
             console.error("노래 목록이 없습니다.");
             return;
         }
-    
+
         setLoading(true);
         try {
-            const randomSong = songs[Math.floor(Math.random() * songs.length)];
+            // 맞춘 노래를 제외한 나머지 노래 중에서 랜덤 선택
+            const remainingSongs = songs.filter(song => !matchedSongs.includes(song.title));
+            if (remainingSongs.length === 0) {
+                console.log("모든 노래를 맞추셨습니다!");
+                return;
+            }
+            const randomSong = remainingSongs[Math.floor(Math.random() * remainingSongs.length)];
             const encodedArtist = encodeURIComponent(randomSong.artist);
-            const encodedTitle = encodeURIComponent(randomSong.title);
-    
+            const title = randomSong.title
+                .split(/[([{['"]/)[0] // 여러 구분자로 나누기
+                .replace(/[\(\)\[\]{}'"]/g, '') // 괄호와 따옴표 제거
+                .trim(); // 앞뒤 공백 제거
+            
+            const encodedTitle = encodeURIComponent(title);
+
             const response = await axiosInstance.get(`/api/lyrics`, {
                 params: { artist: encodedArtist, title: encodedTitle }
             });
-    
+
             setLyrics(response.data.lyrics);
             setCurrentTitle(randomSong.title);
             speakLyrics(response.data.lyrics);
-    
+
             console.log("제목:", randomSong.title);
         } catch (error) {
             if (error.response && error.response.status === 429) {
                 console.error("요청 제한 초과. 잠시 후 다시 시도해주세요.");
                 alert("서버에 과도한 요청을 보내고 있습니다. 잠시 후 다시 시도해주세요.");
-                // Optional: Delay before trying again
-                setTimeout(fetchLyrics, 5000); // 5초 후 재시도
+                setTimeout(fetchLyrics, 5000);
             } else {
                 console.error("가사를 불러오는 중 오류 발생:", error);
             }
@@ -122,7 +134,7 @@ const Quiz = () => {
         const utterance = new SpeechSynthesisUtterance(lyricsText);
 
         utterance.lang = "ko-KR";
-        utterance.rate = 0.9;
+        utterance.rate = Math.random() * (1.5 - 0.8) + 0.8;//0.9;
         utterance.pitch = Math.random() * (1.5 - 0.8) + 0.8;
         utterance.volume = 1.0;
 
@@ -167,12 +179,12 @@ const Quiz = () => {
                                 placeholder="가수명을 입력하세요" 
                                 value={artist} 
                                 onChange={(e) => setArtist(e.target.value)}
-                                onKeyPress={handleKeyPress} // Enter 키 이벤트 추가
+                                onKeyPress={handleKeyPress}
                                 name="artist"
                             />
                             <button className="quiz-button" onClick={handleFetchSongs}>노래 가져오기</button>
                         </div>
-                        {showFetchLyricsButton && ( // 조건부 렌더링
+                        {showFetchLyricsButton && (
                             <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
                                 {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
                             </button>
@@ -190,7 +202,7 @@ const Quiz = () => {
                                     placeholder="노래 제목을 맞혀보세요"
                                     value={userInput}
                                     onChange={(e) => setUserInput(e.target.value)}
-                                    onKeyPress={handleKeyPress} // Enter 키 이벤트 추가
+                                    onKeyPress={handleKeyPress}
                                     name="userInput"
                                 />
                                 <button className="quiz-button" type="submit" onClick={handleSubmitGuess}>확인</button>
