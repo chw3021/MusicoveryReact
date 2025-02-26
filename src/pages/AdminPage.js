@@ -9,7 +9,6 @@ const AdminPage = () => {
     const menuItems = [
         { id: "dashboard", label: "📊 대시보드" },
         { id: "users", label: "👤 사용자 관리" },
-        { id: "content", label: "📝 콘텐츠 관리" },
         { id: "support", label: "📞 고객 지원" }
     ];
 
@@ -19,8 +18,6 @@ const AdminPage = () => {
                 return <AdminDashboard />;
             case "users":
                 return <div>👤 사용자 관리</div>;
-            case "content":
-                return <div>📝 콘텐츠 관리</div>;
             case "support":
                 return <div>📞 고객 지원</div>;
             default:
