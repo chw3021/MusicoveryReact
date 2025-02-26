@@ -182,18 +182,21 @@ const Quiz = () => {
                                 onKeyPress={handleKeyPress}
                                 name="artist"
                             />
-                            <button className="quiz-button" onClick={handleFetchSongs}>노래 가져오기</button>
+                            <button className="quiz-button2" onClick={handleFetchSongs}>가수 선택</button>
                         </div>
+                       
                         {showFetchLyricsButton && (
                             <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
                                 {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
                             </button>
                         )}
+                      
                         {isSpeaking && (
                             <button className="quiz-button" onClick={handleStopSpeaking}>
                                 음성 멈추기
                             </button>
                         )}
+                       
                         {currentTitle && (
                             <div className="guess-box">
                                 <input 
@@ -205,7 +208,7 @@ const Quiz = () => {
                                     onKeyPress={handleKeyPress}
                                     name="userInput"
                                 />
-                                <button className="quiz-button" type="submit" onClick={handleSubmitGuess}>확인</button>
+                                <button className="quiz-button2" type="submit" onClick={handleSubmitGuess}>확인</button>
                             </div>
                         )}
                     </div>
