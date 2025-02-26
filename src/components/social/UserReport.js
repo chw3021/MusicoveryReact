@@ -55,6 +55,7 @@ const UserReport = () => {
             setReportReason("");
             setCustomReason(""); // 제출 후 자유 입력 필드 초기화
             fetchReports(); // 신고 후 리스트 업데이트
+            window.location.reload(); // 신고 후 페이지 새로고침
         } catch (error) {
             console.error("신고 중 오류 발생:", error);
         }
@@ -69,9 +70,10 @@ const UserReport = () => {
                     <input
                         type="text"
                         placeholder="신고할 사용자 ID"
-                        value={reportedUserId}
+                        value={location.state.reportedUser.nickname}
                         onChange={(e) => setReportedUserId(e.target.value)}
                         required
+                        disabled
                     />
                     <input
                         type="text"
@@ -110,8 +112,10 @@ const UserReport = () => {
                 <ul>
                     {reports.map((report) => (
                         <li key={report.id}>
-                            <strong>신고된 사용자:</strong> {report.reported.nickname} | 
-                            <strong> 사유:</strong> {report.reason}
+                            <div className="report-list-item">
+                                <strong>신고된 사용자: {report.reportedUser.nickname}</strong>
+                                <strong> 사유: {report.reason}</strong>
+                            </div>
                         </li>
                     ))}
                 </ul>
