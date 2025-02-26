@@ -165,7 +165,7 @@ const ChatRoom = () => {
                                     <button onClick={toggleStreamingTracks}>
                                         {isOpen ? '접기' : '펼쳐보기'} {/* 버튼 텍스트 변경 */}
                                     </button>
-                                </div> 
+                                    </div> 
                                         {isOpen && ( // 조건부 렌더링
                                         <div className="content-nav2">
                                             <div className="streaming-tracks">
@@ -173,12 +173,13 @@ const ChatRoom = () => {
                                                     <Music key={index} track={track} />
                                                 ))}
                                             </div>
+                                            
                                         </div>
                                        
                                     )}
                                 </div>
                         ) : (
-                            <p>플레이리스트 정보가 없습니다.</p>
+                            <p className="playlist-info-place">플레이리스트 정보가 없습니다.</p>
                         )}
                         <div className="chat-messages-input-wrapper">
                             <div className="chat-messages">
