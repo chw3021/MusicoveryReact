@@ -1,8 +1,7 @@
 .track-item {
     display: flex;
     align-items: center;
-    width: 95%;
-    gap: 10px;
+    width: 86%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -98,4 +97,254 @@
     width: 100px;
     height: 100px;
     border-radius: 5px;
+}
+
+.track-play-button-container {
+    width: 30%;
+}
+
+/* 플레이리스트 모달 관련 스타일 */
+.add-track-to-playlist-button {
+    background: none;
+    border: none;
+    color: #1DB954;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: transform 0.2s;
+}
+
+.add-track-to-playlist-button:hover {
+    color: #25e868;
+    transform: scale(1.2);
+}
+
+.playlist-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.playlist-modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f8f8;
+}
+
+.playlist-modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.playlist-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.playlist-modal-close:hover {
+    color: #ff4d4d;
+}
+
+.playlist-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.playlist-modal-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.playlist-modal-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+.playlist-modal-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.playlist-modal-item input[type="checkbox"] {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.playlist-modal-item input[type="checkbox"]:checked + .playlist-modal-label {
+    background-color: rgba(29, 185, 84, 0.1);
+    border: 1px solid #1DB954;
+}
+
+.playlist-modal-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.playlist-modal-image-container {
+    width: 100%;
+    height: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.playlist-modal-image {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s;
+}
+
+.playlist-modal-item:hover .playlist-modal-image {
+    transform: scale(1.05);
+}
+
+.playlist-modal-no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    color: #999;
+    font-size: 14px;
+}
+
+.playlist-modal-name {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+    margin-top: 5px;
+}
+
+.playlist-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f8f8f8;
+}
+
+.add-track-to-playlist-button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 8px 13px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 6px;
+    font-weight: bold;
+    font-size: 11px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-track-to-playlist-button:hover {
+    background-color: #25e868;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-track-to-playlist-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 로딩 및 빈 상태 메시지 스타일 */
+.playlist-modal-body p {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-size: 16px;
+}
+
+/* 체크박스 스타일 향상 */
+.playlist-modal-item input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-modal-item input[type="checkbox"]:checked {
+    background-color: #1DB954;
+    border-color: #1DB954;
+}
+
+.playlist-modal-item input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
 }

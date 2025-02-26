@@ -4,6 +4,7 @@ import ReadMoreItem from "../playlist/ReadMoreItem";
 import ReadMoreList from "../playlist/ReadMoreList";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import axiosInstance from "../../api/axiosInstance";
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const PostForm = ({ onSubmit, onCancel }) => {
     const [title, setTitle] = useState("");
@@ -54,7 +55,7 @@ const PostForm = ({ onSubmit, onCancel }) => {
             setSelectedPlaylist(playlist); // 선택된 아이템으로 업데이트
         }
     };
-    const defaultImage = `${process.env.REACT_APP_API_URL}/images/default.png`;
+    const defaultImage = getDefaultImage();
 
     return (
         <div className="post-form">

@@ -4,8 +4,7 @@
 // import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import ReadMoreList from "../components/playlist/ReadMoreList";
-import { useContext, useEffect, useState } from "react";
-import { ReadMoreStateContext } from "../App";
+import { useEffect, useState } from "react";
 import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate } from "react-router-dom";
 import "../styles/PlaylistPage.css";
@@ -15,7 +14,7 @@ import useUserInfo from "../hooks/useUserInfo"; // useUserInfo 임포트
 
 
 const PlaylistPage = () =>{
-    const data = useContext(ReadMoreStateContext);
+    const data = '';
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
     const navigate = useNavigate();

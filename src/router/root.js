@@ -4,9 +4,9 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
-import SpotifyLoginPage from "../pages/SpotifyLoginPage";
+import LoginPage from "../pages/LoginPage";
+import VerifyPage from "../pages/VerifyPage";
 
 const Loading = <div>Loading...</div>;
 
@@ -214,14 +214,6 @@ const root = createBrowserRouter(
       />
 
       <Route
-        path="Login"
-        element={
-          <Suspense fallback={Loading}>
-            <LoginPage />
-          </Suspense>
-        }
-      />
-      <Route
         path="Signup"
         element={
           <Suspense fallback={Loading}>
@@ -231,10 +223,19 @@ const root = createBrowserRouter(
       />
 
       <Route
-        path="spotify-login"
+        path="login"
         element={
           <Suspense fallback={Loading}>
-            <SpotifyLoginPage />
+            <LoginPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="verify"
+        element={
+          <Suspense fallback={Loading}>
+            <VerifyPage />
           </Suspense>
         }
       />

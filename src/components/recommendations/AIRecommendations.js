@@ -7,6 +7,7 @@ import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const AIRecommendations = () => {
     const navigate = useNavigate();
@@ -70,6 +71,7 @@ const AIRecommendations = () => {
         setState((prev) => ({ ...prev, loading: true }));
         try {
             const response = await axiosInstance.get(`/recommendation/ai?userId=${state.user.userId}`);
+            console.log("추천된 트랙 목록:", response);
             if (response.status === 204) {
                 // AI 추천 실패
                 //console.log("AI 추천 실패: 서버에서 빈 응답을 받았습니다.");
@@ -79,10 +81,12 @@ const AIRecommendations = () => {
                     showSaveForm: false,
                     aiFailed: true, // AI 추천 실패 설정
                 }));
+                // AI 모델 학습 호출
+                trainModel();
                 // 깜짝 추천 가져오기
                 getSurpriseRecommendations();
             } else {
-                const parsedRecommendations = response.data.map(item => JSON.parse(item).tracks.items[0]);
+                const parsedRecommendations = response.data.tracks;
                 setState((prev) => ({
                     ...prev,
                     recommendations: parsedRecommendations,
@@ -90,13 +94,20 @@ const AIRecommendations = () => {
                     showSaveForm: true,
                     aiFailed: false, // AI 추천 성공 설정
                 }));
-                //console.log("추천된 트랙 목록:", parsedRecommendations);
             }
         } catch (error) {
             //console.error("추천 요청 실패:", error);
             setState((prev) => ({ ...prev, loading: false, aiFailed: true })); // AI 추천 실패 설정
             // 깜짝 추천 가져오기
             getSurpriseRecommendations();
+        }
+    };
+    const trainModel = async () => {
+        try {
+            const response = await axiosInstance.post('/recommendation/train');
+            console.log("AI 모델 학습 결과:", response.data);
+        } catch (error) {
+            console.error("AI 모델 학습 중 오류 발생:", error);
         }
     };
 
@@ -134,7 +145,7 @@ const AIRecommendations = () => {
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
         } else {
-            formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
+            formData.append("playlistPhoto", getDefaultImage());
         }
 
         axiosInstance.post("/playlist/create", formData, {
@@ -188,16 +199,16 @@ const AIRecommendations = () => {
                                 <h5>추천된 트랙 목록</h5>
                                 <ul>
                                     {state.recommendations.map((track, index) => (
-                                        <li key={index}>
+                                        <li className="keyword-recommendations-list-item" key={index}>
                                             <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                            <button onClick={() => removeTrack(track.id)}>제거</button>
+                                            <button onClick={() => removeTrack(track.id)}>❌</button>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         )}
                         {state.showSaveForm && (
-                            <div>
+                            <div className="playlist-save-form">
                                 <h5>플레이리스트 저장</h5>
                                 <div className="form-group">
                                     <label htmlFor="playlistDate">생성일자</label>
@@ -217,19 +228,24 @@ const AIRecommendations = () => {
                                         accept="image/*" // 이미지 파일만 허용
                                     />
                                 </div>
-                                <input
-                                    type="text"
-                                    name="playlistTitle"
-                                    value={state.playlistTitle}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 제목을 입력하세요..."
-                                />
-                                <textarea
-                                    name="playlistComment"
-                                    value={state.playlistComment}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 설명을 입력하세요..."
-                                ></textarea>
+                                
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        name="playlistTitle"
+                                        value={state.playlistTitle}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 제목을 입력하세요..."
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <textarea
+                                        name="playlistComment"
+                                        value={state.playlistComment}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 설명을 입력하세요..."
+                                    ></textarea>
+                                </div>
                                 <Button text="저장하기" onClick={handleSave} />
                             </div>
                         )}

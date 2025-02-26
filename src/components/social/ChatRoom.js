@@ -8,6 +8,7 @@ import { Client } from "@stomp/stompjs";
 import "../../styles/ChatRoom.css";
 import { parseTracks } from "../../utils/trackUtils";
 import Music from "../music/Music";
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const ChatRoom = () => {
     const { streamId } = useParams();
@@ -90,7 +91,7 @@ const ChatRoom = () => {
                     setPlaylist({
                         ...response.data.playlist,
                         tracksData: trackList,
-                        playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
+                        playlistPhoto: response.data.playlist.playlistPhoto || getDefaultImage(), // 기본 이미지 설정
                     });
                 } catch (error) {
                     console.error("Error fetching playlist detail", error);
@@ -149,19 +150,22 @@ const ChatRoom = () => {
 
                 <div>
                     <div className="chat-wrapper">
-                    <div className="exit">
-                        <Link to="/social"><button>나가기</button></Link>
-                    </div>
-                        <h2 className="chat-title">
-                            {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}
-                        </h2>
+                        <div className="exit">
+                            <h2 className="chat-title">
+                                {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}
+                                <Link to="/social"><button>나가기</button></Link>
+                            </h2>
+                        </div>
+
                         {playlist ? ( // playlist 상태 사용
                             <div className="playlist-info">
-                                <p><strong>설명:</strong> {playlist.playlistComment || "설명이 없습니다."}</p>
-                                <p><strong>트랙 수:</strong> {playlist.tracksData ? playlist.tracksData.length : 0}곡</p>
-                                <button onClick={toggleStreamingTracks}>
-                                    {isOpen ? '접기' : '펼쳐보기'} {/* 버튼 텍스트 변경 */}
-                                </button>
+                                <div className="playlist-info-place">
+                                    <p id="explain"><strong>설명:</strong> {playlist.playlistComment || "설명이 없습니다."}</p>
+                                    <p><strong>트랙 수:</strong> {playlist.tracksData ? playlist.tracksData.length : 0}곡</p>
+                                    <button onClick={toggleStreamingTracks}>
+                                        {isOpen ? '접기' : '펼쳐보기'} {/* 버튼 텍스트 변경 */}
+                                    </button>
+                                    </div> 
                                         {isOpen && ( // 조건부 렌더링
                                         <div className="content-nav2">
                                             <div className="streaming-tracks">
@@ -169,11 +173,13 @@ const ChatRoom = () => {
                                                     <Music key={index} track={track} />
                                                 ))}
                                             </div>
+                                            
                                         </div>
+                                       
                                     )}
                                 </div>
                         ) : (
-                            <p>플레이리스트 정보가 없습니다.</p>
+                            <p className="playlist-info-place">플레이리스트 정보가 없습니다.</p>
                         )}
                         <div className="chat-messages-input-wrapper">
                             <div className="chat-messages">

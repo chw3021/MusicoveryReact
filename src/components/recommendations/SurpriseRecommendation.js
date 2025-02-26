@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo";
 import useMusicSearch from "../../hooks/useMusicSearch";
 import "../../styles/KeywordRecommendation.css";
+import { getDefaultImage } from '../../utils/imageUtils';
 
 function SurpriseRecommendation() {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ function SurpriseRecommendation() {
         loading: false,
         showSaveForm: true,
       }));
-      console.log("추천된 트랙 목록:", parsedRecommendations);
+      //console.log("추천된 트랙 목록:", parsedRecommendations);
     } catch (error) {
       console.error('추천 목록을 가져오는 중 오류 발생:', error);
       setState((prev) => ({ ...prev, loading: false }));
@@ -97,7 +98,7 @@ function SurpriseRecommendation() {
     if (state.playlistPhoto) {
       formData.append("playlistPhoto", state.playlistPhoto);
     } else {
-      formData.append("playlistPhoto", `${process.env.REACT_APP_API_URL}/images/default.png`);
+      formData.append("playlistPhoto",getDefaultImage());
     }
 
     axiosInstance.post("/playlist/create", formData, {
@@ -106,7 +107,7 @@ function SurpriseRecommendation() {
       },
     })
       .then(response => {
-        console.log("✅ 플레이리스트 생성 완료:", response.data);
+        //console.log("✅ 플레이리스트 생성 완료:", response.data);
         navigate("/PlaylistPage");
       })
       .catch(error => {
@@ -143,16 +144,16 @@ function SurpriseRecommendation() {
                 <h5>추천된 트랙 목록</h5>
                 <ul>
                   {state.recommendations.map((track, index) => (
-                    <li key={index}>
+                    <li className="keyword-recommendations-list-item" key={index}>
                       <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                      <button onClick={() => removeTrack(track.id)}>제거</button>
+                      <button onClick={() => removeTrack(track.id)}>❌</button>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
             {state.showSaveForm && (
-              <div>
+              <div className="playlist-save-form">
                 <h5>플레이리스트 저장</h5>
                 <div className="form-group">
                   <label htmlFor="playlistDate">생성일자</label>
@@ -172,19 +173,23 @@ function SurpriseRecommendation() {
                     accept="image/*" // 이미지 파일만 허용
                   />
                 </div>
-                <input
-                  type="text"
-                  name="playlistTitle"
-                  value={state.playlistTitle}
-                  onChange={handleChange}
-                  placeholder="플레이리스트 제목을 입력하세요..."
-                />
-                <textarea
-                  name="playlistComment"
-                  value={state.playlistComment}
-                  onChange={handleChange}
-                  placeholder="플레이리스트 설명을 입력하세요..."
-                ></textarea>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        name="playlistTitle"
+                        value={state.playlistTitle}
+                        onChange={handleChange}
+                        placeholder="플레이리스트 제목을 입력하세요..."
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea
+                        name="playlistComment"
+                        value={state.playlistComment}
+                        onChange={handleChange}
+                        placeholder="플레이리스트 설명을 입력하세요..."
+                    ></textarea>
+                </div>
                 <Button text="저장하기" onClick={handleSave} />
               </div>
             )}

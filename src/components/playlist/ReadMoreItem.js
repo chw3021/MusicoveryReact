@@ -3,17 +3,10 @@ import Button from "../common/Button";
 import "./ReadMoreItem.css";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
+import { getImageUrl } from '../../utils/imageUtils';
 
 const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate }) => {
     const navigate = useNavigate();
-
-    // 기본 이미지 설정
-    const defaultImage = `${process.env.react_app_api_url}/images/default.png`;  // 기본 이미지 파일 추가 필요
-
-    // playlistPhoto가 null이면 기본 이미지 사용
-    const imageUrl = playlistPhoto 
-        ? (playlistPhoto.startsWith("/images/") ? `${process.env.REACT_APP_API_URL}${playlistPhoto}` : playlistPhoto)
-        : defaultImage;
 
     const handleClick = () => {
         navigate(`/playlist/${playlistId}`); // 세부 정보 페이지로 이동
@@ -46,7 +39,7 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
 
     return (
         <div className="ReadMoreItem" onClick={handleClick}>
-            <img src={imageUrl} alt="Playlist" className="playlistPhoto" />
+            <img src={getImageUrl(playlistPhoto)} alt="Playlist" className="playlistPhoto" />
             <div className="playlistInfo">
                 <div className="playlistTitle">{playlistTitle}</div>
                 <div className="playlistComment">{playlistComment}</div>
