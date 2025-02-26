@@ -63,8 +63,6 @@ const Home = () => {
             임시 로그아웃
           </button>
           <button
-            a
-            href="#/admin"
             className="hero-button3"
             onClick={adminLoginClick}
           >

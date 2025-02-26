@@ -96,10 +96,10 @@ const AIRecommendations = () => {
                 }));
             }
         } catch (error) {
-            console.error("추천 요청 실패:", error);
+            //console.error("추천 요청 실패:", error);
             setState((prev) => ({ ...prev, loading: false, aiFailed: true })); // AI 추천 실패 설정
             // 깜짝 추천 가져오기
-            //getSurpriseRecommendations();
+            getSurpriseRecommendations();
         }
     };
     const trainModel = async () => {
