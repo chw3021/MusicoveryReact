@@ -33,7 +33,6 @@
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://cdn.pixabay.com/photo/2022/06/21/21/15/audio-7276511_1280.jpg') center/cover no-repeat;
     min-height: 828px;
-    width: 100%;
     display: flex;
 
     text-align: center;

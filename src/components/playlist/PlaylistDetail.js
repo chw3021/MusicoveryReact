@@ -7,7 +7,7 @@ import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 �
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import Button from "../common/Button"; // Button 컴포넌트 임포트
 import { parseTracks } from "../../utils/trackUtils"; // parseTracks 유틸 함수 임포트
-import { getFormattedDate } from "../../utils/util"; // getFormattedDate 유틸 함수 임포트
+import { getImageUrl } from "../../utils/imageUtils"; 
 import "./PlaylistDetail.css"; // 스타일 파일 임포트
 import Header from "../common/Header";
 
@@ -41,7 +41,7 @@ const PlaylistDetail = () => {
                     ...prevState,
                     playlistTitle: response.data.playlist.playlistTitle,
                     playlistComment: response.data.playlist.playlistComment,
-                    playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
+                    playlistPhoto: getImageUrl(response.data.playlist.playlistPhoto), // 이미지 URL 설정
                     playlistDate: response.data.playlist.playlistDate.substring(0, 10),
                     isPublic: response.data.playlist.isPublic,
                     tracksData: trackList,
@@ -129,12 +129,6 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
-    // playlistPhoto가 파일 객체인지 URL 문자열인지 확인
-    const imageUrl = state.playlistPhoto 
-        ? (typeof state.playlistPhoto === "string" && state.playlistPhoto.startsWith("/images/") 
-            ? `${SPRING_SERVER_URL}${state.playlistPhoto}` 
-            : URL.createObjectURL(state.playlistPhoto))
-        : "/images/default.png"; // 기본 이미지 설정
 
     return (
         <div className="container1">
@@ -160,7 +154,7 @@ const PlaylistDetail = () => {
                 </div>
                 <div className="playlist-detail-body">
                     <div className="playlist-detail-left">
-                        <img src={imageUrl} alt="Playlist" className="playlistPhoto" />
+                        <img src={state.playlistPhoto} alt="Playlist" className="playlistPhoto" />
                         {state.isEditing && (
                             <input type="file" onChange={handleFileChange} accept="image/*" />
                         )}

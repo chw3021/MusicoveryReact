@@ -11,6 +11,7 @@ const FriendsList = () => {
     const [showModal, setShowModal] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [activeTab, setActiveTab] = useState("search"); // 'search', 'pending', 'requests'
     const userInfo = useUserInfo();
 
     useEffect(() => {
@@ -95,7 +96,6 @@ const FriendsList = () => {
 
     return (
         <div>
-            <Header />
             <div className="friends-list-container">
                 <h2>친구 목록</h2>
                 <button onClick={() => setShowModal(true)} className="add-friend-button">친구 추가</button>
@@ -109,70 +109,105 @@ const FriendsList = () => {
                         </div>
                     ))}
                 </div>
-                <h2>요청한 목록</h2>
-                <div className="pending-requests-list">
-                    {pendingRequests.length === 0 ? (
-                        <p>요청한 목록이 없습니다.</p>
-                    ) : (
-                        pendingRequests.map((request) => (
-                            <div key={request.id} className="pending-request-item">
-                                <p>
-                                    <strong>요청한 사용자 ID:</strong> {request.friend.id}
-                                </p>
-                            </div>
-                        ))
-                    )}
-                </div>
-                <h2>받은 친구 요청</h2>
-                <div className="friend-requests-list">
-                    {friendRequests.length === 0 ? (
-                        <p>받은 요청이 없습니다.</p>
-                    ) : (
-                        friendRequests.map((request) => (
-                            <div key={request.id} className="friend-request-item">
-                                <p>
-                                    <strong>요청한 사용자 ID:</strong> {request.user.id}
-                                    <button className="accept-button" onClick={() => handleAcceptFriendRequest(request.id)}>✅</button>
-                                </p>
-                            </div>
-                        ))
-                    )}
-                </div>
             </div>
 
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">
                         <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                        <h2>친구 추가</h2>
-                        <input
-                            type="text"
-                            placeholder="검색 (ID, 이메일, 닉네임)"
-                            value={searchKeyword}
-                            onChange={(e) => setSearchKeyword(e.target.value)}
-                        />
-                        <button onClick={handleSearch}>검색</button>
-                        <div className="search-results">
-                            {searchResults.map((user) => (
-                                <div key={user.id} className="search-result-item">
-                                    <p>
-                                        <strong>ID:</strong> {user.id}
-                                    </p>
-                                    <p>
-                                        <strong>이메일:</strong> {user.email}
-                                    </p>
-                                    <p>
-                                        <strong>닉네임:</strong> {user.nickname}
-                                    </p>
-                                    <button 
-                                        onClick={() => handleAddFriend(user.id)} 
-                                        disabled={isFriendOrRequested(user.id)}
-                                    >
-                                        {isFriendOrRequested(user.id) ? "요청됨" : "친구 추가"}
-                                    </button>
-                                </div>
-                            ))}
+                        <div className="modal-tabs">
+                            <button 
+                                className={`modal-tab-button ${activeTab === "search" ? "active" : ""}`}
+                                onClick={() => setActiveTab("search")}
+                            >
+                                친구 검색
+                            </button>
+                            <button 
+                                className={`modal-tab-button ${activeTab === "pending" ? "active" : ""}`}
+                                onClick={() => setActiveTab("pending")}
+                            >
+                                요청한 목록
+                            </button>
+                            <button 
+                                className={`modal-tab-button ${activeTab === "requests" ? "active" : ""}`}
+                                onClick={() => setActiveTab("requests")}
+                            >
+                                받은 친구 요청
+                            </button>
                         </div>
+
+                        {activeTab === "search" && (
+                            <div className="friendlist-search-tab">
+                                <h2>친구 추가</h2>
+                                <input
+                                    type="text"
+                                    placeholder="검색 (ID, 이메일, 닉네임)"
+                                    value={searchKeyword}
+                                    onChange={(e) => setSearchKeyword(e.target.value)}
+                                />
+                                <button onClick={handleSearch}>검색</button>
+                                <div className="search-results">
+                                    {searchResults.map((user) => (
+                                        <div key={user.id} className="search-result-item">
+                                            <p>
+                                                <strong>ID:</strong> {user.id}
+                                            </p>
+                                            <p>
+                                                <strong>이메일:</strong> {user.email}
+                                            </p>
+                                            <p>
+                                                <strong>닉네임:</strong> {user.nickname}
+                                            </p>
+                                            <button 
+                                                onClick={() => handleAddFriend(user.id)} 
+                                                disabled={isFriendOrRequested(user.id)}
+                                            >
+                                                {isFriendOrRequested(user.id) ? "요청됨" : "친구 추가"}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === "pending" && (
+                            <div className="friendlist-pending-tab">
+                                <h2>요청한 목록</h2>
+                                <div className="pending-requests-list">
+                                    {pendingRequests.length === 0 ? (
+                                        <p>요청한 목록이 없습니다.</p>
+                                    ) : (
+                                        pendingRequests.map((request) => (
+                                            <div key={request.id} className="pending-request-item">
+                                                <p>
+                                                    <strong>요청한 사용자 ID:</strong> {request.friend.id}
+                                                </p>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === "requests" && (
+                            <div className="friendlist-requests-tab">
+                                <h2>받은 친구 요청</h2>
+                                <div className="friend-requests-list">
+                                    {friendRequests.length === 0 ? (
+                                        <p>받은 요청이 없습니다.</p>
+                                    ) : (
+                                        friendRequests.map((request) => (
+                                            <div key={request.id} className="friend-request-item">
+                                                <p>
+                                                    <strong>요청한 사용자 ID:</strong> {request.user.id}
+                                                    <button className="accept-button" onClick={() => handleAcceptFriendRequest(request.id)}>✅</button>
+                                                </p>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

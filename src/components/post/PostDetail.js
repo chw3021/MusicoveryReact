@@ -5,6 +5,7 @@ import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import { parseTracks } from "../../utils/trackUtils";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
+import { getImageUrl } from "../../utils/imageUtils";
 
 const PostDetail = ({ post, onBack }) => {
     const [playlist, setPlaylist] = useState(null);
@@ -33,7 +34,7 @@ const PostDetail = ({ post, onBack }) => {
                 setPlaylist({
                     ...response.data.playlist,
                     tracksData: trackList,
-                    playlistPhoto: response.data.playlist.playlistPhoto || "/images/default.png", // 기본 이미지 설정
+                    playlistPhoto: getImageUrl(response.data.playlist.playlistPhoto), // 기본 이미지 설정
                 });
             } catch (error) {
                 console.error("Error fetching playlist detail", error);
