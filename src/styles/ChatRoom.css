@@ -151,6 +151,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     overflow-y: auto; /* 세로 스크롤 가능 */
     max-height: 300px; /* 최대 높이 설정 */
+    width: 89.5%;
 }
 
 .playlist-info button {
