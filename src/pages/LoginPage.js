@@ -33,6 +33,7 @@ const LoginPage = () => {
           isActive: true,
           spotifyConnected: true,
           googleConnected: false,
+          createdAt: new Date().toISOString().slice(0, 10),
         };
 
         // 사용자 정보가 없으면 회원가입, 있으면 로그인 처리
