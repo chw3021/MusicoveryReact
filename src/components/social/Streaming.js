@@ -3,6 +3,8 @@ import axiosInstance from "../../api/axiosInstance";
 import "../../styles/SocialPage.css";
 import React, { useState, useEffect } from "react";
 import useUserInfo from "../../hooks/useUserInfo";
+import Nav from "../common/Nav";
+import SidebarLayout from "../common/SidebarLayout";
 
 
 
@@ -63,18 +65,8 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
     return (
         <div className="social-container">
             <Header />
-            <div className="social-layout">
-                <aside className="social-sidebar">
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="/friendslist">친구 목록</a></li>
-                            <li><a href="/quiz">퀴즈</a></li>
-                            <li><a href="/streaming">스트리밍</a></li>
-                            <li><a href="/challenge">첼린지</a></li>
-                        </ul>
-                    </nav>
-                </aside>
-
+            <SidebarLayout>
+            <div className="social-layout-container">
                 
                 <div className="Tool">
                     <h1>※ 스트리밍 관리 ※</h1>
@@ -94,8 +86,10 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
                         <p>플레이리스트 정보를 불러오는 중...</p>
                     )}
                 </div>
+                <Nav />
                 
             </div>
+            </SidebarLayout>
         </div>
     );
 };

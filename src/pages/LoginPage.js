@@ -1,14 +1,28 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import axiosInstance, { baseAxiosInstance } from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import "../styles/Login.css"; // 스타일 추가
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // ✅ useCallback으로 감싸기
+  // 랜덤 비밀번호 생성 함수
+  const generateRandomPassword = (length = 12) => {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      password += chars[randomIndex];
+    }
+    return password;
+  };
+
   const handleUserAuthentication = useCallback(
     async (accessToken) => {
       try {
@@ -19,34 +33,35 @@ const LoginPage = () => {
         });
         const userData = response.data;
 
-        // UserDTO 형식에 맞게 변환
+        console.log(userData);
+
+        const randomPassword = generateRandomPassword();
+
         const userDTO = {
           userId: userData.id,
           email: userData.email,
-          passwd: "1234",
+          passwd: randomPassword,
           profileImageUrl:
             userData.images.length > 0 ? userData.images[0].url : null,
-          bio: userData.bio || "d",
+          bio: userData.bio || "",
           nickname: userData.display_name,
-          phone: "11",
-          address: "f",
+          phone: "",
+          address: "",
           isActive: true,
           spotifyConnected: true,
           googleConnected: false,
+          createdAt: new Date().toISOString().slice(0, 10),
         };
 
-        // 사용자 정보가 없으면 회원가입, 있으면 로그인 처리
         const userResponse = await axiosInstance.post(
           "/auth/spotify-login",
           userDTO
         );
         const user = userResponse.data;
 
-        // 사용자 정보를 로컬 스토리지에 저장
         localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
-        setUserInfo(user); // 🔥 userInfo에 저장
+        setUserInfo(user);
 
-        // 로그인 후 홈으로 이동
         navigate("/");
       } catch (error) {
         console.error("사용자 인증 에러:", error);
@@ -54,18 +69,15 @@ const LoginPage = () => {
       }
     },
     [navigate]
-  ); // 🔑 navigate를 의존성 배열에 포함
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("MUSICOVERY_ACCESS_TOKEN");
-
-    // 🔥 토큰이 있고 userInfo가 없는 경우에만 인증 처리
     if (token && !userInfo) {
       handleUserAuthentication(token);
     }
-  }, [handleUserAuthentication, userInfo]); // 🔥 handleUserAuthentication과 userInfo를 의존성으로 추가
+  }, [handleUserAuthentication, userInfo]);
 
-  // 스포티파이 액세스 토큰 요청
   const getAccessToken = async () => {
     try {
       const response = await baseAxiosInstance.get(
@@ -104,13 +116,63 @@ const LoginPage = () => {
     }
   };
 
+  const handleEmailLogin = async () => {
+    try {
+      const response = await axiosInstance.post("/auth/login", {
+        email: email,
+        passwd: password,
+      });
+      const user = response.data;
+      localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
+      setUserInfo(user);
+      navigate("/");
+    } catch (error) {
+      console.error("이메일 로그인 에러:", error);
+      setErrorMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
+    }
+  };
+
+  const goToSignup = () => {
+    navigate("/Signup");
+  };
+
   return (
     <div>
       <Header />
-      <h1>스포티파이 로그인</h1>
-      <Button text="스포티파이로 로그인" onClick={getAccessToken} />
-      {/* 🔥 userInfo가 있을 때만 사용자 정보 출력 */}
-      {userInfo && <pre>{JSON.stringify(userInfo, null, 2)}</pre>}
+      <div className="login-container">
+        <h1>로그인</h1>
+        <div className="login-form">
+          <input
+            type="email"
+            placeholder="이메일"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="login-input"
+          />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="login-input"
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <div className="login-buttons">
+            <button className="loginpagebtn" onClick={handleEmailLogin}>
+              로그인
+            </button>
+            <button className="loginpagebtn signupbtn" onClick={goToSignup}>
+              회원가입
+            </button>
+          </div>
+        </div>
+        <hr />
+        <h2>소셜 로그인</h2>
+        <button className="loginpagebtn" onClick={getAccessToken}>
+          스포티파이로 로그인
+        </button>
+        {/* {userInfo && <pre>{JSON.stringify(userInfo, null, 2)}</pre>} */}
+      </div>
     </div>
   );
 };

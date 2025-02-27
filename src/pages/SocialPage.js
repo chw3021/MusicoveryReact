@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance";
 import Header from "../components/common/Header";
-import "../styles/SocialPage.css";
 import JoinChat from "../components/social/JoinChat"; // ✅ JoinChat 컴포넌트 추가
 import Nav from "../components/common/Nav";
 import defaultImage from "../assets/defaultImage.png"; 
+import SidebarLayout from "../components/common/SidebarLayout";
+import "../styles/SocialPage.css";
 
 
 const SocialPage = () => {
@@ -33,9 +34,10 @@ const SocialPage = () => {
         <div className="social-container">
             <Header />
 
-            <div className="social-layout">
-                <Nav />
-                <main className="social-content">
+            <SidebarLayout>
+
+            <div className="social-layout-container">
+                <div className="social-content">
                     <p className="textplace">현재 진행 중인 스트리밍 채팅방 목록입니다.</p>
                     <div className="streaming-list">
                         {liveStreams.length === 0 ? (
@@ -67,8 +69,10 @@ const SocialPage = () => {
                         )}
                     </div>
                     
-                </main>
+                </div>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };

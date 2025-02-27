@@ -6,7 +6,7 @@ import Header from "../components/common/Header";
 import ReadMoreList from "../components/playlist/ReadMoreList";
 import { useEffect, useState } from "react";
 import { getMonthRangeByDate} from "../utils/util";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/PlaylistPage.css";
 import Button from "../components/common/Button";
 import axiosInstance from '../api/axiosInstance';
@@ -18,7 +18,12 @@ const PlaylistPage = () =>{
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
     const navigate = useNavigate();
-    const userInfo = useUserInfo(); // 사용자 정보 가져오기
+    const userInfo = useUserInfo();
+    const location = useLocation();
+    const friendInfo = location.state?.friendInfo;
+
+    const userId = friendInfo ? friendInfo.id : userInfo?.id;
+    const isFriendPlaylist = !!friendInfo;
 
     
 
@@ -45,12 +50,12 @@ const PlaylistPage = () =>{
          }
      }, [data,pivotDate]);
     
+
      useEffect(() => {
         const fetchData = async () => {
-            if(userInfo){
+            if (userId) {
                 try {
-                    const data = await getPlaylistsByUserId(userInfo.userId);
-                    
+                    const data = await getPlaylistsByUserId(userId);
                     setFilteredData(data);
                 } catch (error) {
                     console.error("Error fetching playlists", error);
@@ -59,10 +64,14 @@ const PlaylistPage = () =>{
         };
 
         fetchData();
-    }, [userInfo]);
+    }, [userId]);
 
     const onClickCreate = () => {
         navigate("/createplaylist");
+    };
+
+    const handlePlaylistClick = (playlistId) => {
+        navigate(`/playlist/${playlistId}`, { state: { friendInfo: friendInfo } });
     };
 
     return ( 
@@ -71,16 +80,17 @@ const PlaylistPage = () =>{
             <div className="grayBackground">
                 <div className="arraywithButton">
                     <div className="Textplace">
-                        <div id="libText">내 라이브러리</div>
+                        <div id="libText">{isFriendPlaylist ? `${friendInfo.nickname} 님의 플레이리스트` : "내 라이브러리"}</div>
                     </div>
-                    <div className="goCreateView">
-                        <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
-                    </div>
+                    {!isFriendPlaylist && (
+                        <div className="goCreateView">
+                            <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
+                        </div>
+                    )}
                 </div>
-                <ReadMoreList data={filteredData} />
+                <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
             </div>
         </div>
-  
     );
 }
 export default PlaylistPage;

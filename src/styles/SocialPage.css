@@ -1,10 +1,8 @@
-.social-layout {
+.social-layout-container {
     display: flex;
-    flex: 1;
+    justify-content: space-between;
 }
-h1{
-    color: #fd05e0; /* 타이틀 색상 */
-}
+
 .Tool{
     background-color:rgb(15, 15, 15);
     font-size: 14px; 
@@ -17,14 +15,7 @@ h1{
     border-radius: 8px; /* 둥글게 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 */
     width: 70%;
-    margin-right: auto;
-    margin-left: 1%;
-}
-.social-sidebar {
-    width: 250px;
-    background-color: #121212;
-    padding: 20px;
-    color: white;
+    margin: auto;
 }
 
 .nav-menu {
@@ -52,7 +43,7 @@ h1{
     color: #1ed760;
 }
 .textplace{
-    margin-right: 15%;
+    margin: auto;
 }
 .social-content {
     font-size: 18px; 
@@ -65,7 +56,6 @@ h1{
     background-color: rgba(253, 5, 224, 0.1); /* 배경색 */
     border-radius: 8px; /* 둥글게 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 */
-    width: 70%;
     margin: auto;
 
 }
@@ -89,7 +79,7 @@ h1{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9; /* 연한 회색 배경 */
     color: #333; /* 어두운 회색 글씨 */
-    width: 80%;
+    width: 100%;
 }
 .streaming-info{
     display: flex;
@@ -122,6 +112,11 @@ h1{
     border-radius: 5px;
 }
 
+#defaultImageStyle{
+    width: 100%;
+    height: 100%;
+}
+
 .join-button {
     background-color: #1db954;
     color: white;
@@ -136,8 +131,10 @@ h1{
     background-color: #1ed760;
 }
 
-
-#defaultImageStyle{
-    width: 100%;
-    height: 100%;
+.stream-card {
+    background-color: #f9f9f9; /* 연한 회색 배경 */
+    color: #333; /* 어두운 회색 글씨 */
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
