@@ -19,7 +19,7 @@ const ChatRoom = () => {
     const [client, setClient] = useState(null);
     const messagesEndRef = useRef(null); // 메시지 끝 참조
     const [playlist, setPlaylist] = useState(null); // 플레이리스트 상태 추가
-        const [isOpen, setIsOpen] = useState(false); // 상태 추가
+    const [isOpen, setIsOpen] = useState(false); // 상태 추가
 
     const toggleStreamingTracks = () => {
         setIsOpen(!isOpen); // 상태 토글
