@@ -109,3 +109,33 @@
 .dashboard-section li svg {
     font-size: 18px;
 }
+
+/* 🔹 버튼을 링크처럼 보이게 변경 */
+.link-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+/* 🔹 버튼 호버 시 밑줄 추가 */
+.link-button:hover {
+    text-decoration: underline;
+}
+
+/* 🔹 기존 리스트 스타일 유지 */
+.dashboard-section li {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

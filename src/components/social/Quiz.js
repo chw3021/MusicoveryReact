@@ -263,7 +263,7 @@ const Quiz = () => {
                                     onKeyPress={handleKeyPress}
                                     name="artist"
                                 />
-                                <button className="quiz-button2" onClick={handleFetchSongs}>가수 선택</button>
+                                <button className="quiz-button2" onClick={handleFetchSongs}>🔍찾기</button>
                             </div>
                             <div className="quiz-button-box">
                                         

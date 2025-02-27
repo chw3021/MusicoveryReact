@@ -9,19 +9,22 @@ const AdminPage = () => {
     const menuItems = [
         { id: "dashboard", label: "📊 대시보드" },
         { id: "users", label: "👤 사용자 관리" },
+        { id: "report", label: "🚨  신고 관리" },
         { id: "support", label: "📞 고객 지원" }
     ];
 
     const renderContent = () => {
         switch (activeSection) {
             case "dashboard":
-                return <AdminDashboard />;
+                return <AdminDashboard setActiveSection={setActiveSection} />;
             case "users":
                 return <div>👤 사용자 관리</div>;
+            case "report":
+                return <div>🚨 신고 관리</div>;
             case "support":
                 return <div>📞 고객 지원</div>;
             default:
-                return <AdminDashboard />;
+                return <AdminDashboard setActiveSection={setActiveSection} />;
         }
     };
 
