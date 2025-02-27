@@ -23,9 +23,11 @@ const AdminDashboard = ({ setActiveSection }) => {
     // 🔹 백엔드 데이터를 저장할 상태
     const [weeklyNewUsers, setWeeklyNewUsers] = useState(new Array(7).fill(0)); 
     const [totalUsers, setTotalUsers] = useState(0); 
+    const [recentUsers, setRecentUsers] = useState([]);
     const [weeklyPlaylists, setWeeklyPlaylists] = useState(new Array(7).fill(0));
     const [totalPlaylists, setTotalPlaylists] = useState(0);
     const [weeklyVisits, setWeeklyVisits] = useState(new Array(7).fill(0));
+    const [recentPlaylists, setRecentPlaylists] = useState([]);
 
     // 🔹 백엔드에서 유저 및 플레이리스트 데이터 가져오기
     useEffect(() => {
@@ -52,6 +54,18 @@ const AdminDashboard = ({ setActiveSection }) => {
             .catch(error => console.error("총 플레이리스트 수 가져오기 실패:", error));
     }, []);
 
+    useEffect(() => {
+        axios.get("http://localhost:8080/auth/recent-users")
+            .then(response => setRecentUsers(response.data))
+            .catch(error => console.error("최근 가입한 유저 가져오기 실패:", error));
+    }, []);
+
+    // 🔹 최근 생성된 플레이리스트 3개 가져오기
+    useEffect(() => {
+        axios.get("http://localhost:8080/playlist/recent-playlists")
+            .then(response => setRecentPlaylists(response.data))
+            .catch(error => console.error("최근 생성된 플레이리스트 가져오기 실패:", error));
+    }, []);
     // 🔹 오늘 날짜의 데이터를 반영
     const todayStats = {
         users: totalUsers,
@@ -78,8 +92,6 @@ const AdminDashboard = ({ setActiveSection }) => {
         }
     ];
 
-    // 🔹 최근 가입한 유저 목록
-    const [recentUsers, setRecentUsers] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:8080/auth/recent-users")
@@ -150,25 +162,27 @@ const AdminDashboard = ({ setActiveSection }) => {
 
             {/* 추가 콘텐츠 */}
             <div className="dashboard-extra">
+                {/* 최근 가입한 유저 */}
                 <div className="dashboard-section">
                     <h3><FaUser /> 최근 가입한 유저</h3>
                     <ul>
-                        {recentUsers.length > 0 ? (
-                            recentUsers.map(user => (
-                                <li key={user.id}>
-                                    🟢 {user.nickname} (가입일: {new Date(user.regdate).toISOString().split("T")[0]})
-                                </li>
+                        {recentUsers.length > 0
+                            ? recentUsers.map(user => (
+                                <li key={user.id}>🟢 {user.nickname} (가입일: {new Date(user.regdate).toISOString().split("T")[0]})</li>
                             ))
-                        ) : (
-                            <li>최근 가입한 유저가 없습니다.</li>
-                        )}
+                            : <li>최근 가입한 유저가 없습니다.</li>}
                     </ul>
                 </div>
 
+                {/* 최근 생성된 플레이리스트 */}
                 <div className="dashboard-section">
                     <h3><FaMusic /> 최근 생성된 플레이리스트</h3>
                     <ul>
-                        <li> 추가 예정 </li>
+                        {recentPlaylists.length > 0
+                            ? recentPlaylists.map(playlist => (
+                                <li key={playlist.playlistId}>🎵 {playlist.playlistTitle} (생성일: {new Date(playlist.playlistDate).toISOString().split("T")[0]})</li>
+                            ))
+                            : <li>최근 생성된 플레이리스트가 없습니다.</li>}
                     </ul>
                 </div>
 
