@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import Header from "../common/Header";
 import useUserInfo from "../../hooks/useUserInfo";
 import "../../styles/FriendsList.css";
+import { useNavigate } from "react-router-dom";
 
 const FriendsList = () => {
+    const navigate = useNavigate();
+
     const [friends, setFriends] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
     const [pendingRequests, setPendingRequests] = useState([]);
@@ -94,6 +96,11 @@ const FriendsList = () => {
                pendingRequests.some(request => request.friend.id === userId);
     };
 
+    const handleFriendClick = (friend) => {
+        navigate("/playlistPage", { state: { friendInfo: friend } });
+    };
+
+
     return (
         <div>
             <div className="friends-list-container">
@@ -101,7 +108,7 @@ const FriendsList = () => {
                 <button onClick={() => setShowModal(true)} className="add-friend-button">친구 추가</button>
                 <div className="friends-list">
                     {friends.map((friend) => (
-                        <div key={friend.id} className="friend-item">
+                        <div key={friend.id} className="friend-item" onClick={() => handleFriendClick(friend)}>
                             <p>
                                 <strong>친구 별명 :</strong> {friend.friend.nickname}
                                 <button className="delete-button" onClick={() => handleDeleteFriend(friend.friend.id)}>❌</button>

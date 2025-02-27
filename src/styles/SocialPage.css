@@ -7,7 +7,7 @@ h1{
 }
 .Tool{
     background-color:rgb(15, 15, 15);
-    font-size: 18px; 
+    font-size: 14px; 
     font-weight: bold; /* 글자 두께 */
     text-align: center; /* 중앙 정렬 */
     margin: 20px 0; /* 상하 여백 */
@@ -99,8 +99,8 @@ h1{
 }
 .toggle-button{
     width: 8%;
-    height: 40px;
-    margin-top: 1%;
+    height: 50%;
+    margin-top: 2%;
 }
 .grapplace{
     display: flex;

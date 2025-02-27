@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import Music from "../music/Music"; // Music 컴포넌트 임포트
 import MusicSearch from "../music/MusicSearch";
@@ -16,6 +16,9 @@ const PlaylistDetail = () => {
     const navigate = useNavigate();
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
     const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
+    const location = useLocation();
+    const friendInfo = location.state?.friendInfo;
+    const isFriendPlaylist = !!friendInfo;
 
     const [state, setState] = useState({
         playlistTitle: '',
@@ -26,8 +29,6 @@ const PlaylistDetail = () => {
         isEditing: false,
         user: userInfo,
     });
-
-    const SPRING_SERVER_URL = `${process.env.REACT_APP_API_URL}`; // 스프링 서버 URL 선언
 
     useEffect(() => {
         const fetchPlaylist = async () => {
@@ -202,11 +203,15 @@ const PlaylistDetail = () => {
                         )}
                         <p>{state.playlistDate}</p>
                         <div className="editing-button-area">
-                            {state.isEditing ? (
-                                <Button text="저장" onClick={handleSave} />
-                            ) : (
-                                <Button text="수정" onClick={handleEdit} />
-                            )}
+                            {!isFriendPlaylist ? (
+                                <>
+                                    {state.isEditing ? (
+                                        <Button text="저장" onClick={handleSave} />
+                                    ) : (
+                                        <Button text="수정" onClick={handleEdit} />
+                                    )}
+                                </>
+                            ) : null}
                             <Button text="뒤로가기" link={"/PlaylistPage"} />
                         </div>
                     </div>

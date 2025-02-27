@@ -6,6 +6,7 @@ import {
 import { Suspense, lazy } from "react";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
+import VerifyPage from "../pages/VerifyPage";
 
 const Loading = <div>Loading...</div>;
 
@@ -226,6 +227,15 @@ const root = createBrowserRouter(
         element={
           <Suspense fallback={Loading}>
             <LoginPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="verify"
+        element={
+          <Suspense fallback={Loading}>
+            <VerifyPage />
           </Suspense>
         }
       />
