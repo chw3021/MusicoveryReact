@@ -9,6 +9,7 @@ import "../../styles/ChatRoom.css";
 import { parseTracks } from "../../utils/trackUtils";
 import Music from "../music/Music";
 import { getDefaultImage } from "../../utils/imageUtils";
+import SidebarLayout from "../common/SidebarLayout";
 
 const ChatRoom = () => {
     const { streamId } = useParams();
@@ -145,8 +146,9 @@ const ChatRoom = () => {
     return (
         <div className="chat-container">
             <Header />
+
+            <SidebarLayout>
             <div className="social-layout">
-                <Nav />
 
                 <div>
                     <div className="chat-wrapper">
@@ -158,7 +160,7 @@ const ChatRoom = () => {
                         </div>
 
                         {playlist ? ( // playlist 상태 사용
-                            <div className="playlist-info">
+                            <div className="streaming-playlist-info">
                                 <div className="playlist-info-place">
                                     <p id="explain"><strong>설명:</strong> {playlist.playlistComment || "설명이 없습니다."}</p>
                                     <p><strong>트랙 수:</strong> {playlist.tracksData ? playlist.tracksData.length : 0}곡</p>
@@ -210,7 +212,9 @@ const ChatRoom = () => {
                         </div>
                     </div>
                 </div>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };
