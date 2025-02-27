@@ -1,22 +1,22 @@
 .quiz-container {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh; /* 최소 높이를 뷰포트 높이로 설정 */
 }
-
-.social-layout {
+.quiz-social-layout {
     display: flex;
-    flex: 1; /* 전체 공간 차지 */
+    justify-content: space-between;
 }
-
 .nav-container {
     width: 100px;
 }
-
+.rank-userinfo-item-text{
+    width: 60%;
+    text-align: left;
+}
 .content-wrapper {
     display: flex;
     background-color:rgb(37, 37, 37);
-    width: 80%;
+    width: 70%;
+    margin: auto;
 }
 
 
@@ -46,22 +46,26 @@
 }
 
 .search-box{
+    width: 50%;
+    margin: auto;
+}
+.search-label-box{
     display: flex;
     gap: 10px;
-    width: 40%;
-    margin-left: 5%;
+    width: 90%;
+    margin: auto;
+    justify-content: center;
 }
 .guess-box {
     display: flex;
     gap: 10px;
     width: 54%;
-    margin-left: 5%;
+    margin: auto;
 }
 
 .search-input,
 .guess-input {
-    flex: 1;
-    padding: 10px;
+    width: 70%;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -70,16 +74,17 @@
     justify-content: first baseline;
     
 }
+.quiz-button-box{
+    margin: 25px;
+}
+
 .quiz-button {
     color: white; /* 버튼 글자색 설정 */
     background-color: #fd05e0; /* 버튼 배경색 설정 */
-    padding: 10px 15px; /* 버튼 패딩 설정 */
     border: none; /* 테두리 제거 */
     border-radius: 4px; /* 버튼 둥글게 설정 */
     cursor: pointer; /* 커서 모양 설정 */
     transition: background-color 0.2s ease-in-out; /* 부드러운 배경색 전환 효과 */
-    width: 150px;
-    margin-left: 5%;
 }
 
 .quiz-button2 {
@@ -90,6 +95,7 @@
     border-radius: 4px; /* 버튼 둥글게 설정 */
     cursor: pointer; /* 커서 모양 설정 */
     transition: background-color 0.2s ease-in-out; /* 부드러운 배경색 전환 효과 */
+    width: 20%;
 
 }
 .quiz-button:hover {
@@ -105,13 +111,25 @@
 }
 
 .stopBtnplace{
-    margin-left: 4.4%;
+    margin: auto;
 }
 
 .rankingPart{
     background-color: rgb(241, 221, 11);
     color: black;
-    margin-left: auto;
-    margin-right: 15%;
-    width: 15%;
+    margin:auto;
+}
+.ranking-list{
+    list-style-type: none;
+    padding: 0;
+}
+.ranking-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.ranking-item>span{
+    font-size: 1rem;
+    padding: 10px;
+
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Header from "../common/Header";
-import "../../styles/Quiz.css";
 import axiosInstance from "../../api/axiosInstance";
 import Nav from "../common/Nav";
+import SidebarLayout from "../common/SidebarLayout";
+import "../../styles/Quiz.css";
 
 const Quiz = () => {
     const [artist, setArtist] = useState("");
@@ -245,30 +246,34 @@ const Quiz = () => {
     return (
         <div className="quiz-container">
             <Header />
-            <div className="social-layout">
-                <Nav />
+            <SidebarLayout>
+            <div className="quiz-social-layout">
                 <div className="content-wrapper">
                     <div className="quiz-content">
                         <h2 className="quiz-title">🎵 AI 가사 맞히기 퀴즈</h2>
                     <div className="oneLineView">
                         <div className="search-box">
-                            <input 
-                                type="text" 
-                                className="search-input"
-                                placeholder="가수명을 입력하세요" 
-                                value={artist} 
-                                onChange={(e) => setArtist(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                name="artist"
-                            />
-                            <button className="quiz-button2" onClick={handleFetchSongs}>가수 선택</button>
+                            <div className="search-label-box">
+                                <input 
+                                    type="text" 
+                                    className="search-input"
+                                    placeholder="가수명을 입력하세요" 
+                                    value={artist} 
+                                    onChange={(e) => setArtist(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    name="artist"
+                                />
+                                <button className="quiz-button2" onClick={handleFetchSongs}>가수 선택</button>
+                            </div>
+                            <div className="quiz-button-box">
+                                        
+                                {showFetchLyricsButton && (
+                                    <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
+                                        {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                       
-                        {showFetchLyricsButton && (
-                            <button className="quiz-button" onClick={fetchLyrics} disabled={loading || isSpeaking}>
-                                {loading ? "가져오는 중..." : "🎵 AI 음성 재생"}
-                            </button>
-                        )}
                         {/* 🔥 랭킹 추가된 부분 */}
                         <div className="rankingPart">
                             <h3>🏆 랭킹</h3>
@@ -276,7 +281,9 @@ const Quiz = () => {
                                 {rankings.length > 0 ? (
                                     rankings.map((rank, index) => (
                                         <li key={rank.id} className="ranking-item">
-                                            {index + 1}위: {rank.username} ({rank.songTitle}) - {rank.timeTaken / 1000}초
+                                            <span>{index + 1}위:</span>
+                                            <div className="rank-userinfo-item-text">{rank.username} ({rank.songTitle})</div>
+                                            <span>{rank.timeTaken / 1000}초</span>
                                         </li>
                                     ))
                                 ) : (
@@ -285,6 +292,7 @@ const Quiz = () => {
                             </ul>
                         </div>
                     </div>
+                       
                     
                     <div className="stopBtnplace">
                         {isSpeaking && (
@@ -309,7 +317,9 @@ const Quiz = () => {
                         )}
                     </div>
                 </div>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };
