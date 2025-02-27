@@ -70,6 +70,10 @@ const PlaylistPage = () =>{
         navigate("/createplaylist");
     };
 
+    const handlePlaylistClick = (playlistId) => {
+        navigate(`/playlist/${playlistId}`, { state: { friendInfo: friendInfo } });
+    };
+
     return ( 
         <div className="container1">
             <Header />
@@ -84,7 +88,7 @@ const PlaylistPage = () =>{
                         </div>
                     )}
                 </div>
-                <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} />
+                <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
             </div>
         </div>
     );

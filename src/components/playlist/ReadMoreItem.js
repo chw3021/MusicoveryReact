@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import { getImageUrl } from '../../utils/imageUtils';
 
-const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate, isFriendPlaylist }) => {
+const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate, isFriendPlaylist, onPlaylistClick }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/playlist/${playlistId}`); // 세부 정보 페이지로 이동
+        onPlaylistClick(playlistId);
     };
 
     const handleDelete = async (e) => {

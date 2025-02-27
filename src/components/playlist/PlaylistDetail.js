@@ -130,6 +130,9 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
+    const goBack = () => {
+        navigate(-1); // 이전 페이지로 이동
+    };
 
     return (
         <div className="container1">
@@ -212,7 +215,7 @@ const PlaylistDetail = () => {
                                     )}
                                 </>
                             ) : null}
-                            <Button text="뒤로가기" link={"/PlaylistPage"} />
+                            <Button text="뒤로가기" onClick={goBack} />
                         </div>
                     </div>
                 </div>

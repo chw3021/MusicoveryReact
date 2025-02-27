@@ -9,7 +9,7 @@ const sortOptionList = [
     { value: "oldest", name: "오래된 순" },
 ];
 
-const ReadMoreList = ({ data, onSelect = () => {}, isFriendPlaylist }) => {
+const ReadMoreList = ({ data, onSelect = () => {}, isFriendPlaylist, onPlaylistClick }) => {
     const [sortType, setSortType] = useState("latest");
     const [sortedData, setSortedData] = useState([]);
 
@@ -66,6 +66,7 @@ const ReadMoreList = ({ data, onSelect = () => {}, isFriendPlaylist }) => {
                             playlistPhoto={it.playlistPhoto}
                             playlistDate={it.playlistDate}
                             isFriendPlaylist={isFriendPlaylist}
+                            onPlaylistClick={onPlaylistClick}
                         />
                     </div>
                 ))}

@@ -35,7 +35,7 @@ const FriendsList = () => {
 
     const fetchFriendRequests = async () => {
         try {
-            const response = await axiosInstance.get(`/friends/friendOf?friendId=${userInfo.id}`);
+            const response = await axiosInstance.get(`/friends/friendRequests?friendId=${userInfo.id}`);
             setFriendRequests(response.data);
         } catch (error) {
             console.error("친구 요청 목록을 가져오는 데 실패했습니다.", error);
@@ -108,9 +108,9 @@ const FriendsList = () => {
                 <button onClick={() => setShowModal(true)} className="add-friend-button">친구 추가</button>
                 <div className="friends-list">
                     {friends.map((friend) => (
-                        <div key={friend.id} className="friend-item" onClick={() => handleFriendClick(friend)}>
+                        <div key={friend.id} className="friend-item" onClick={() => handleFriendClick(friend.friend.id === userInfo.id ? friend.user : friend.friend)}>
                             <p>
-                                <strong>친구 별명 :</strong> {friend.friend.nickname}
+                                <strong>친구 별명 :</strong> {friend.friend.id === userInfo.id ? friend.user.nickname : friend.friend.nickname}
                                 <button className="delete-button" onClick={() => handleDeleteFriend(friend.friend.id)}>❌</button>
                             </p>
                         </div>
@@ -185,9 +185,10 @@ const FriendsList = () => {
                                         <p>요청한 목록이 없습니다.</p>
                                     ) : (
                                         pendingRequests.map((request) => (
+                                            console.log(request),
                                             <div key={request.id} className="pending-request-item">
                                                 <p>
-                                                    <strong>요청한 사용자 ID:</strong> {request.friend.id}
+                                                    <strong>요청한 사용자 ID:</strong> {request.friend.nickname}
                                                 </p>
                                             </div>
                                         ))
@@ -203,10 +204,13 @@ const FriendsList = () => {
                                     {friendRequests.length === 0 ? (
                                         <p>받은 요청이 없습니다.</p>
                                     ) : (
+                                        
                                         friendRequests.map((request) => (
+                                            console.log(request),
                                             <div key={request.id} className="friend-request-item">
+                                                
                                                 <p>
-                                                    <strong>요청한 사용자 ID:</strong> {request.user.id}
+                                                    <strong>요청한 사용자:</strong> {request.friend.nickname}
                                                     <button className="accept-button" onClick={() => handleAcceptFriendRequest(request.id)}>✅</button>
                                                 </p>
                                             </div>
