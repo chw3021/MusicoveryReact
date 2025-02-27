@@ -5,6 +5,7 @@ import "../styles/SocialPage.css";
 import JoinChat from "../components/social/JoinChat"; // ✅ JoinChat 컴포넌트 추가
 import Nav from "../components/common/Nav";
 import defaultImage from "../assets/defaultImage.png"; 
+import SidebarLayout from "../components/common/SidebarLayout";
 
 
 const SocialPage = () => {
@@ -33,8 +34,9 @@ const SocialPage = () => {
         <div className="social-container">
             <Header />
 
+            <SidebarLayout>
+
             <div className="social-layout">
-                <Nav />
                 <main className="social-content">
                     <p className="textplace">현재 진행 중인 스트리밍 채팅방 목록입니다.</p>
                     <div className="streaming-list">
@@ -68,7 +70,9 @@ const SocialPage = () => {
                     </div>
                     
                 </main>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };

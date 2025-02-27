@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import { getImageUrl } from '../../utils/imageUtils';
 
-const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate }) => {
+const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate, isFriendPlaylist, onPlaylistClick }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/playlist/${playlistId}`); // 세부 정보 페이지로 이동
+        onPlaylistClick(playlistId);
     };
 
     const handleDelete = async (e) => {
@@ -20,9 +20,6 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
         }
         try {
             const response = await axiosInstance.delete(`/playlist/delete`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                },
                 params: {
                     playlistId: playlistId,
                 },
@@ -46,7 +43,9 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
             </div>
             <div className="playlistActions">
                 <div className="buttonGroup">
-                     <Button text="삭제" onClick={(e) => handleDelete(e)} />
+                    {!isFriendPlaylist && (
+                        <Button text="삭제" onClick={(e) => handleDelete(e)} />
+                    )}
                 </div>
                 <div className="playlistDate">{new Date(playlistDate).toLocaleDateString()}</div>
             </div>
