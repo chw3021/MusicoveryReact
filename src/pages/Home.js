@@ -40,7 +40,8 @@ const Home = () => {
             } else {
                 // 다른 페이지 전환에서는 즉시 전환 (또는 다른 효과 적용)
                 setCurrentSection(sectionIndex);
-                setTimeout(() => {
+                createWaveEffect();
+        setTimeout(() => {
                     setIsAnimating(false);
                 }, 500); // 일반 전환은 더 짧은 시간
             }
@@ -122,6 +123,15 @@ const Home = () => {
     };
 
     // 휠 이벤트 처리 함수
+    const createWaveEffect = () => {
+        const wave = document.createElement("div");
+        wave.className = "wave-effect";
+        document.body.appendChild(wave);
+        setTimeout(() => {
+            wave.remove();
+        }, 2000); // 애니메이션 시간보다 약간 더 길게 설정
+    };
+
     useEffect(() => {
         const handleWheel = (e) => {
             if (isAnimating) return;
