@@ -7,25 +7,27 @@
     padding: 20px;
 }
 
+/* 🔹 대시보드 박스 자동 크기 조정 */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap; /* ✅ 화면이 작아지면 자동으로 줄바꿈 */
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
 /* 카드 + 차트를 하나의 박스로 묶기 */
 .dashboard-box {
-    background: #1a1a1a; /* 배경 추가 */
+    background: #1a1a1a;
     padding: 20px;
-    border-radius: 10px; /* 둥근 모서리 */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 박스 그림자 */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    width: 32%;
-}
-
-/* 카드와 차트가 한 줄에 정렬 */
-.dashboard-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+    width: 30%; /* ✅ 화면이 줄어들면 반응형 조정 */
+    min-width: 250px; /* ✅ 최소 크기 지정 */
 }
 
 /* 개별 카드 스타일 */
@@ -38,7 +40,7 @@
     gap: 10px;
     width: 100%;
     text-align: center;
-    color: #ffffff;
+    color: #fff;
     transition: 0.3s;
 }
 
@@ -57,9 +59,9 @@
     padding: 15px;
     border-radius: 8px;
     width: 100%;
+    min-width: 250px; /* ✅ 최소 크기 지정 */
 }
 
-/* 차트 내부 스타일 */
 .dashboard-chart canvas {
     width: 100% !important;
     height: auto !important;
@@ -70,6 +72,7 @@
 /* 하단 콘텐츠 섹션 */
 .dashboard-extra {
     display: flex;
+    flex-wrap: wrap; /* ✅ 화면이 작아지면 자동 줄바꿈 */
     justify-content: center;
     gap: 20px;
     width: 100%;
@@ -81,8 +84,9 @@
     background: #1e1e1e;
     padding: 15px;
     border-radius: 8px;
-    width: 32%;
-    color: #ffffff;
+    width: 30%; /* ✅ 화면이 작아지면 자동 조정 */
+    min-width: 250px; /* ✅ 최소 크기 지정 */
+    color: #fff;
 }
 
 /* 섹션 타이틀 */
@@ -131,11 +135,25 @@
     text-decoration: underline;
 }
 
-/* 🔹 기존 리스트 스타일 유지 */
-.dashboard-section li {
-    padding: 8px;
-    border-bottom: 1px solid #444;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* 🔥 반응형 디자인 적용 */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        flex-direction: column; /* ✅ 화면이 작아지면 세로 정렬 */
+        align-items: center;
+    }
+
+    .dashboard-box {
+        width: 80%; /* ✅ 더 작은 화면에서는 전체 너비 사용 */
+    }
+
+    .dashboard-section {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-box,
+    .dashboard-section {
+        width: 100%; /* ✅ 모바일 화면에서는 전체 너비 사용 */
+    }
 }

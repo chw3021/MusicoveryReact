@@ -1,0 +1,63 @@
+.report-management {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    background-color: #181818;
+}
+
+/* 신고 목록 컨테이너 */
+.report-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* 신고된 사용자 목록 스타일 */
+.report-list {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.report-item {
+    background-color: #444;
+    color: white;
+    border: 1px solid #777;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.report-item:hover {
+    background-color: #555;
+}
+
+/* 신고 상세 내용 */
+.report-detail {
+    width: 55%;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 200px;
+}
+
+/* 플레이리스트 정보 */
+.playlist-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+.playlist-tracks {
+    margin-top: 10px;
+}
+
+.track-item {
+    padding: 8px;
+    background-color: #444;
+    border-radius: 5px;
+    margin-top: 5px;
+}
