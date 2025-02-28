@@ -25,9 +25,19 @@ const Home = () => {
     const transitionToSection = (sectionIndex) => {
         setIsAnimating(true);
         setCurrentSection(sectionIndex);
+        createWaveEffect();
         setTimeout(() => {
             setIsAnimating(false);
         }, scrollCooldown);
+    };
+
+    const createWaveEffect = () => {
+        const wave = document.createElement("div");
+        wave.className = "wave-effect";
+        document.body.appendChild(wave);
+        setTimeout(() => {
+            wave.remove();
+        }, 2000); // 애니메이션 시간보다 약간 더 길게 설정
     };
 
     useEffect(() => {

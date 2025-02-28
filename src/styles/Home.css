@@ -1,27 +1,9 @@
 /* Home.css */
 
-
-/* 
-.logo {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #1db954;
-} */
-/* 
-.nav ul {
-    display: flex;
-} */
-/* 
-.nav li {
-    margin-left: 25px;
-} */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-.hero {
 }
 
 :root {
@@ -49,6 +31,7 @@ body {
     height: 100vh;
     width: 100vw;
 }
+
 .scroll-container {
     display: flex;
     transition: transform 0.8s ease-in-out;
@@ -122,7 +105,6 @@ body {
 
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://cdn.pixabay.com/photo/2022/06/21/21/15/audio-7276511_1280.jpg') center/cover no-repeat;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,4 +243,41 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 990;
+}
+
+/* 음파 파동 애니메이션 */
+@keyframes wave {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    25% {
+        transform: translate(25vw, -10vh) scale(1.5);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(50vw, 10vh) scale(2);
+        opacity: 0.6;
+    }
+    75% {
+        transform: translate(75vw, -10vh) scale(2.5);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translate(100vw, -100vh) scale(3);
+        opacity: 0;
+    }
+}
+
+.wave-effect {
+    position: absolute; /* 요소를 절대 위치로 설정 */
+    top: 50%;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background: #1DB954;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    animation: wave 2s ease-out forwards;
 }
