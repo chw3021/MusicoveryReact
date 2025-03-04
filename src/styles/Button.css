@@ -1,18 +1,20 @@
 .button {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 0.75rem 1.5rem;
     font-size: 1em;
+    cursor: pointer;
     color: #e4e4e4;
     text-align: center;
     text-decoration: none;
     border: 2px solid #ccc;
     border-radius: 8px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s;
 }
 
 .button:hover {
     background-color: #bdbdbd;
     border-color: #181717;
+    transform: translateY(-2px);
 }
 
 .custom-color {
