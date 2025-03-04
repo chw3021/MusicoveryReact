@@ -147,39 +147,46 @@ const Music = ({ track, handlePlay, isPremium }) => {
         }
     };
 
+    const logTrackInfo = (track) => {
+        //console.log(track.album);
+    };
+
     return (
-        <div key={track.id} className="track-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <img className="track-album-image-music" src={track.album.images[0].url} alt={track.name} />
-            <div className="track-info">
-                <h4>{track.name}</h4>
-                <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
-                <div className="tooltip" style={tooltipStyle}>
+        track && track.album && track.album.images && track.album.images[0] ? (
+            <div key={track.id} className="track-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {logTrackInfo(track)}
+                <img className="track-album-image-music" src={track.album.images[0].url} alt={track.name} />
+                <div className="track-info">
                     <h4>{track.name}</h4>
                     <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
+                    <div className="tooltip" style={tooltipStyle}>
+                        <h4>{track.name}</h4>
+                        <p>{track.artists.map((artist) => artist.name).join(", ")}</p>
+                    </div>
                 </div>
-            </div>
-            <div className="track-play-button-container">
-                <button 
-                    onClick={() => handlePlay(track)}
-                    className={isPremium ? 'premium-play' : 'spotify-link'}
-                >
-                    {isPremium ? '재생' : 'LINK'}
-                </button>
-                <button className="add-track-to-playlist-button" onClick={handleAddToPlaylist}>➕</button>
-            </div>
+                <div className="track-play-button-container">
+                    <button 
+                        onClick={() => handlePlay(track)}
+                        className={isPremium ? 'premium-play' : 'spotify-link'}
+                    >
+                        {isPremium ? '재생' : 'LINK'}
+                    </button>
+                    <button className="add-track-to-playlist-button" onClick={handleAddToPlaylist}>➕</button>
+                </div>
 
-            {showPlaylistModal && ReactDOM.createPortal(
-                <PlaylistModal 
-                    playlists={playlists}
-                    selectedPlaylists={selectedPlaylists}
-                    loading={loading}
-                    onCheck={handlePlaylistCheck}
-                    onClose={handleCloseModal}
-                    onAdd={handleAddTracksToPlaylists}
-                />,
-                document.body
-            )}
-        </div>
+                {showPlaylistModal && ReactDOM.createPortal(
+                    <PlaylistModal 
+                        playlists={playlists}
+                        selectedPlaylists={selectedPlaylists}
+                        loading={loading}
+                        onCheck={handlePlaylistCheck}
+                        onClose={handleCloseModal}
+                        onAdd={handleAddTracksToPlaylists}
+                    />,
+                    document.body
+                )}
+            </div>
+        ) : null
     );
 };
 

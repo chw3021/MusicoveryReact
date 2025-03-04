@@ -199,65 +199,49 @@ const Home = () => {
     navigate("/Signup");
   };
 
-  return (
-    <div className="home-container">
-      <Header />
-      <div className="scroll-container" ref={scrollContainerRef}>
-        <section
-          className={`section hero-section hero ${
-            isShattering ? "shattering" : ""
-          }`}
-          data-index="0"
-        >
-          <div className="hero-content ">
-            <h1 className="hero-title">Discover Your Sound</h1>
-            <p className="hero-subtitle">
-              Personalized playlists curated just for you, based on your unique
-              taste in music.
-            </p>
-            <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
-            {!isLoggedIn ? (
-              <>
-                <button className="cta-button" onClick={goToLogin}>
-                  로그인
-                </button>
-                <button className="cta-button" onClick={goToSignup}>
-                  회원가입
-                </button>
-              </>
-            ) : (
-              <button className="cta-button" onClick={handleLogoutClick}>
-                로그아웃
-              </button>
-            )}
-            <button className="cta-button" onClick={handleLoginClick}>
-              임시 로그인(스포티파이로 로그인)
-            </button>
-            <button className="cta-button" onClick={adminLoginClick}>
-              임시 관리자페이지
-            </button>
-            {showOAuth && <OAuth />}
-          </div>
-        </section>
-        <section className={`section`} data-index="1">
-          <h2 className="section-title">Trending Playlists</h2>
-          <div className="playlists-container">
-            <div className="playlist-card"></div>
-            <div className="playlist-card"></div>
-            <div className="playlist-card"></div>
-          </div>
-        </section>
-        <section className="section" data-index="2">
-          <h2 className="section-title">New Releases</h2>
-          <div className="playlists-container">
-            <div className="playlist-card"></div>
-            <div className="playlist-card"></div>
-            <div className="playlist-card"></div>
-          </div>
-        </section>
-      </div>
+    return (
+        <div className="home-container">
+            <Header isHomePage={true} />
+            <div className="scroll-container" ref={scrollContainerRef}>
+                <section className={`section hero-section hero ${isShattering ? 'shattering' : ''}`} data-index="0">
+                    <div className="hero-content ">
+                        <h1 className="hero-title">Discover Your Sound</h1>
+                        <p className="hero-subtitle">Personalized playlists curated just for you, based on your unique taste in music.</p>
+                        <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
+                        {!isLoggedIn ? (
+                            <>
+                                <button className="cta-button" onClick={goToLogin}>로그인</button>
+                                <button className="cta-button" onClick={goToSignup}>회원가입</button>
+                            </>
+                        ) : (
+                            <button className="cta-button" onClick={handleLogoutClick}>로그아웃</button>
+                        )}
+                        <button className="cta-button" onClick={handleLoginClick}>임시 로그인(스포티파이로 로그인)</button>
+                        <button className="cta-button" onClick={adminLoginClick}>임시 관리자페이지</button>
+                        {showOAuth && <OAuth />}
+                    </div>
+                </section>
+                <section className={`section`} data-index="1">
+                    <h2 className="section-title">Trending Playlists</h2>
+                    <div className="playlists-container">
+                        <div className="playlist-card"></div>
+                        <div className="playlist-card"></div>
+                        <div className="playlist-card"></div>
+                    </div>
+                </section>
+                <section className="section" data-index="2">
+                    <h2 className="section-title">New Releases</h2>
+                    <div className="playlists-container">
+                        <div className="playlist-card"></div>
+                        <div className="playlist-card"></div>
+                        <div className="playlist-card"></div>
+                    </div>
+                </section>
+            </div>
+                    
+               
 
-      <div className="scroll-nav"></div>
+            <div className="scroll-nav"></div>
 
       <div className="progress-container">
         <div className="progress-text">01/03</div>
