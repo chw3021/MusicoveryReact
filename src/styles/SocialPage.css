@@ -80,6 +80,8 @@
 .ViewStyle{
     display: flex;
     justify-content: space-between;
+    margin-left: 6.5%;
+    align-content: center;
 }
 .stream-card {
     font-size: 15px; 

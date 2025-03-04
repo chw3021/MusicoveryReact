@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import VerifyPage from "../pages/VerifyPage";
 import MyPage from "../pages/MyPage";
 import PrivateRoute from "../components/auth/PrivateRoute";
+import Profile from "../components/mypage/Profile";
 
 const Loading = <div>Loading...</div>;
 
@@ -73,7 +74,9 @@ const root = createBrowserRouter(
         path="social"
         element={
           <Suspense fallback={Loading}>
-            <SocialPage />
+            <PrivateRoute>
+              <SocialPage />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -81,7 +84,9 @@ const root = createBrowserRouter(
         path="streaming"
         element={
           <Suspense fallback={Loading}>
-            <Streaming />
+            <PrivateRoute>
+              <Streaming />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -89,7 +94,9 @@ const root = createBrowserRouter(
         path="challenge"
         element={
           <Suspense fallback={Loading}>
-            <Challenge />
+            <PrivateRoute>
+              <Challenge />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -97,7 +104,9 @@ const root = createBrowserRouter(
         path="quiz"
         element={
           <Suspense fallback={Loading}>
-            <Quiz />
+            <PrivateRoute>
+              <Quiz />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -121,7 +130,9 @@ const root = createBrowserRouter(
         path="chat/:streamId"
         element={
           <Suspense fallback={Loading}>
-            <ChatRoom />
+            <PrivateRoute>
+              <ChatRoom />
+            </PrivateRoute>
           </Suspense>
         }
       />
