@@ -12,17 +12,18 @@ const UserReport = () => {
     const [customReason, setCustomReason] = useState(""); // 자유 입력을 위한 상태
     const userInfo = useUserInfo();
     const location = useLocation();
+    const [reportedPost, setReportedPost] = useState(null);
 
     // 신고 대상 유저 정보 가져오기
     useEffect(() => {
-        if (location.state && location.state.reportedUser) {
-            setReportedUserId(location.state.reportedUser.userId);
+        if (location.state && location.state.reportedPost) {
+            setReportedUserId(location.state.reportedPost.user.userId);
+            setReportedPost(location.state.reportedPost);
         }
     }, [location.state]);
 
     // 신고 내역 가져오기
     useEffect(() => {
-        
         if (userInfo) {
             fetchReports(userInfo.id);
         }
@@ -48,7 +49,8 @@ const UserReport = () => {
             const response = await axiosInstance.post("/api/userreport/report", {
                 reporter: userInfo.id,
                 reportedUser: reportedUserId,
-                reason: reportReason === "직접입력" ? customReason : reportReason // 직접입력일 때만 customReason 사용
+                reason: reportReason === "직접입력" ? customReason : reportReason, // 직접입력일 때만 customReason 사용
+                postId: reportedPost.id // 신고된 게시글 ID 추가
             });
             alert("신고가 접수되었습니다.");
             setReportedUserId("");
@@ -70,11 +72,18 @@ const UserReport = () => {
                     <input
                         type="text"
                         placeholder="신고할 사용자 ID"
-                        value={location.state.reportedUser.nickname}
+                        value={location.state.reportedPost.user.nickname}
                         onChange={(e) => setReportedUserId(e.target.value)}
                         required
                         disabled
                     />
+                    
+                    {reportedPost && (
+                        <div className="reported-post-info">
+                            <p><strong>제목:</strong> {reportedPost.title}</p>
+                            <p><strong>내용:</strong> {reportedPost.description}</p>
+                        </div>
+                    )}
                     <input
                         type="text"
                         list="reportReasonsList"
@@ -105,15 +114,19 @@ const UserReport = () => {
                         </>
                     )}
 
-                    <button type="submit">신고 제출</button>
+                    <button className="reportbutton" type="submit">신고 제출</button>
                 </form>
 
+
                 <h2>신고 내역</h2>
-                <ul>
+                <ul className="report-list-ulist">
                     {reports.map((report) => (
-                        <li key={report.id}>
+                        <li className="report-list-list" key={report.id}>
                             <div className="report-list-item">
-                                <strong>신고된 사용자: {report.reportedUser.nickname}</strong>
+                                <strong>사용자: {report.reportedUser.nickname}</strong>
+                                {report.post && (
+                                    <p><strong>게시글 제목:</strong> {report.post.title}</p>
+                                )}
                                 <strong> 사유: {report.reason}</strong>
                             </div>
                         </li>
