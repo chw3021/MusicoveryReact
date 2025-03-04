@@ -137,7 +137,8 @@ const Create = () => {
                     <MusicSearch onSelectTrack={handleTrackSelect} />
                     <div className="playlist-info">
                         <div className="create_section">
-                            <h5 id="textCreated">생성일자</h5>
+                            <div className="grapCreateDate">
+                            <h5 id="textCreated">생성일자 ▶ </h5>
                             <input
                                 type="date"
                                 value={state.playlistDate}
@@ -145,18 +146,22 @@ const Create = () => {
                                 name="playlistDate"
                                 id="DateClick"
                             />
+                            </div>
                         </div>
                         <div className="create_title_section">
+                        <h5 id="textCreated">플레이리스트 제목 ▶ </h5>
                             <input
                                 type="text"
                                 className="form-control"
                                 name="playlistTitle"
                                 value={state.playlistTitle}
-                                placeholder="플레이리스트 제목을 입력하세요..."
+                                placeholder="제목을 입력하세요...(15자이내)"
                                 onChange={handleChange}
+                                maxLength="15"
                             />
                         </div>
                         <div className="create_explain_section">
+                        <h5 id="textCreated">플레이리스트 설명 ▶ </h5>
                             <textarea
                                 className="form-control board-textarea"
                                 rows="8"
@@ -164,9 +169,10 @@ const Create = () => {
                                 value={state.playlistComment}
                                 placeholder="플레이리스트 설명을 입력하세요...[300자이내]"
                                 onChange={handleChangeContent}
+                                maxLength="300"
                             ></textarea>
                         </div>
-                        <div className="create_section">
+                        <div className="create_section2">
                             <div className="fileinputBtn">
                                 <input
                                     type="file"
@@ -193,7 +199,7 @@ const Create = () => {
             </div>
             <div className="Edit_Btn">
                 <Button text="취소" link={"/PlaylistPage"}/>
-                <Button text="생성하기!" onClick={handleSubmit} />
+                <Button text="생성하기" onClick={handleSubmit} />
             </div>
         </div>
     );

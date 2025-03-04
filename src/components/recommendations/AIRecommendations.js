@@ -176,7 +176,7 @@ const AIRecommendations = () => {
     return (
         <div className="keyword-recommendation">
             <div className="form-container">
-                <div className="form-group">
+                <div className="form-group2">
                     <Button text="AI 추천 받기" onClick={handleSubmit} />
                 </div>
             </div>
@@ -205,13 +205,13 @@ const AIRecommendations = () => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </div> 
                         )}
                         {state.showSaveForm && (
                             <div className="playlist-save-form">
-                                <h5>플레이리스트 저장</h5>
+                                <h5>플레이리스트 생성</h5>
                                 <div className="form-group">
-                                    <label htmlFor="playlistDate">생성일자</label>
+                                    <label htmlFor="playlistDate">생성일자 ▶ </label>
                                     <input
                                         type="date"
                                         name="playlistDate"
@@ -220,7 +220,7 @@ const AIRecommendations = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="playlistPhoto">플레이리스트 사진</label>
+                                    <label htmlFor="playlistPhoto">대표사진 ▶ </label>
                                     <input
                                         type="file"
                                         name="playlistPhoto"
@@ -235,7 +235,8 @@ const AIRecommendations = () => {
                                         name="playlistTitle"
                                         value={state.playlistTitle}
                                         onChange={handleChange}
-                                        placeholder="플레이리스트 제목을 입력하세요..."
+                                        placeholder="플레이리스트 제목을 입력하세요...(25자이내)"
+                                         maxLength="25"
                                     />
                                 </div>
                                 <div className="form-group">
@@ -243,10 +244,11 @@ const AIRecommendations = () => {
                                         name="playlistComment"
                                         value={state.playlistComment}
                                         onChange={handleChange}
-                                        placeholder="플레이리스트 설명을 입력하세요..."
-                                    ></textarea>
+                                        placeholder="플레이리스트 설명을 입력하세요...(300자이내)"
+                                        maxLength="300"
+                                   ></textarea>
                                 </div>
-                                <Button text="저장하기" onClick={handleSave} />
+                                <Button text="생성하기" onClick={handleSave} />
                             </div>
                         )}
                     </div>
