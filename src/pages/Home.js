@@ -41,7 +41,7 @@ const Home = () => {
                 // 다른 페이지 전환에서는 즉시 전환 (또는 다른 효과 적용)
                 setCurrentSection(sectionIndex);
                 createWaveEffect();
-                setTimeout(() => {
+        setTimeout(() => {
                     setIsAnimating(false);
                 }, 500); // 일반 전환은 더 짧은 시간
             }
@@ -165,6 +165,8 @@ const Home = () => {
         progressFill.style.width = `${((currentSection + 1) / totalSections) * 100}%`;
     }, [currentSection, totalSections]);
 
+    
+
     const handleLoginClick = () => {
         setShowOAuth(true);
     };
@@ -187,21 +189,9 @@ const Home = () => {
         navigate("/Signup");
     };
 
-    const handlePrevClick = () => {
-        if (currentSection > 0) {
-            transitionToSection(currentSection - 1);
-        }
-    };
-
-    const handleNextClick = () => {
-        if (currentSection < totalSections - 1) {
-            transitionToSection(currentSection + 1);
-        }
-    };
-
     return (
         <div className="home-container">
-            <Header isHomePage={true} />
+            <Header />
             <div className="scroll-container" ref={scrollContainerRef}>
                 <section className={`section hero-section hero ${isShattering ? 'shattering' : ''}`} data-index="0">
                     <div className="hero-content ">
@@ -241,20 +231,29 @@ const Home = () => {
                     
                
 
-            <div className="scroll-nav"></div>
+    <div className="scroll-nav"></div>
 
+    <div className="progress-container">
+        <div className="progress-text">01/03</div>
+        <div className="progress-bar">
+            <div className="progress-fill"></div>
+        </div>
+    </div>
+
+               
             <div className="progress-container">
                 <div className="progress-text">01/03</div>
                 <div className="progress-bar">
                     <div className="progress-fill"></div>
                 </div>
             </div>
-            <div className="nav-arrow prev" onClick={handlePrevClick}>
+            <div className="nav-arrow prev">
                 <div className="arrow-icon"></div>
             </div>
-            <div className="nav-arrow next" onClick={handleNextClick}>
+            <div className="nav-arrow next">
                 <div className="arrow-icon"></div>
             </div>
+
 
             <div className="shatter-effect-container">
                 <div className={`shatter-effect ${isShattering ? "active" : ""}`}>
@@ -266,6 +265,8 @@ const Home = () => {
 
             <Outlet />
         </div>
+
+        
     );
 };
 
