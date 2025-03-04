@@ -1,7 +1,10 @@
 .ReadMoreList {
     padding: 20px;
     background-color: #f9f9f9;
-    max-height: 90%;
+    max-height: 80%;
+    max-width: 90%;
+    margin: auto;
+    margin-top: 1%;
 }
 
 .goCreateView {
@@ -37,7 +40,7 @@
     flex-direction: column;
     overflow-y: scroll;
     white-space: nowrap;
-    max-height: 40rem;
-    height: 90%;
+    max-height: 32rem;
+    height: 75%;
     gap: 20px;
 }

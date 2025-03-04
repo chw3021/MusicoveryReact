@@ -4,18 +4,32 @@
     padding: 20px;
 }
 
-.form-container {
+.keyword-form-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 45%;
+    border-right: 1px solid white;
+    padding-right: 5%;
+    
 }
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-right: 1px solid white;
+    /* height: 100%; */    
 
+}
+.form-group2 {
+
+}
 .form-group {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
 
 .form-group select {
     width: 100%;
@@ -62,6 +76,7 @@
 
 .results-container {
     width: 45%;
+    margin-right: 2%;
 }
 
 .keyword-recommendations {
