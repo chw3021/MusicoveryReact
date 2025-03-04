@@ -102,14 +102,63 @@ const Home = () => {
         }, 2000); // 애니메이션 시간보다 약간 더 길게 설정
     };
 
-    // 조각 생성 함수
-    const createShatterPieces = () => {
+       // 개선된 조각 생성 함수
+       const createShatterPieces = () => {
         const pieces = [];
-        for (let i = 0; i < 30; i++) {
-            pieces.push(<div key={i} className="shatter-piece"></div>);
+        const numPieces = 900; // 더 많은 조각들
+        
+        // 화면 크기 기준으로 조각들 생성
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        for (let i = 0; i < numPieces; i++) {
+            // 화면 전체에 랜덤하게 배치
+            const startX = Math.random() * screenWidth;
+            const startY = Math.random() * screenHeight;
+            
+            // 바깥쪽으로 퍼지는 움직임 계산
+            const centerX = screenWidth / 2;
+            const centerY = screenHeight / 2;
+            
+            // 중앙에서 바깥쪽으로 향하는 벡터 계산
+            const dirX = startX - centerX;
+            const dirY = startY - centerY;
+            
+            // 거리에 비례하는 이동 거리 계산
+            const distance = Math.sqrt(dirX * dirX + dirY * dirY);
+            const normalizedDirX = dirX / distance;
+            const normalizedDirY = dirY / distance;
+            
+            const moveX = normalizedDirX * (300 + Math.random() * 500);
+            const moveY = normalizedDirY * (300 + Math.random() * 500);
+            
+            // 랜덤 회전
+            const randomRotation = Math.random() * 720 - 360;
+            
+            // 랜덤 색상 클래스
+            const colorClass = `color${Math.floor(Math.random() * 4) + 1}`;
+            
+            pieces.push(
+                <div
+                    key={i}
+                    className={`shatter-piece ${colorClass}`}
+                    style={{
+                        left: `${startX}px`,
+                        top: `${startY}px`,
+                        width: `${10 + Math.random() * 40}px`, // 다양한 크기
+                        height: `${10 + Math.random() * 40}px`,
+                        '--x': `${moveX}px`,
+                        '--y': `${moveY}px`,
+                        '--r': `${randomRotation}deg`,
+                        animationDuration: `${0.8 + Math.random() * 0.4}s`, // 조금씩 다른 애니메이션 속도
+                    }}
+                />
+            );
         }
         return pieces;
     };
+
+
 
     useEffect(() => {
         const handleWheel = (e) => {
