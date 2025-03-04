@@ -359,6 +359,12 @@ body {
     }
 }
 
+
+
+/* 기존 스타일 유지 */
 .explosion {
     animation: explosion 1s ease-in-out;
 }
+
+
+
