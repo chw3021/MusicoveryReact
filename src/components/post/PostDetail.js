@@ -176,24 +176,24 @@ const PostDetail = ({ post, onBack }) => {
                     </button>
                 </div>
                 <div className="post-meta-bottom">
-                {/* 수정 및 삭제 버튼 추가 */}
-                {userInfo && currentPost.user.userId === userInfo.userId && (
-                    <>
-                        {isEditing ? (
-                            <>
-                                <button className="post-meta-bottom-button" onClick={handleUpdate}>저장</button>
-                                <button className="post-meta-bottom-button" onClick={handleEditCancel}>취소</button>
-                            </>
-                        ) : (
-                            <>
-                                <button className="post-meta-bottom-button" onClick={handleEditClick} disabled={isUpdating}>
-                                    {isUpdating ? "수정 중..." : "수정"}
-                                </button>
-                                <button className="post-meta-bottom-button" onClick={handleDelete}>삭제</button>
-                            </>
-                        )}
-                    </>
-                )}
+                    {/* 수정 및 삭제 버튼 추가 */}
+                    {userInfo && currentPost.user.userId === userInfo.userId && (
+                        <>
+                            {isEditing ? (
+                                <>
+                                    <button className="post-meta-bottom-button" onClick={handleUpdate}>저장</button>
+                                    <button className="post-meta-bottom-button" onClick={handleEditCancel}>취소</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button className="post-meta-bottom-button" onClick={handleEditClick} disabled={isUpdating}>
+                                        {isUpdating ? "수정 중..." : "수정"}
+                                    </button>
+                                    <button className="post-meta-bottom-button" onClick={handleDelete}>삭제</button>
+                                </>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
             {isEditing ? (
@@ -214,7 +214,7 @@ const PostDetail = ({ post, onBack }) => {
                     <p>{currentPost.description}</p>
                 </>
             )}
-            <div className="post-meta">
+            <div className="post-meta-writer">
                 <span>작성일: {new Date(currentPost.createdDate).toLocaleDateString()}</span>
                 <span>작성자: {currentPost.user.nickname}</span>
             </div>

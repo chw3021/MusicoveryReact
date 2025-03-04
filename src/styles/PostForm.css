@@ -1,10 +1,12 @@
 /* PostForm.css */
 .post-form {
     padding: 20px;
-    background-color: #fff;
+    background-color: #f2fff8;
     color: #000;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: auto;
 }
 
 .form-group {

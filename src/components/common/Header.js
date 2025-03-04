@@ -7,26 +7,29 @@ import { getImageUrl } from "../../utils/imageUtils";
 import logoImage from '../../assets/logo.png';  // 이미지 import
 import 'animate.css';
 
-const Header = () => {
+const Header = ({ isHomePage = false }) => {
     const userInfo = useUserInfo();
 
     useEffect(() => {
-        const logoElement = document.querySelector(`.${styles.logo}`);
-        
-        // 첫 번째 애니메이션: animate__backInRight
-        logoElement.classList.add('animate__animated', 'animate__backInRight'); 
-    
-        // 첫 번째 애니메이션이 끝난 후, 두 번째 애니메이션 시작
-        logoElement.addEventListener("animationend", function handleAnimationEnd(event) {
-            if (event.animationName === 'backInRight') {
-                logoElement.classList.remove('animate__backInRight');  // 첫 번째 애니메이션 클래스 제거
-                logoElement.classList.add('animate__jello');  // 두 번째 애니메이션 추가
-            }
+        if (isHomePage) {
+            const logoElement = document.querySelector(`.${styles.logo}`);
             
-            // 애니메이션이 끝난 후 이벤트 리스너 제거
-            logoElement.removeEventListener('animationend', handleAnimationEnd);
-        });
-    }, []);  // 컴포넌트가 처음 렌더링될 때만 실행
+            // 첫 번째 애니메이션: animate__backInRight
+            logoElement.classList.add('animate__animated', 'animate__backInRight'); 
+        
+            // 첫 번째 애니메이션이 끝난 후, 두 번째 애니메이션 시작
+            logoElement.addEventListener("animationend", function handleAnimationEnd(event) {
+                if (event.animationName === 'backInRight') {
+                    logoElement.classList.remove('animate__backInRight');  // 첫 번째 애니메이션 클래스 제거
+                    logoElement.classList.add('animate__jello');  // 두 번째 애니메이션 추가
+                }
+                
+                // 애니메이션이 끝난 후 이벤트 리스너 제거
+                logoElement.removeEventListener('animationend', handleAnimationEnd);
+            });
+        }
+    }, [isHomePage]);  // isHomePage가 변경될 때만 실행
+    
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
