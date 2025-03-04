@@ -341,7 +341,7 @@ body {
 }
 
 /* 음파 파동 애니메이션 */
-@keyframes wave {
+/* @keyframes wave {
   0% {
     transform: scale(4);
     opacity: 10;
@@ -363,4 +363,4 @@ body {
   transform: translate(-50%, -50%);
   pointer-events: none;
   animation: wave 2s ease-out forwards;
-}
+} */
