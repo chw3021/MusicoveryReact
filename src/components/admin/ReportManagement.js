@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../styles/ReportManagement.css"; // ✅ CSS 적용
+import "../../styles/ReportManagement.css";
 
 const ReportManagement = () => {
     const [userReports, setUserReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
 
-    // ✅ 신고된 사용자 목록 가져오기
+    // 신고된 사용자 목록 가져오기
     useEffect(() => {
         axios.get("http://localhost:8080/api/userreport/reports")
             .then(response => {
@@ -18,7 +18,7 @@ const ReportManagement = () => {
             });
     }, []);
 
-    // ✅ 특정 신고 클릭 시 상세 내용 업데이트
+    // 특정 신고 클릭 시 상세 내용 업데이트
     const selectReport = (index) => {
         const report = userReports[index];
         console.log("✅ 선택된 신고 데이터:", report);
@@ -41,7 +41,7 @@ const ReportManagement = () => {
                     ))}
                 </div>
 
-                {/* ✅ 신고 상세 내용 표시 */}
+                {/* 신고 상세 내용 표시 */}
                 <div className="report-detail">
                     {selectedReport ? (
                         <>
@@ -50,10 +50,10 @@ const ReportManagement = () => {
                             <p><strong>신고 날짜:</strong> {new Date(selectedReport.reportedAt).toLocaleString()}</p>
                             <p><strong>상태:</strong> {selectedReport.status}</p>
 
-                            {/* ✅ 플레이리스트가 있는 경우 표시 */}
+                            {/* 플레이리스트가 있는 경우 표시 */}
                             {selectedReport.playlist && (
                                 <div className="playlist-info">
-                                    <h3>🚀 플레이리스트 정보</h3>
+                                    <h3>🎵 플레이리스트 정보</h3>
                                     <p><strong>제목:</strong> {selectedReport.playlist.title}</p>
                                     <p><strong>설명:</strong> {selectedReport.playlist.description}</p>
                                     <div className="playlist-tracks">
