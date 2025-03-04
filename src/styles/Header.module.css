@@ -1,11 +1,6 @@
 .header {
     padding: 1.5rem 2rem;
-    top: 0;
-    left: 0;
-    width: 100%;
     background-color: rgba(18, 18, 18, 0.8);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,11 +22,11 @@
     justify-content: flex-end;
 }
 
-.logo {
+.header .logo {
     display: flex;
     align-items: center;
 }
-.logoImage {
+.header .logoImage {
     width: 220px;  /* 이미지 크기 조정 */
     height: auto;
     margin-right: 10px;  /* 로고와 비주얼라이저 사이 간격 */
@@ -48,23 +43,44 @@
     border-radius: 3px;
 } 로고에 초록색 밑줄인데 왜있는지모르겠어서 주석해놓음 */
 
+.header .nav {
+    display: flex;
+    justify-content: center;
+}
 
-
-.navList {
+.header .navList {
     display: flex;
     list-style: none;
     align-items: center;
     padding: 0;
     margin: 0;
 }
+
 .navItem {
     margin: 0 1rem;
+    flex: 0 0 auto;
 }
 
-.navItem a {
+.navItem button {
+    display: block;
     width: 6rem;
+    padding: 0.5rem 0.2rem;
     text-align: center;
     font-size: 0.91rem;
+    white-space: nowrap;
+    background-color: black;
+    color: var(--light);
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.navItem button:hover {
+    background-color: rgb(110, 110, 110);
+    transform: translateY(-2px);
 }
 
 .profileImage {

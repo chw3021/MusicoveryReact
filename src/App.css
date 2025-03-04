@@ -4,6 +4,10 @@
 }
 
 
+html {
+  overflow-y: auto !important;
+}
+
 
 /* App.css */
 body {
