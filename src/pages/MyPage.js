@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "../styles/MyPage.css";
 import Header from "../components/common/Header";
+import ProfileEdit from "../components/mypage/ProfileEdit";
+import InfoEdit from "../components/mypage/InfoEdit";
+import DeleteAccount from "../components/mypage/DeleteAccount";
 
 function MyPage() {
   const [activeTab, setActiveTab] = useState("profile"); // 기본 탭: 프로필 수정
@@ -10,34 +13,6 @@ function MyPage() {
     { id: "info", label: "🔐 개인정보 수정" },
     { id: "delete", label: "❌ 회원 탈퇴" },
   ];
-
-  function ProfileEdit() {
-    return (
-      <div className="mypage-section">
-        <h2>프로필 수정</h2>
-        <p>닉네임, 프로필 사진 변경 가능</p>
-      </div>
-    );
-  }
-
-  function InfoEdit() {
-    return (
-      <div className="mypage-section">
-        <h2>개인정보 수정</h2>
-        <p>이메일, 비밀번호 변경 가능</p>
-      </div>
-    );
-  }
-
-  function DeleteAccount() {
-    return (
-      <div className="mypage-section">
-        <h2>회원 탈퇴</h2>
-        <p>정말 탈퇴하시겠습니까?</p>
-        <button className="delete-button">회원 탈퇴</button>
-      </div>
-    );
-  }
 
   return (
     <>

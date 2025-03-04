@@ -14,9 +14,14 @@
 .nav li {
     margin-left: 25px;
 } */
+/* 페이지 전환 시 스크롤이 작동하도록 */
+html:not(.home-page), 
+body:not(.home-page) {
+  overflow-y: auto !important;
+}
+
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -354,31 +359,12 @@ body {
     }
 }
 
+
+
+/* 기존 스타일 유지 */
 .explosion {
     animation: explosion 1s ease-in-out;
 }
 
 
 
-
-
-
-
-.transition-container {
-  visibility: hidden;
-  position: relative;
-}
-
-.transition-strip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.transition-strip.visible {
-  opacity: 1;
-}
