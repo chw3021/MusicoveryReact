@@ -8,7 +8,7 @@ import axios from "axios";
 
 Chart.register(...registerables, ChartDataLabels);
 
-// 🔹 최근 7일간 날짜 생성 함수
+// 최근 7일간 날짜 생성 함수
 const getLast7Days = () =>
     Array.from({ length: 7 }, (_, i) => {
         const date = new Date();
@@ -19,7 +19,7 @@ const getLast7Days = () =>
 const AdminDashboard = ({ setActiveSection }) => {
     const labels = getLast7Days(); // X축 날짜
 
-    // 🔹 상태 값
+    // 상태 값
     const [weeklyNewUsers, setWeeklyNewUsers] = useState(new Array(7).fill(0));
     const [totalUsers, setTotalUsers] = useState(0);
     const [recentUsers, setRecentUsers] = useState([]);
@@ -28,7 +28,7 @@ const AdminDashboard = ({ setActiveSection }) => {
     const [totalPlaylists, setTotalPlaylists] = useState(0);
     const [recentPlaylists, setRecentPlaylists] = useState([]);
 
-    // 🔹 백엔드 데이터 불러오기
+    // 백엔드 데이터 불러오기
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -57,11 +57,11 @@ const AdminDashboard = ({ setActiveSection }) => {
         fetchData();
     }, []);
 
-    // 🔹 오늘 날짜의 데이터 반영
+    // 오늘 날짜의 데이터 반영
     const todayNewUsers = weeklyNewUsers[6] || 0;
     const todayNewPlaylists = weeklyPlaylists[6] || 0;
 
-    // 🔹 통계 카드 + 차트 데이터
+    // 통계 카드 + 차트 데이터
     const stats = [
         {
             id: 1,
@@ -158,7 +158,7 @@ const AdminDashboard = ({ setActiveSection }) => {
     );
 };
 
-// 🔹 대시보드 섹션 컴포넌트
+// 대시보드 섹션 컴포넌트
 const DashboardSection = ({ title, icon, items, type }) => (
     <div className="dashboard-section">
         <h3>{icon} {title}</h3>
@@ -178,7 +178,7 @@ const DashboardSection = ({ title, icon, items, type }) => (
     </div>
 );
 
-// 🔹 관리자 알림 섹션
+// 관리자 알림 섹션
 const DashboardAlerts = ({ setActiveSection }) => (
     <div className="dashboard-section">
         <h3><FaBell /> 관리자 알림</h3>
@@ -194,7 +194,7 @@ const DashboardAlerts = ({ setActiveSection }) => (
     </div>
 );
 
-// 🔹 날짜 포맷 변환
+// 날짜 포맷 변환
 const formatDate = date => new Date(date).toISOString().split("T")[0];
 
 export default AdminDashboard;

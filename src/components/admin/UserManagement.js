@@ -13,7 +13,7 @@ const UserManagement = () => {
         fetchUsers();
     }, [searchTerm, sortBy]);
 
-    // 🔹 유저 목록 가져오기
+    // 유저 목록 가져오기
     const fetchUsers = async () => {
         setLoading(true);
         try {
@@ -27,7 +27,7 @@ const UserManagement = () => {
         setLoading(false);
     };
 
-    // 🔹 유저 정지/해제
+    // 유저 정지/해제
     const handleToggleUserStatus = async (userId) => {
         if (!window.confirm("해당 유저의 상태를 변경하시겠습니까?")) return;
         try {
@@ -40,7 +40,7 @@ const UserManagement = () => {
         }
     };
 
-    // 🔹 유저 삭제
+    // 유저 삭제
     const handleDeleteUser = async (userId) => {
         if (!window.confirm("해당 유저를 삭제하시겠습니까?")) return;
         try {
