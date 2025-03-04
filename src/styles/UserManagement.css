@@ -1,10 +1,10 @@
-/* 🔹 사용자 관리 페이지 */
+/* 사용자 관리 페이지 */
 .user-management {
     padding: 20px;
     color: white;
 }
 
-/* 🔹 검색 & 정렬 컨트롤 */
+/* 검색 & 정렬 컨트롤 */
 .user-controls {
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@
     gap: 10px;
 }
 
-/* 🔹 검색 바 */
+/* 검색 바 */
 .user-controls input {
     flex: 1;
     padding: 12px;
@@ -33,7 +33,7 @@
     outline: none;
 }
 
-/* 🔹 정렬 드롭다운 스타일 */
+/* 정렬 드롭다운 스타일 */
 .user-controls select {
     padding: 12px;
     min-width: 140px;
@@ -46,13 +46,13 @@
     transition: 0.3s ease-in-out;
 }
 
-/* 🔹 드롭다운 포커스 시 스타일 */
+/* 드롭다운 포커스 시 스타일 */
 .user-controls select:focus {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 🔹 드롭다운 옵션 스타일 */
+/* 드롭다운 옵션 스타일 */
 .user-controls select option {
     background-color: #222;
     color: white;
@@ -60,12 +60,12 @@
     font-size: 16px;
 }
 
-/* 🔹 드롭다운 옵션 Hover 효과 */
+/* 드롭다운 옵션 Hover 효과 */
 .user-controls select option:hover {
     background-color: #333;
 }
 
-/* 🔹 유저 테이블 */
+/* 유저 테이블 */
 .user-table {
     width: 100%;
     border-collapse: collapse;
@@ -87,13 +87,13 @@
     font-weight: bold;
 }
 
-/* 🔹 테이블 hover 효과 */
+/* 테이블 hover 효과 */
 .user-table tr:hover {
     background: rgba(255, 255, 255, 0.1);
     transition: 0.3s ease-in-out;
 }
 
-/* 🔹 버튼 스타일 */
+/* 버튼 스타일 */
 .user-table button {
     padding: 8px 12px;
     border-radius: 5px;
@@ -121,7 +121,7 @@
     background: #cc3a3a;
 }
 
-/* 🔹 모달 스타일 */
+/* 모달 스타일 */
 .modal {
     position: fixed;
     top: 0; left: 0;
@@ -158,7 +158,7 @@
     background: #cc3a3a;
 }
 
-/* 🔹 애니메이션 */
+/*  애니메이션 */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -170,7 +170,7 @@
     }
 }
 
-/* 🔹 로딩 메시지 스타일 */
+/*  로딩 메시지 스타일 */
 .loading-text {
     text-align: center;
     font-size: 16px;
