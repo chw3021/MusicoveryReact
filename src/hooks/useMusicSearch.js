@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance";
+import { transferPlayback } from "../components/music/spotifyPlayer";
 
 const useMusicSearch = () => {
     const [keyword, setKeyword] = useState("");
     const [results, setResults] = useState([]);
     const [audioPlayer, setAudioPlayer] = useState(new Audio());
     const [isPremium, setIsPremium] = useState(false);
-    const [player, setPlayer] = useState(null);
     const [deviceId, setDeviceId] = useState(null);
 
     // Premium 상태 확인
@@ -32,9 +32,10 @@ const useMusicSearch = () => {
                     }
                 });
                 const devices = response.data.devices;
-                console.log(devices);
                 if (devices.length > 0) {
                     setDeviceId(devices[0].id);
+                    // 브라우저를 활성 디바이스로 설정
+                    await transferPlayback(devices[0].id);
                 }
             } catch (error) {
                 console.error("Failed to fetch devices", error);
@@ -47,19 +48,15 @@ const useMusicSearch = () => {
         e.preventDefault();
         try {
             const response = await axiosInstance.get(`/api/spotify/search?keyword=${keyword}&type=track`);
-            setResults(response.data.tracks.items);
+            const filteredResults = response.data.tracks.items.filter(
+                (track) => track.is_playable
+            );
+            setResults(filteredResults);
         } catch (error) {
             console.error("Failed to search music", error);
+            setResults([]);
         }
     };
-
-    // 컴포넌트 언마운트 시 정리
-    useEffect(() => {
-        return () => {
-            audioPlayer.pause();
-            audioPlayer.src = '';
-        };
-    }, []);
 
     return {
         keyword,
