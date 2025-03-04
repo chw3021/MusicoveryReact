@@ -75,7 +75,7 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
                         playlists.map(playlist => (
                             <div key={playlist.playlistId} className="streaming-info">
                                 <h2 id="titleColor">플레이리스트명 : {playlist.playlistTitle}</h2>
-                                <p>현재 상태 : {playlist.isPublic ? "🔓 공개" : "🔒 비공개"}</p>
+                                <p id="statePlace">현재 상태 : {playlist.isPublic ? "🔓 공개" : "🔒 비공개"}</p>
                                 <button className="toggle-button" onClick={() => togglePublicStatus(playlist.playlistId)}>
                                     {playlist.isPublic ? "비공개로 변경" : "공개로 변경"}
                                 </button>
