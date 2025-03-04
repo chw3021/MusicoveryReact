@@ -1,9 +1,27 @@
 /* Home.css */
 
+
+/* 
+.logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1db954;
+} */
+/* 
+.nav ul {
+    display: flex;
+} */
+/* 
+.nav li {
+    margin-left: 25px;
+} */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.hero {
 }
 
 :root {
@@ -31,7 +49,6 @@ body {
     height: 100vh;
     width: 100vw;
 }
-
 .scroll-container {
     display: flex;
     transition: transform 0.8s ease-in-out;
@@ -105,6 +122,7 @@ body {
 
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://cdn.pixabay.com/photo/2022/06/21/21/15/audio-7276511_1280.jpg') center/cover no-repeat;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,24 +347,5 @@ body {
     border-radius: 0%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    animation: wave 1s ease-out forwards;
-  } */
-
-  @keyframes explosion {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
-}
-
-.explosion {
-    animation: explosion 1s ease-in-out;
+    animation: wave 2s ease-out forwards;
 }

@@ -14,6 +14,7 @@ const Home = () => {
     const [currentSection, setCurrentSection] = useState(0);
     const totalSections = 3;
     const scrollContainerRef = useRef(null);
+    const curtainRef = useRef(null);
     const scrollCooldown = 1000; // 1초 쿨다운
     const [isAnimating, setIsAnimating] = useState(false);
     let lastScrollTime = Date.now();
@@ -25,6 +26,10 @@ const Home = () => {
     }, []);
 
     const transitionToSection = (sectionIndex) => {
+        setIsAnimating(true);
+        const curtain = curtainRef.current;
+        curtain.classList.add("show");
+
         if (currentSection !== sectionIndex) {
             setIsAnimating(true);
             
@@ -42,6 +47,11 @@ const Home = () => {
                 setCurrentSection(sectionIndex);
                 createWaveEffect();
         setTimeout(() => {
+            setCurrentSection(sectionIndex);
+            curtain.classList.remove("show");
+            setIsAnimating(false);
+        }, scrollCooldown);
+    };
                     setIsAnimating(false);
                 }, 500); // 일반 전환은 더 짧은 시간
             }
@@ -253,6 +263,7 @@ const Home = () => {
             <div className="nav-arrow next">
                 <div className="arrow-icon"></div>
             </div>
+            <div className="curtain" ref={curtainRef}></div>
 
 
             <div className="shatter-effect-container">
