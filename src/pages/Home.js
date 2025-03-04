@@ -13,6 +13,7 @@ const Home = () => {
     const [currentSection, setCurrentSection] = useState(0);
     const totalSections = 3;
     const scrollContainerRef = useRef(null);
+    const curtainRef = useRef(null);
     const scrollCooldown = 1000; // 1초 쿨다운
     const [isAnimating, setIsAnimating] = useState(false);
     let lastScrollTime = Date.now();
@@ -24,20 +25,14 @@ const Home = () => {
 
     const transitionToSection = (sectionIndex) => {
         setIsAnimating(true);
-        setCurrentSection(sectionIndex);
-        createWaveEffect();
+        const curtain = curtainRef.current;
+        curtain.classList.add("show");
+
         setTimeout(() => {
+            setCurrentSection(sectionIndex);
+            curtain.classList.remove("show");
             setIsAnimating(false);
         }, scrollCooldown);
-    };
-
-    const createWaveEffect = () => {
-        const wave = document.createElement("div");
-        wave.className = "wave-effect";
-        document.body.appendChild(wave);
-        setTimeout(() => {
-            wave.remove();
-        }, 2000); // 애니메이션 시간보다 약간 더 길게 설정
     };
 
     useEffect(() => {
@@ -147,6 +142,7 @@ const Home = () => {
             <div className="nav-arrow next">
                 <div className="arrow-icon"></div>
             </div>
+            <div className="curtain" ref={curtainRef}></div>
             <canvas className="slice-canvas"></canvas>
             <Outlet />
         </div>
