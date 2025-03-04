@@ -163,7 +163,8 @@ const KeywordRecommendation = () => {
 
     return (
         <div className="keyword-recommendation">
-            <div className="form-container">
+            <div className="keyword-form-container">
+                
                 <div className="form-group">
                     <label htmlFor="genre">장르</label>
                     <select
@@ -197,9 +198,9 @@ const KeywordRecommendation = () => {
                         onChange={handleChange}
                         className="bpm-form-input"
                         placeholder="BPM을 입력하세요..."
-                        min="60"     // 최소값 30
-                        max="250"    // 최대값 990
-                        step="1"     //
+                        min="30"     // 최소값 30
+                        max="990"    // 최대값 990
+                        step="5"     //5씩 상승
                     />
                 </div>
                 <div className="form-group">
@@ -218,7 +219,7 @@ const KeywordRecommendation = () => {
                     </select>
                 </div>
                 <div className="form-group">
-                    <Button text="생성하기!" onClick={handleSubmit} />
+                    <Button text="생성하기" onClick={handleSubmit} />
                 </div>
             </div>
 
@@ -242,9 +243,9 @@ const KeywordRecommendation = () => {
                         )}
                         {state.showSaveForm && (
                             <div className="playlist-save-form">
-                                <h5>플레이리스트 저장</h5>
+                                <h5>플레이리스트 생성</h5>
                                 <div className="form-group">
-                                    <label htmlFor="playlistDate">생성일자</label>
+                                    <label htmlFor="playlistDate">생성일자 ▶ </label>
                                     <input
                                         type="date"
                                         name="playlistDate"
@@ -253,7 +254,7 @@ const KeywordRecommendation = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="playlistPhoto">플레이리스트 사진</label>
+                                    <label htmlFor="playlistPhoto">대표 사진 ▶ </label>
                                     <input
                                         type="file"
                                         name="playlistPhoto"
@@ -267,7 +268,8 @@ const KeywordRecommendation = () => {
                                         name="playlistTitle"
                                         value={state.playlistTitle}
                                         onChange={handleChange}
-                                        placeholder="플레이리스트 제목을 입력하세요..."
+                                        placeholder="플레이리스트 제목을 입력하세요...(25자이내)"
+                                         maxLength="25"
                                     />
                                 </div>
                                 <div className="form-group">
@@ -275,10 +277,11 @@ const KeywordRecommendation = () => {
                                         name="playlistComment"
                                         value={state.playlistComment}
                                         onChange={handleChange}
-                                        placeholder="플레이리스트 설명을 입력하세요..."
+                                        placeholder="플레이리스트 설명을 입력하세요...(300자이내)"
+                                        maxLength="300"
                                     ></textarea>
                                 </div>
-                                <Button text="저장하기" onClick={handleSave} />
+                                <Button text="생성하기" onClick={handleSave} />
                             </div>
                         )}
                     </div>

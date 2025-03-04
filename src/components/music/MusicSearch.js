@@ -10,8 +10,8 @@ const MusicSearch = ({ onSelectTrack }) => {
         setKeyword,
         results,
         handleSearch,
-        handlePlay,
         isPremium,
+        deviceId,
     } = useMusicSearch();
 
     return (
@@ -31,13 +31,12 @@ const MusicSearch = ({ onSelectTrack }) => {
                     <div key={track.id} onClick={() => onSelectTrack(track)}>
                         <Music 
                             track={track} 
-                            handlePlay={handlePlay} 
+                            deviceId={deviceId} 
                             isPremium={isPremium} 
                         />
                     </div>
                 ))}
             </div>
-            {isPremium && <div className="premium-badge">Premium</div>}
         </div>
     );
 };

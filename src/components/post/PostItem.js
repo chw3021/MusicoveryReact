@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 const PostItem = ({ post, onSelectPost }) => {
     const navigate = useNavigate();
 
-    const handleReportClick = (user) => {
-        navigate("/userreport", { state: { reportedUser: user } });
+    const handleReportClick = (post) => {
+        navigate("/userreport", { state: { reportedPost: post } });
     };
-
+    
     return (
         <div className={`post-item ${post.isNotice ? 'notice' : ''}`} onClick={() => onSelectPost(post)}>
             <div className="post-number">{post.id}</div>
@@ -20,7 +20,7 @@ const PostItem = ({ post, onSelectPost }) => {
             <div className="post-date">{new Date(post.createdDate).toLocaleDateString()}</div>
             <div className="post-views">{post.viewCount}</div>
             <div className="post-report">
-                <button className="report-button" onClick={() => handleReportClick(post.user)}>신고</button>
+                <button className="report-button" onClick={() => handleReportClick(post)}>신고</button>
             </div>
         </div>
     );

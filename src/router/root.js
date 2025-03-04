@@ -74,7 +74,9 @@ const root = createBrowserRouter(
         path="social"
         element={
           <Suspense fallback={Loading}>
-            <SocialPage />
+            <PrivateRoute>
+              <SocialPage />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -82,7 +84,9 @@ const root = createBrowserRouter(
         path="streaming"
         element={
           <Suspense fallback={Loading}>
-            <Streaming />
+            <PrivateRoute>
+              <Streaming />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -90,7 +94,9 @@ const root = createBrowserRouter(
         path="challenge"
         element={
           <Suspense fallback={Loading}>
-            <Challenge />
+            <PrivateRoute>
+              <Challenge />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -98,7 +104,9 @@ const root = createBrowserRouter(
         path="quiz"
         element={
           <Suspense fallback={Loading}>
-            <Quiz />
+            <PrivateRoute>
+              <Quiz />
+            </PrivateRoute>
           </Suspense>
         }
       />
@@ -122,7 +130,9 @@ const root = createBrowserRouter(
         path="chat/:streamId"
         element={
           <Suspense fallback={Loading}>
-            <ChatRoom />
+            <PrivateRoute>
+              <ChatRoom />
+            </PrivateRoute>
           </Suspense>
         }
       />
