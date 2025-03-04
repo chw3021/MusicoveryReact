@@ -1,0 +1,79 @@
+/* 프로필 수정 컨테이너 */
+.profile-edit-container {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-width: 400px;
+  max-width: 600px;
+  height: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+/* 제목 */
+.profile-edit-container h2 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* 폼 스타일 */
+.profile-edit-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 라벨 */
+.profile-edit-container label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-weight: bold;
+  color: #dcdcdc;
+}
+
+/* 입력 필드 */
+.profile-edit-container input,
+.profile-edit-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #333;
+  color: #fff;
+}
+
+/* 프로필 이미지 업로드 */
+.profile-edit-container input[type="file"] {
+  padding: 5px;
+}
+
+/* 프로필 이미지 미리보기 */
+.profile-edit-container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+  border: 2px solid #ff4757;
+}
+
+/* 저장 버튼 */
+.profile-edit-container button {
+  background-color: #ff4757;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.profile-edit-container button:hover {
+  background-color: #e63946;
+}
