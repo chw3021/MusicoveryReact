@@ -134,6 +134,17 @@ const Quiz = () => {
                 saveRanking(timeTaken);
     
                 fetchLyrics();
+    
+                // 음성 재조정 (속도, 피치, 볼륨)
+                if (synth) {
+                    const utterance = new SpeechSynthesisUtterance("정답입니다! 다른 곡을 맞춰보세요!");
+                    utterance.lang = "ko-KR";
+                    utterance.rate = Math.random() * (5 - 2) + 2;  // 음성의 속도 2 ~ 5 사이의 랜덤 값
+                    utterance.pitch = Math.random() * (2 - 0.1) + 0.1;  // 음성의 피치 0.1 ~ 2 사이의 랜덤 값
+                    utterance.volume = 1.0;  // 볼륨 설정
+    
+                    synth.speak(utterance);
+                }
             } else {
                 alert("틀렸습니다. 다시 시도해 보세요.");
                 setUserInput("");
@@ -194,7 +205,7 @@ const Quiz = () => {
         const utterance = new SpeechSynthesisUtterance(lyricsText);
 
         utterance.lang = "ko-KR";
-        utterance.rate = Math.random() * (10 - 0.1) + 0.1;  // 음성의 속도 0.1 ~ 10 사이의 랜덤 값
+        utterance.rate = Math.random() * (5 - 2) + 2;  // 음성의 속도 2 ~ 5 사이의 랜덤 값
         utterance.pitch = Math.random() * (2 - 0.1) + 0.1;  // 음성의 피치 0.1 ~ 2 사이의 랜덤 값
         utterance.volume = 1.0;
 

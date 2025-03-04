@@ -28,15 +28,16 @@
 }
 
 .logo {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(to right, var(--primary), #4158D0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
+    display: flex;
+    align-items: center;
+}
+.logoImage {
+    width: 220px;  /* 이미지 크기 조정 */
+    height: auto;
+    margin-right: 10px;  /* 로고와 비주얼라이저 사이 간격 */
 }
 
-.logo::after {
+/* .logo::after {
     content: '';
     position: absolute;
     bottom: -5px;
@@ -45,7 +46,7 @@
     height: 3px;
     background: var(--primary);
     border-radius: 3px;
-}
+} 로고에 초록색 밑줄인데 왜있는지모르겠어서 주석해놓음 */
 
 
 

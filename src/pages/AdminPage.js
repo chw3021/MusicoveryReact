@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Header from "../components/common/Header";
 import "../styles/AdminPage.css";
 import AdminDashboard from "../components/admin/AdminDashboard";
+import UserManagement from "../components/admin/UserManagement";
+import ReportManagement from "../components/admin/ReportManagement";
+
 
 const AdminPage = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -18,9 +21,9 @@ const AdminPage = () => {
             case "dashboard":
                 return <AdminDashboard setActiveSection={setActiveSection} />;
             case "users":
-                return <div>👤 사용자 관리</div>;
+                return <UserManagement />;
             case "report":
-                return <div>🚨 신고 관리</div>;
+                return <ReportManagement />;
             case "support":
                 return <div>📞 고객 지원</div>;
             default:
