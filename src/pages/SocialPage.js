@@ -52,7 +52,7 @@ const SocialPage = () => {
                                                 <img src={defaultImage} alt="defaultImage" id="defaultImageStyle" />
                                             </div> 
                                             <div className="sectionright">   
-                                                <p>플레이리스트: {stream.playlist.playlistTitle}</p>
+                                                <p id="TitlePlace">{stream.playlist.playlistTitle}</p>
                                                 <h5 id="placebottom">스트리밍 호스트 ID: {stream.hostUser.nickname}</h5>
                                              </div> 
                                         </div>
