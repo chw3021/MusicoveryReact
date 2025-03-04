@@ -37,11 +37,19 @@ const Home = () => {
                     setCurrentSection(sectionIndex);
                     setIsAnimating(false);
                 }, 1000); // 깨짐 애니메이션 지속 시간과 맞춤
+            } else if (currentSection === 1 && sectionIndex === 2) {
+                handlePageFlip(); // 페이지 뒤집힘 효과 실행
+                
+                // 애니메이션 후에 실제 섹션 변경
+                setTimeout(() => {
+                    setCurrentSection(sectionIndex);
+                    setIsAnimating(false);
+                }, 1000); // 뒤집힘 애니메이션 지속 시간과 맞춤
             } else {
                 // 다른 페이지 전환에서는 즉시 전환 (또는 다른 효과 적용)
                 setCurrentSection(sectionIndex);
                 createWaveEffect();
-        setTimeout(() => {
+                setTimeout(() => {
                     setIsAnimating(false);
                 }, 500); // 일반 전환은 더 짧은 시간
             }
@@ -49,7 +57,7 @@ const Home = () => {
     };
 
     // 페이지 깨짐 효과 함수
-    const handlePageShatter = (explosion) => {
+    const handlePageShatter = () => {
         setIsShattering(true);
         const scrollContainer = scrollContainerRef.current;
         if (scrollContainer) {
@@ -66,60 +74,22 @@ const Home = () => {
         }, 1000);
     };
 
-    // 개선된 조각 생성 함수
-    const createShatterPieces = () => {
-        const pieces = [];
-        const numPieces = 900; // 더 많은 조각들
-        
-        // 화면 크기 기준으로 조각들 생성
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        
-        for (let i = 0; i < numPieces; i++) {
-            // 화면 전체에 랜덤하게 배치
-            const startX = Math.random() * screenWidth;
-            const startY = Math.random() * screenHeight;
-            
-            // 바깥쪽으로 퍼지는 움직임 계산
-            const centerX = screenWidth / 2;
-            const centerY = screenHeight / 2;
-            
-            // 중앙에서 바깥쪽으로 향하는 벡터 계산
-            const dirX = startX - centerX;
-            const dirY = startY - centerY;
-            
-            // 거리에 비례하는 이동 거리 계산
-            const distance = Math.sqrt(dirX * dirX + dirY * dirY);
-            const normalizedDirX = dirX / distance;
-            const normalizedDirY = dirY / distance;
-            
-            const moveX = normalizedDirX * (300 + Math.random() * 500);
-            const moveY = normalizedDirY * (300 + Math.random() * 500);
-            
-            // 랜덤 회전
-            const randomRotation = Math.random() * 720 - 360;
-            
-            // 랜덤 색상 클래스
-            const colorClass = `color${Math.floor(Math.random() * 4) + 1}`;
-            
-            pieces.push(
-                <div
-                    key={i}
-                    className={`shatter-piece ${colorClass}`}
-                    style={{
-                        left: `${startX}px`,
-                        top: `${startY}px`,
-                        width: `${10 + Math.random() * 40}px`, // 다양한 크기
-                        height: `${10 + Math.random() * 40}px`,
-                        '--x': `${moveX}px`,
-                        '--y': `${moveY}px`,
-                        '--r': `${randomRotation}deg`,
-                        animationDuration: `${0.8 + Math.random() * 0.4}s`, // 조금씩 다른 애니메이션 속도
-                    }}
-                />
-            );
+    // 페이지 뒤집힘 효과 함수
+    const handlePageFlip = () => {
+        const container = document.createElement('div');
+        container.className = 'page-transition-container';
+
+        for (let i = 0; i < 7; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'page-piece';
+            container.appendChild(piece);
         }
-        return pieces;
+
+        document.body.appendChild(container);
+
+        setTimeout(() => {
+            document.body.removeChild(container);
+        }, 1000); // 애니메이션 시간과 일치시킴
     };
 
     // 휠 이벤트 처리 함수
@@ -130,6 +100,15 @@ const Home = () => {
         setTimeout(() => {
             wave.remove();
         }, 2000); // 애니메이션 시간보다 약간 더 길게 설정
+    };
+
+    // 조각 생성 함수
+    const createShatterPieces = () => {
+        const pieces = [];
+        for (let i = 0; i < 30; i++) {
+            pieces.push(<div key={i} className="shatter-piece"></div>);
+        }
+        return pieces;
     };
 
     useEffect(() => {
@@ -164,8 +143,6 @@ const Home = () => {
         progressText.textContent = `0${currentSection + 1}/0${totalSections}`;
         progressFill.style.width = `${((currentSection + 1) / totalSections) * 100}%`;
     }, [currentSection, totalSections]);
-
-    
 
     const handleLoginClick = () => {
         setShowOAuth(true);
@@ -228,32 +205,22 @@ const Home = () => {
                     </div>
                 </section>
             </div>
-                    
-               
 
-    <div className="scroll-nav"></div>
+            <div className="scroll-nav"></div>
 
-    <div className="progress-container">
-        <div className="progress-text">01/03</div>
-        <div className="progress-bar">
-            <div className="progress-fill"></div>
-        </div>
-    </div>
-
-               
             <div className="progress-container">
                 <div className="progress-text">01/03</div>
                 <div className="progress-bar">
                     <div className="progress-fill"></div>
                 </div>
             </div>
+
             <div className="nav-arrow prev">
                 <div className="arrow-icon"></div>
             </div>
             <div className="nav-arrow next">
                 <div className="arrow-icon"></div>
             </div>
-
 
             <div className="shatter-effect-container">
                 <div className={`shatter-effect ${isShattering ? "active" : ""}`}>
@@ -265,8 +232,6 @@ const Home = () => {
 
             <Outlet />
         </div>
-
-        
     );
 };
 
