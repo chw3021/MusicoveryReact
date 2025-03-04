@@ -8,6 +8,7 @@ import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import VerifyPage from "../pages/VerifyPage";
 import MyPage from "../pages/MyPage";
+import PrivateRoute from "../components/auth/PrivateRoute";
 
 const Loading = <div>Loading...</div>;
 
@@ -236,7 +237,9 @@ const root = createBrowserRouter(
         path="mypage"
         element={
           <Suspense fallback={Loading}>
-            <MyPage />
+            <PrivateRoute>
+              <MyPage />
+            </PrivateRoute>
           </Suspense>
         }
       />
