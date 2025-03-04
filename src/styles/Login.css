@@ -1,5 +1,7 @@
 .login-container {
-  max-width: 400px;
+  width: 400px;
+  min-width: 400px; /* 최소 너비를 400px로 고정 */
+  max-width: 400px; /* 최대 너비도 400px로 고정 */
   margin: 0 auto;
   margin-top: 30px;
   text-align: center;
@@ -34,11 +36,26 @@
 }
 
 .loginpagebtn {
+  width: 150px;
+  height: 60px;
   display: inline-block;
   color: white;
   background-color: rgb(28, 28, 140);
-  padding: 15px 35px;
-  font-size: 1.2rem;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+}
+
+.socialbtn {
+  width: 250px;
+  height: 60px;
+  display: inline-block;
+  color: white;
+  background-color: rgb(28, 28, 140);
+  font-size: 20px;
   font-weight: bold;
   border-radius: 30px;
   transition: background-color 0.3s ease, transform 0.2s ease;

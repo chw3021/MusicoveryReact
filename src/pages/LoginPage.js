@@ -168,7 +168,7 @@ const LoginPage = () => {
         </div>
         <hr />
         <h2>소셜 로그인</h2>
-        <button className="loginpagebtn" onClick={getAccessToken}>
+        <button className="socialbtn" onClick={getAccessToken}>
           스포티파이로 로그인
         </button>
         {/* {userInfo && <pre>{JSON.stringify(userInfo, null, 2)}</pre>} */}
