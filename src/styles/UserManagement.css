@@ -1,10 +1,9 @@
-/* 사용자 관리 페이지 */
+/* 📌 사용자 관리 페이지 */
 .user-management {
     padding: 20px;
-    color: white;
 }
 
-/* 검색 & 정렬 컨트롤 */
+/* 📌 검색 & 정렬 컨트롤 */
 .user-controls {
     display: flex;
     justify-content: space-between;
@@ -16,16 +15,16 @@
     gap: 10px;
 }
 
-/* 검색 바 */
+/* 📌 검색 바 */
 .user-controls input {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border-radius: 8px;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
-    font-size: 16px;
-    transition: 0.3s ease-in-out;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
 .user-controls input:focus {
@@ -33,53 +32,49 @@
     outline: none;
 }
 
-/* 정렬 드롭다운 스타일 */
+/* 📌 드롭다운 스타일 */
 .user-controls select {
-    padding: 12px;
+    padding: 10px;
     min-width: 140px;
     border-radius: 8px;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s ease-in-out;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-/* 드롭다운 포커스 시 스타일 */
+/* 📌 드롭다운 선택지 스타일 */
+.user-controls select option {
+    background-color: #333; /* ✅ 어두운 배경 */
+    color: white; /* ✅ 폰트 색상을 하얗게 */
+    padding: 10px;
+}
+
 .user-controls select:focus {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 드롭다운 옵션 스타일 */
-.user-controls select option {
-    background-color: #222;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-}
-
-/* 드롭다운 옵션 Hover 효과 */
-.user-controls select option:hover {
-    background-color: #333;
-}
-
-/* 유저 테이블 */
+/* 📌 사용자 목록 테이블 */
 .user-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; /* ✅ 테이블 셀 크기 균일하게 설정 */
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    overflow: hidden;
+    overflow-x: auto; /* ✅ 가로 스크롤 허용 */
 }
 
-.user-table th, .user-table td {
-    padding: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+/* 📌 테이블 셀 스타일 */
+.user-table th,
+.user-table td {
+    padding: 12px;
     text-align: center;
-    color: white;
-    font-size: 15px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-table th {
@@ -87,41 +82,43 @@
     font-weight: bold;
 }
 
-/* 테이블 hover 효과 */
+/* 📌 테이블 hover 효과 */
 .user-table tr:hover {
     background: rgba(255, 255, 255, 0.1);
-    transition: 0.3s ease-in-out;
+    transition: 0.3s;
 }
 
-/* 버튼 스타일 */
+/* 📌 버튼 스타일 */
 .user-table button {
     padding: 8px 12px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     font-size: 14px;
-    transition: 0.3s ease-in-out;
+    transition: 0.3s;
 }
 
-.user-table button:first-child {
+/* 📌 승인 버튼 */
+.user-table .approve-button {
     background: #4CAF50;
     color: white;
 }
 
-.user-table button:first-child:hover {
+.user-table .approve-button:hover {
     background: #3d8b40;
 }
 
-.user-table button:last-child {
+/* 📌 삭제 버튼 */
+.user-table .delete-button {
     background: #FF4D4D;
     color: white;
 }
 
-.user-table button:last-child:hover {
+.user-table .delete-button:hover {
     background: #cc3a3a;
 }
 
-/* 모달 스타일 */
+/* 📌 모달 스타일 */
 .modal {
     position: fixed;
     top: 0; left: 0;
@@ -130,19 +127,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s ease-in-out;
+    transition: 0.3s;
 }
 
+/* 📌 모달 컨텐츠 */
 .modal-content {
     background: #222;
     padding: 20px;
     border-radius: 10px;
-    color: white;
     text-align: center;
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.623);
+    animation: fadeIn 0.3s;
+    max-width: 400px; /* ✅ 크기 제한 */
+    width: 80%;
 }
 
+/* 📌 모달 닫기 버튼 */
 .modal-content button {
     margin-top: 10px;
     padding: 10px 15px;
@@ -151,14 +151,14 @@
     background: #FF4D4D;
     color: white;
     cursor: pointer;
-    transition: 0.3s ease-in-out;
+    transition: 0.3s;
 }
 
 .modal-content button:hover {
     background: #cc3a3a;
 }
 
-/*  애니메이션 */
+/* 📌 애니메이션 */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -170,7 +170,7 @@
     }
 }
 
-/*  로딩 메시지 스타일 */
+/* 📌 로딩 메시지 */
 .loading-text {
     text-align: center;
     font-size: 16px;

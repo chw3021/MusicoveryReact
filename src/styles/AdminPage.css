@@ -1,20 +1,16 @@
 /* 전체 레이아웃 */
 .admin-container {
     display: flex;
-    height: 100vh;
-    background: #181818;
-    overflow: hidden;
+    min-height: 100vh;
+    background: #121212;
 }
 
 /* 사이드바 스타일 */
 .sidebar {
     width: 220px;
-    min-width: 200px; /* ✅ 사이드바 크기 고정 */
+    min-width: auto; /* ✅ 크기 강제 고정 해제 */
     background: #2c2c2c;
-    color: #fff;
     padding: 10px;
-    text-align: center;
-    flex-shrink: 0;
 }
 
 .sidebar h2 {
@@ -58,7 +54,5 @@
 .content {
     flex: 1;
     padding: 30px;
-    background: #121212;
-    color: #fff;
-    overflow-y: auto;
+    overflow-x: auto; /* ✅ 가로 스크롤 문제 해결 */
 }

@@ -1,0 +1,158 @@
+/* 📌 관리자 고객 지원 페이지 */
+.admin-support {
+    padding: 20px;
+    text-align: center;
+}
+
+/* 📌 검색 & 필터 컨트롤 */
+.support-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.support-controls button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.all-btn { background: #777; color: white; }
+.pending-btn { background: #ff9800; color: white; }
+.resolved-btn { background: #4caf50; color: white; }
+.support-controls button:hover { filter: brightness(1.2); }
+
+/* 📌 문의 테이블 */
+.support-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.support-table th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+}
+
+.support-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ddd;
+}
+
+/* 📌 문의 내용 셀 */
+.question-cell {
+    max-width: 400px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    padding: 8px;
+}
+
+/* 📌 상태 스타일 */
+.status-pending { color: red; }
+.status-answered { color: green; }
+
+/* 📌 상세 보기 버튼 */
+.view-btn {
+    padding: 6px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.view-btn:hover { background: #0056b3; }
+
+/* 📌 모달 */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 📌 모달 컨텐츠 */
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    max-width: 500px;
+    width: 90%;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* 📌 문의 상세 내용 */
+.modal-text {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    text-align: left;
+    word-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 📌 답변 입력 칸 (문의 상세 내용과 동일한 크기 적용) */
+.response-textarea {
+    width: 100%;
+    height: 200px;  /* ✅ 문의 상세 내용과 동일한 높이로 맞춤 */
+    padding: 12px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    resize: none;
+    box-sizing: border-box;
+}
+
+/* 📌 버튼 컨테이너 */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* 📌 버튼 스타일 */
+.modal-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+/* 📌 답변 등록 버튼 (초록색) */
+.submit-btn {
+    background: #4caf50;
+    color: white;
+}
+.submit-btn:hover { background: #388e3c; }
+
+/* 📌 닫기 버튼 (빨간색) */
+.close-btn {
+    background: #ff4d4d;
+    color: white;
+}
+.close-btn:hover { background: #cc3a3a; }
