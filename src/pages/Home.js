@@ -219,6 +219,17 @@ const Home = () => {
     navigate("/mypage");
   };
 
+  const handlePrevClick = () => {
+    if (currentSection > 0) {
+      transitionToSection(currentSection - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (currentSection < totalSections - 1) {
+      transitionToSection(currentSection + 1);
+    }
+  };
   return (
     <div className="home-container">
       <Header />
@@ -292,10 +303,10 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="nav-arrow prev">
+      <div className="nav-arrow prev" onClick={handlePrevClick}>
         <div className="arrow-icon"></div>
       </div>
-      <div className="nav-arrow next">
+      <div className="nav-arrow next" onClick={handleNextClick}>
         <div className="arrow-icon"></div>
       </div>
 
