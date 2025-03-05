@@ -29,6 +29,7 @@ const OAuthCallback = lazy(() => import("../components/auth/OAuthCallback"));
 const Streaming = lazy(() => import("../components/social/Streaming"));
 const Challenge = lazy(() => import("../components/social/Challenge"));
 const Quiz = lazy(() => import("../components/social/Quiz"));
+const SongQuiz = lazy(() => import("../components/social/SongQuiz"));
 const CustomerSupport = lazy(() =>
   import("../components/social/CustomerSupport")
 );
@@ -106,6 +107,16 @@ const root = createBrowserRouter(
           <Suspense fallback={Loading}>
             <PrivateRoute>
               <Quiz />
+            </PrivateRoute>
+          </Suspense>
+        }
+      />
+      <Route
+        path="songquiz"
+        element={
+          <Suspense fallback={Loading}>
+            <PrivateRoute>
+              <SongQuiz />
             </PrivateRoute>
           </Suspense>
         }
