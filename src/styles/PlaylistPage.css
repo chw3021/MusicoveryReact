@@ -9,8 +9,8 @@
 
 /* 내 라이브러리 */
 #libText{
-    background-color: white;
-    color: black;
+    background-color:  #6666666e;
+    color: white;
     text-justify: auto;
     border-radius: 10px; /* 둥근 모서리 추가 */
     padding: 5px;

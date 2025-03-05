@@ -46,6 +46,7 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+    color: #fd05e0;
 }
 .social-content {
     font-size: 18px; 
@@ -109,6 +110,7 @@
     word-break: break-all; /* 텍스트가 길어질 경우 줄바꿈 */
     overflow-wrap: break-word;
     max-width: 18ch;
+    color: #333;
 }
 #placebottom{
     margin-left: 20px;
