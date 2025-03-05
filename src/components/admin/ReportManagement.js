@@ -81,11 +81,11 @@ const ReportManagement = () => {
                     <h3>📋 신고된 사용자 목록</h3>
                     <ul>
                         {userReports.map((report, index) => (
-                            <li key={index} 
+                            <li key={index}
                                 className={`report-item 
                                     ${report.status === "신고 접수" ? "pending-report" : ""} 
-                                    ${selectedReport === report ? "selected" : ""}`
-                                }
+                                    ${report.status === "사유 불충분" || report.status.includes("정지") ? "resolved-report" : ""} 
+                                    ${selectedReport === report ? "selected" : ""}`}
                                 onClick={() => selectReport(index)}
                             >
                                 <span className="report-user">{report.reportedUser}</span> 
