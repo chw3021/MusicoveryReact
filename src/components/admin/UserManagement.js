@@ -106,7 +106,7 @@ const UserManagement = () => {
                 <tbody>
                     {loading ? (
                         <tr>
-                            <td colSpan="6" className="loading-text">유저를 불러오는 중입니다...</td>
+                            <td colSpan="5" className="loading-text">유저를 불러오는 중입니다...</td>
                         </tr>
                     ) : currentUsers.length > 0 ? (
                         currentUsers.map((user, index) => (
@@ -126,7 +126,7 @@ const UserManagement = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="6">유저 정보가 없습니다.</td>
+                            <td colSpan="5">유저 정보가 없습니다.</td>
                         </tr>
                     )}
                 </tbody>

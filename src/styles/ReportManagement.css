@@ -1,36 +1,41 @@
+/* 📌 신고 관리 페이지 기본 스타일 */
 .report-management {
-    color: white;
     text-align: center;
     padding: 20px;
-    background-color: #181818;
 }
 
-/* 신고 목록 컨테이너 */
+/* 📌 신고 목록 & 상세 내용 컨테이너 */
 .report-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    padding: 20px;
+    gap: 20px;
 }
 
-/* 신고된 사용자 목록 스타일 */
+/* 📌 신고 목록 (신고된 사용자 리스트) */
 .report-list {
-    width: 40%;
+    flex: 1 1 45%; /* ✅ 유연한 크기 적용 */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-width: 300px;
 }
 
+/* 📌 신고 목록 스타일 */
 .report-list ul {
     list-style-type: none;
     padding: 0;
 }
 
 .report-list li {
-    padding: 10px;
-    border-bottom: 1px solid #444;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
     transition: background 0.2s ease-in-out;
 }
 
@@ -38,13 +43,12 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* 신고 항목 스타일 */
+/* 📌 신고 항목 기본 스타일 */
 .report-item {
     background-color: #444;
     color: white;
-    border: 1px solid #777;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 6px;
     cursor: pointer;
     text-align: left;
     transition: background 0.2s ease-in-out;
@@ -54,46 +58,49 @@
     background-color: #555;
 }
 
-/* 🚨 신고 접수 상태 기본 붉은색 */
+/* 🚨 신고 접수 상태 붉은색 강조 */
 .pending-report {
-    background: rgba(255, 0, 0, 0.61);
+    background: rgba(255, 0, 0, 0.6);
 }
 
-/* 선택된 신고 항목 */
+/* 📌 선택된 신고 항목 */
 .selected {
     background: rgba(0, 0, 0, 0.6);
 }
 
-/* 신고 상세 내용 */
+/* 📌 신고 상세 내용 */
 .report-detail {
-    width: 55%;
+    flex: 1 1 45%;
     background-color: #222;
     padding: 20px;
     border-radius: 10px;
     min-height: 200px;
+    max-width: 500px; /* ✅ 최대 크기 제한 */
 }
 
-/* 신고된 게시글 스타일 */
+/* 📌 신고된 게시글 스타일 */
 .post-info,
 .playlist-info {
     margin-top: 20px;
     padding: 15px;
     background-color: #333;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
+/* 📌 신고된 게시글 제목 */
 .post-info h3 {
     margin-bottom: 10px;
     color: #ffcc00;
 }
 
+/* 📌 신고된 게시글 내용 */
 .post-info p {
     margin: 5px 0;
     font-size: 14px;
     color: white;
 }
 
-/* 플레이리스트 트랙 스타일 */
+/* 📌 플레이리스트 트랙 스타일 */
 .playlist-tracks {
     margin-top: 10px;
 }
@@ -101,6 +108,19 @@
 .track-item {
     padding: 8px;
     background-color: #444;
-    border-radius: 5px;
+    border-radius: 6px;
     margin-top: 5px;
+}
+
+/* 📌 반응형 스타일 (화면이 작을 때 한 줄로 표시) */
+@media (max-width: 768px) {
+    .report-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .report-list, .report-detail {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }

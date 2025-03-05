@@ -5,8 +5,9 @@ import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem("MUSICOVERY_ACCESS_TOKEN");
+  const isLocalAuthenticated = localStorage.getItem("LOCAL_ACCESS_TOKEN");
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return (isAuthenticated || isLocalAuthenticated) ? children : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;
