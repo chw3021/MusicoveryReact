@@ -20,7 +20,7 @@ const PostItem = ({ post, onSelectPost }) => {
             <div className="post-date">{new Date(post.createdDate).toLocaleDateString()}</div>
             <div className="post-views">{post.viewCount}</div>
             <div className="post-report">
-                <button className="report-button" onClick={() => handleReportClick(post)}>신고</button>
+                <button className="report-button" onClick={() => handleReportClick(post)}>🚨</button>
             </div>
         </div>
     );

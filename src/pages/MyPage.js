@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "../styles/MyPage.css";
 import Header from "../components/common/Header";
+import Profile from "../components/mypage/Profile";
 import ProfileEdit from "../components/mypage/ProfileEdit";
 import InfoEdit from "../components/mypage/InfoEdit";
 import DeleteAccount from "../components/mypage/DeleteAccount";
 
 function MyPage() {
-  const [activeTab, setActiveTab] = useState("profile"); // 기본 탭: 프로필 수정
+  const [activeTab, setActiveTab] = useState("home"); // 기본 탭: 홈
 
   const menuItems = [
+    { id: "home", label: "🏠 홈" },
     { id: "profile", label: "📝 프로필 수정" },
     { id: "info", label: "🔐 개인정보 수정" },
     { id: "delete", label: "❌ 회원 탈퇴" },
@@ -36,7 +38,11 @@ function MyPage() {
 
         {/* 컨텐츠 영역 */}
         <main className="mypage-content">
-          {activeTab === "profile" && <ProfileEdit />}
+          {activeTab === "home" && <Profile />}
+          {activeTab === "profile" && (
+            <ProfileEdit setActiveTab={setActiveTab} />
+          )}
+
           {activeTab === "info" && <InfoEdit />}
           {activeTab === "delete" && <DeleteAccount />}
         </main>

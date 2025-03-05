@@ -1,5 +1,4 @@
 import React from "react";
-import WebPlayback from "./WebPlayback";
 import "../../styles/MusicSearch.css";
 import Music from "./Music";
 import useMusicSearch from "../../hooks/useMusicSearch";
@@ -11,12 +10,11 @@ const MusicSearch = ({ onSelectTrack }) => {
         results,
         handleSearch,
         isPremium,
-        deviceId,
     } = useMusicSearch();
 
     return (
         <div className="music-search">
-            {isPremium && <WebPlayback />}
+            {isPremium}
             <form onSubmit={handleSearch}>
                 <input
                     type="text"
@@ -30,8 +28,7 @@ const MusicSearch = ({ onSelectTrack }) => {
                 {results.map((track) => (
                     <div key={track.id} onClick={() => onSelectTrack(track)}>
                         <Music 
-                            track={track} 
-                            deviceId={deviceId} 
+                            track={track}
                             isPremium={isPremium} 
                         />
                     </div>

@@ -22,6 +22,9 @@ const UserManagement = () => {
             const response = await axios.get(`http://localhost:8080/admin/users`, {
                 params: { search: searchTerm, sort: sortBy }
             });
+
+            console.log("Fetched Users:", response.data); // ✅ 데이터 확인
+
             setUsers(response.data || []);
             setCurrentPage(1); // ✅ 검색 시 첫 페이지로 초기화
         } catch (error) {
@@ -79,7 +82,7 @@ const UserManagement = () => {
             <div className="user-controls">
                 <input 
                     type="text" 
-                    placeholder="유저 검색 (아이디, 닉네임)" 
+                    placeholder="유저 검색 (닉네임)" 
                     value={searchTerm} 
                     onChange={(e) => setSearchTerm(e.target.value)} 
                 />
@@ -106,18 +109,18 @@ const UserManagement = () => {
                             <td colSpan="6" className="loading-text">유저를 불러오는 중입니다...</td>
                         </tr>
                     ) : currentUsers.length > 0 ? (
-                        currentUsers.map(user => (
-                            <tr key={user.userId}>
+                        currentUsers.map((user, index) => (
+                            <tr key={user.id || `user-${index}`}>
                                 <td>{user.email}</td>
                                 <td>{user.nickname}</td>
                                 <td>{new Date(user.regdate).toISOString().split("T")[0]}</td>
-                                <td>{user.isBanned ? "정지됨" : "정상"}</td>
+                                <td>{user.active ? "정상" : "비활성화됨"}</td>
                                 <td>
                                     <button onClick={() => setSelectedUser(user)}>보기</button>
-                                    <button onClick={() => handleToggleUserStatus(user.userId)}>
-                                        {user.isBanned ? "해제" : "정지"}
+                                    <button onClick={() => handleToggleUserStatus(user.id)}>
+                                        {user.active ? "비활성화" : "활성화"}
                                     </button>
-                                    <button onClick={() => handleDeleteUser(user.userId)}>삭제</button>
+                                    <button onClick={() => handleDeleteUser(user.id)}>삭제</button>
                                 </td>
                             </tr>
                         ))
@@ -163,7 +166,7 @@ const UserManagement = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <h3>유저 상세 정보</h3>
-                        <p><b>아이디:</b> {selectedUser.userId}</p>
+                        <p><b>아이디:</b> {selectedUser.id}</p>
                         <p><b>닉네임:</b> {selectedUser.nickname}</p>
                         <p><b>이메일:</b> {selectedUser.email}</p>
                         <p><b>가입일:</b> {new Date(selectedUser.regdate).toISOString().split("T")[0]}</p>

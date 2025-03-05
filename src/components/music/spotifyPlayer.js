@@ -1,12 +1,31 @@
-import axiosInstance from '../../api/axiosInstance';
+import axios from 'axios';
+
+export const transferPlayback = async (deviceId) => {
+    try {
+        const url = 'https://api.spotify.com/v1/me/player';
+        await axios.put(
+            url,
+            {
+                device_ids: [deviceId],
+                play: true
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('MUSICOVERY_ACCESS_TOKEN')}`
+                }
+            }
+        );
+    } catch (error) {
+        console.error('Failed to transfer playback:', error);
+        throw error;
+    }
+};
 
 export const play = async ({ spotify_uri, deviceId, position = 0 }) => {
     try {
-        const url = deviceId 
-            ? `/music/play?deviceId=${deviceId}&musicId=${spotify_uri.split(':')[2]}`
-            : `/music/play?musicId=${spotify_uri.split(':')[2]}`;
+        const url = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
         
-        await axiosInstance.put(
+        await axios.put(
             url,
             {
                 uris: [spotify_uri],
@@ -26,7 +45,7 @@ export const play = async ({ spotify_uri, deviceId, position = 0 }) => {
 
 export const pause = async () => {
     try {
-        await axiosInstance.put('/api/spotify/pause', null, {
+        await axios.put('https://api.spotify.com/v1/me/player/pause', null, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('MUSICOVERY_ACCESS_TOKEN')}`
             }
