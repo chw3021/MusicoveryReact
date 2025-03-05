@@ -1,6 +1,6 @@
 .ReadMoreList {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #6666666e;
     max-height: 80%;
     max-width: 90%;
     margin: auto;
@@ -17,9 +17,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
     height:10px;
-
+    margin: 0.5% 0 20px 1.5%;
 }
 
 .searchText input {
