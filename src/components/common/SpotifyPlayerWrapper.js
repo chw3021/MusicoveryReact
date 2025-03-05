@@ -36,10 +36,9 @@ const SpotifyPlayerWrapper = () => {
 
   return (
     <div
-      className="spotify-player-wrapper"
+      className={`spotify-player-wrapper ${isPlaying ? 'is-playing' : ''}`}
       style={{
-        height: isHovered ? 'auto' : '8px', // 높이 조절
-        backgroundColor: isPlaying && !isHovered ? '#1DB954' : '#282828', // 재생 중일 때 배경색 변경
+        height: isHovered ? 'auto' : '12px', // 높이 조절
         transition: 'background-color 0.3s ease, height 0.3s ease', // 부드러운 전환 효과
       }}
       onMouseEnter={() => setIsHovered(true)}

@@ -191,7 +191,7 @@ const Create = () => {
                         {state.selectedTracks.map((track, index) => (
                             <li key={index}>
                                 <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                <button onClick={() => removeTrack(track.id)}>제거</button>
+                                <button id="deleteBtnColor" onClick={() => removeTrack(track.id)}>제거</button>
                             </li>
                         ))}
                     </ul>
