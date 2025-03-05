@@ -236,18 +236,18 @@ const SongQuiz = () => {
                     value={artist}
                     onChange={(e) => setArtist(e.target.value)}
                 />
-                <button onClick={handleArtistSearch}>검색</button>
+                <button className="song-quiz-button" onClick={handleArtistSearch}>검색</button>
                 </div>
                 {currentTrack && (
-                    <div>
+                    <div className="SendBtn">
                         <input
                             type="text"
                             placeholder="곡 제목을 입력하세요"
                             value={userAnswer}
                             onChange={(e) => setUserAnswer(e.target.value)}
                         />
-                        <button onClick={handleAnswerSubmit}>정답 제출</button>
-                        <button onClick={playTrack}>재생</button>
+                        <button className="song-quiz-button" onClick={handleAnswerSubmit}>정답 제출</button>
+                        <button className="song-quiz-button" onClick={playTrack}>재생</button>
                         {hintVisible && <button onClick={playHint}>힌트</button>}
                     </div>
                 )}
