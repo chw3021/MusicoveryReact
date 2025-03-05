@@ -43,7 +43,7 @@ function MyPage() {
             <ProfileEdit setActiveTab={setActiveTab} />
           )}
 
-          {activeTab === "info" && <InfoEdit />}
+          {activeTab === "info" && <InfoEdit setActiveTab={setActiveTab} />}
           {activeTab === "delete" && <DeleteAccount />}
         </main>
       </div>

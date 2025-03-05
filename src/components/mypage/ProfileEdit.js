@@ -60,6 +60,26 @@ function ProfileEdit({ setActiveTab }) {
     }
   };
 
+  const handleDeleteImage = async () => {
+    if (!userInfo?.id) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:8080/auth/profile/${userInfo.id}/delete-image`
+      );
+
+      // UI 업데이트
+      setUserProfile({ ...userProfile, profileImageUrl: null });
+      setPreviewImage(defaultProfileImg);
+      setProfileImage(null);
+
+      alert("프로필 이미지가 삭제되었습니다.");
+    } catch (error) {
+      console.error("프로필 이미지 삭제 오류:", error);
+      alert("이미지 삭제에 실패했습니다.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userInfo?.id) {
@@ -118,16 +138,29 @@ function ProfileEdit({ setActiveTab }) {
           />
         </label>
 
-        <label>
-          프로필 이미지:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          <img
-            src={previewImage}
-            alt="프로필 미리보기"
-            className="profile-preview"
-          />
-        </label>
+        <>
+          <label>
+            프로필 이미지:
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          </label>
 
+          <div className="image-preview-container">
+            <img
+              src={previewImage}
+              alt="프로필 미리보기"
+              className="profile-preview"
+            />
+          </div>
+          {userProfile.profileImageUrl && (
+            <button
+              type="button"
+              onClick={handleDeleteImage}
+              className="delete-image-btn"
+            >
+              프로필 이미지 삭제
+            </button>
+          )}
+        </>
         <label>
           소개글:
           <input
