@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import axiosInstance from '../../api/axiosInstance';
 import '../../styles/SongQuiz.css';
+import Header from '../common/Header';
+import SidebarLayout from '../common/SidebarLayout';
+import Nav from '../common/Nav';
 
 const SongQuiz = () => {
     const [artist, setArtist] = useState('');
@@ -217,29 +220,42 @@ const SongQuiz = () => {
     };
 
     return (
-        <div className="song-quiz">
-            <input
-                type="text"
-                placeholder="아티스트 이름 입력"
-                value={artist}
-                onChange={(e) => setArtist(e.target.value)}
-            />
-            <button onClick={handleArtistSearch}>검색</button>
-
-            {currentTrack && (
-                <div>
-                    <input
-                        type="text"
-                        placeholder="곡 제목을 입력하세요"
-                        value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
-                    />
-                    <button onClick={handleAnswerSubmit}>정답 제출</button>
-                    <button onClick={playTrack}>재생</button>
-                    {hintVisible && <button onClick={playHint}>힌트</button>}
+    <div className="song-quiz-container">
+        <Header />
+        <SidebarLayout>
+        <div className="song-quiz-social-layout">
+            <div className="song-quiz">
+                <h2 className="song-quiz-title">1초 듣고 노래 맞추기 Quiz !</h2>
+                <h4>1초 동안 나오는 노래를 잘 듣고 <br />
+                        노래 제목을 맞춰보세요 !
+                </h4>
+                <div className="artistSelect">   
+                <input
+                    type="text"
+                    placeholder="아티스트 이름 입력"
+                    value={artist}
+                    onChange={(e) => setArtist(e.target.value)}
+                />
+                <button onClick={handleArtistSearch}>검색</button>
                 </div>
-            )}
+                {currentTrack && (
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="곡 제목을 입력하세요"
+                            value={userAnswer}
+                            onChange={(e) => setUserAnswer(e.target.value)}
+                        />
+                        <button onClick={handleAnswerSubmit}>정답 제출</button>
+                        <button onClick={playTrack}>재생</button>
+                        {hintVisible && <button onClick={playHint}>힌트</button>}
+                    </div>
+                )}
+            </div>
+        <Nav />
         </div>
+        </SidebarLayout>
+    </div>
     );
 };
 
