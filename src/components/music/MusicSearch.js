@@ -1,5 +1,4 @@
 import React from "react";
-import WebPlayback from "./WebPlayback";
 import "../../styles/MusicSearch.css";
 import Music from "./Music";
 import useMusicSearch from "../../hooks/useMusicSearch";
@@ -16,7 +15,7 @@ const MusicSearch = ({ onSelectTrack }) => {
 
     return (
         <div className="music-search">
-            {isPremium && <WebPlayback />}
+            {isPremium}
             <form onSubmit={handleSearch}>
                 <input
                     type="text"

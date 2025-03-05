@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import VerifyPage from "../pages/VerifyPage";
 import MyPage from "../pages/MyPage";
 import PrivateRoute from "../components/auth/PrivateRoute";
+import Profile from "../components/mypage/Profile";
 
 const Loading = <div>Loading...</div>;
 

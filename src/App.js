@@ -1,15 +1,23 @@
-import React, {  } from "react";
+import React, { useState } from 'react';
 import "./App.css";
 
 import { RouterProvider } from "react-router-dom";
 import root from "./router/root";
+import SpotifyPlayerWrapper from './components/common/SpotifyPlayerWrapper';
+import { TrackProvider } from './context/TrackContext';
+
 
 
 function App() {
+
+  
   return (
-    <div className="App">
-      <RouterProvider router={root} />
-    </div>
+    <TrackProvider>
+      <div className="App">
+        <RouterProvider router={root} />
+        <SpotifyPlayerWrapper />
+      </div>
+    </TrackProvider>
   );
 }
 

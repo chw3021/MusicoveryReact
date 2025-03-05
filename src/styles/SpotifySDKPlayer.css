@@ -1,0 +1,70 @@
+.spotify-player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.spotify-player-controls .track-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spotify-player-controls .track-album-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.spotify-player-controls .track-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.spotify-player-controls button {
+  background-color: #1DB954;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.spotify-player-controls button:disabled {
+  background-color: #b3b3b3;
+  cursor: not-allowed;
+}
+
+.spotify-player-controls input[type="range"] {
+  width: 100px;
+}
+
+.progress-bar-container {
+  width: 300px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  background-color: #b3b3b3;
+  height: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.progress {
+  background-color: #1DB954;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.time-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
