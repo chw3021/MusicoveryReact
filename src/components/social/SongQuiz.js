@@ -248,7 +248,7 @@ const SongQuiz = () => {
                         />
                         <button className="song-quiz-button" onClick={handleAnswerSubmit}>정답 제출</button>
                         <button className="song-quiz-button" onClick={playTrack}>재생</button>
-                        {hintVisible && <button onClick={playHint}>힌트</button>}
+                        {hintVisible && <button className="song-quiz-button" onClick={playHint}>힌트</button>}
                     </div>
                 )}
             </div>
