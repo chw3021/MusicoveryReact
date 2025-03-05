@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import '../../styles/SpotifySDKPlayer.css';
+import { TrackContext } from '../../context/TrackContext';
 
 const SpotifySDKPlayer = ({ accessToken, track, onDeviceReady, onPlaybackState }) => {
-  const [play, setPlay] = useState(false);
+  const { isPlaying, setIsPlaying } = useContext(TrackContext); // 재생 상태 및 설정 함수 가져오기
+  const [play, setPlay] = useState(isPlaying); // 로컬 재생 상태를 Context 상태와 동기화
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setPlay(true);
+    setPlay(isPlaying); // Context의 재생 상태가 변경되면 로컬 상태 업데이트
     setError(null);
-  }, [track]);
+  }, [track, isPlaying]);
+
+  useEffect(() => {
+    // onPlaybackState 콜백을 통해 재생 상태가 변경될 때 Context 상태 업데이트
+    onPlaybackState && onPlaybackState({ isPlaying });
+  }, [isPlaying, onPlaybackState]);
 
   if (!accessToken) return null;
 
@@ -20,12 +27,11 @@ const SpotifySDKPlayer = ({ accessToken, track, onDeviceReady, onPlaybackState }
         <SpotifyPlayer
           token={accessToken}
           uris={[track.uri]}
-          autoPlay={true}
           play={play}
+          autoPlay={true}
           callback={(state) => {
-            if (!state.isPlaying) {
-              setPlay(false);
-            }
+            setIsPlaying(state.isPlaying); // 재생 상태 변경 시 Context 상태 업데이트
+            setPlay(state.isPlaying); // 로컬 상태도 업데이트
             onPlaybackState(state); // 재생 상태 업데이트
           }}
           onError={(err) => {
