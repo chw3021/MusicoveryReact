@@ -3,6 +3,7 @@ import Header from "../components/common/Header";
 import axiosInstance, { baseAxiosInstance } from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css"; // 스타일 추가
+import { logout } from "../components/auth/auth";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const LoginPage = () => {
         });
         const userData = response.data;
 
-        console.log(userData);
+        console.log(response);
 
         const randomPassword = generateRandomPassword();
 
@@ -47,7 +48,7 @@ const LoginPage = () => {
           nickname: userData.display_name,
           phone: "",
           address: "",
-          isActive: true,
+          isActive: true, // isActive는 true로 설정
           spotifyConnected: true,
           googleConnected: false,
           createdAt: new Date().toISOString().slice(0, 10),
@@ -65,7 +66,24 @@ const LoginPage = () => {
         navigate("/");
       } catch (error) {
         console.error("사용자 인증 에러:", error);
-        navigate("/Login");
+        if (error.response && error.response.data) {
+          // 서버에서 반환된 에러 메시지 확인
+          if (
+            error.response.data.message ===
+            "비활성화된 계정입니다. 관리자에게 문의하세요."
+          ) {
+            alert("비활성화된 계정입니다. 관리자에게 문의하세요.");
+          } else {
+            // 다른 에러 메시지 처리
+            alert(error.response.data.message);
+          }
+        } else {
+          alert("알 수 없는 오류가 발생했습니다.");
+        }
+
+        // 로그인 페이지로 이동
+        logout();
+        // navigate("/login");
       }
     },
     [navigate]
@@ -124,11 +142,27 @@ const LoginPage = () => {
       });
       const user = response.data;
       localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
+      localStorage.setItem("LOCAL_ACCESS_TOKEN", JSON.stringify(user));
       setUserInfo(user);
       navigate("/");
     } catch (error) {
       console.error("이메일 로그인 에러:", error);
-      setErrorMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
+
+      // 서버에서 비활성화된 계정 오류를 받았을 때
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message ===
+          "비활성화된 계정입니다. 관리자에게 문의하세요."
+      ) {
+        setErrorMessage("비활성화된 계정입니다. 관리자에게 문의하세요.");
+      } else if (error.response && error.response.data) {
+        // 서버에서 반환된 다른 오류 메시지 처리
+        setErrorMessage(error.response.data.message);
+      } else {
+        // 기본 오류 메시지 처리
+        setErrorMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
+      }
     }
   };
 

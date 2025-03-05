@@ -4,6 +4,8 @@ import "../styles/AdminPage.css";
 import AdminDashboard from "../components/admin/AdminDashboard";
 import UserManagement from "../components/admin/UserManagement";
 import ReportManagement from "../components/admin/ReportManagement";
+import AdminSupport from "../components/admin/AdminSupport";
+
 
 
 const AdminPage = () => {
@@ -25,7 +27,7 @@ const AdminPage = () => {
             case "report":
                 return <ReportManagement />;
             case "support":
-                return <div>📞 고객 지원</div>;
+                return <AdminSupport />;
             default:
                 return <AdminDashboard setActiveSection={setActiveSection} />;
         }

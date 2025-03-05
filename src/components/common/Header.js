@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/Header.module.css";
 import useUserInfo from "../../hooks/useUserInfo";
@@ -9,8 +9,8 @@ import "animate.css";
 
 const Header = ({ isHomePage = false }) => {
   const userInfo = useUserInfo();
-  const headerRef = useRef(null);
-  const navListRef = useRef(null);
+  // const headerRef = useRef(null);
+  // const navListRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -78,9 +78,7 @@ const CustomerSupport = () => {
                                 <strong>작성일:</strong> {new Date(inquiry.createdAt).toLocaleString()}
                             </p>
                             {inquiry.response && (
-                                <p>
-                                    <strong>답변:</strong> {inquiry.response}
-                                </p>
+                                <p>답변: {typeof inquiry.response === "string" ? JSON.parse(inquiry.response).response : inquiry.response}</p>
                             )}
                         </div>
                     ))}

@@ -76,3 +76,9 @@
 .create_section2{
     margin-left: 50%;
 }
+
+
+#deleteBtnColor{
+    background-color: #1C1C8C;
+    color: white;
+}
