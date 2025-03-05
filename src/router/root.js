@@ -9,7 +9,6 @@ import LoginPage from "../pages/LoginPage";
 import VerifyPage from "../pages/VerifyPage";
 import MyPage from "../pages/MyPage";
 import PrivateRoute from "../components/auth/PrivateRoute";
-import Profile from "../components/mypage/Profile";
 
 const Loading = <div>Loading...</div>;
 
@@ -29,6 +28,7 @@ const OAuthCallback = lazy(() => import("../components/auth/OAuthCallback"));
 const Streaming = lazy(() => import("../components/social/Streaming"));
 const Challenge = lazy(() => import("../components/social/Challenge"));
 const Quiz = lazy(() => import("../components/social/Quiz"));
+const SongQuiz = lazy(() => import("../components/social/SongQuiz"));
 const CustomerSupport = lazy(() =>
   import("../components/social/CustomerSupport")
 );
@@ -106,6 +106,16 @@ const root = createBrowserRouter(
           <Suspense fallback={Loading}>
             <PrivateRoute>
               <Quiz />
+            </PrivateRoute>
+          </Suspense>
+        }
+      />
+      <Route
+        path="songquiz"
+        element={
+          <Suspense fallback={Loading}>
+            <PrivateRoute>
+              <SongQuiz />
             </PrivateRoute>
           </Suspense>
         }
@@ -248,9 +258,7 @@ const root = createBrowserRouter(
         path="mypage"
         element={
           <Suspense fallback={Loading}>
-            <PrivateRoute>
-              <MyPage />
-            </PrivateRoute>
+            <MyPage />
           </Suspense>
         }
       />

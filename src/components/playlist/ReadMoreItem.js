@@ -4,6 +4,7 @@ import "./ReadMoreItem.css";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import { getImageUrl } from '../../utils/imageUtils';
+import spotifyImage from '../../assets/spotify.png'; // 이미지 경로를 확인하세요
 
 const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhoto, playlistDate, isFriendPlaylist, onPlaylistClick }) => {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
 
     return (
         <div className="ReadMoreItem" onClick={handleClick}>
-            <img src={getImageUrl(playlistPhoto)} alt="Playlist" className="playlistPhoto" />
+            <img src={spotifyImage} alt="Spotify" className="playlistPhoto" /> {/* 이미지 경로를 사용 */}
             <div className="playlistInfo">
                 <div className="playlistTitle">{playlistTitle}</div>
                 <div className="playlistComment">{playlistComment}</div>

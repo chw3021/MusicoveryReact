@@ -67,7 +67,7 @@ const PlaylistModal = React.memo(({ playlists, selectedPlaylists, loading, onChe
     </div>
 ));
 
-const Music = ({ track, isPremium, deviceId }) => {
+const Music = ({ track, isPremium }) => {
     const [tooltipStyle, setTooltipStyle] = useState({});
     const [showPlaylistModal, setShowPlaylistModal] = useState(false);
     const [playlists, setPlaylists] = useState([]);
@@ -152,15 +152,6 @@ const Music = ({ track, isPremium, deviceId }) => {
     const handlePlayClick = async (track) => {
         if (isPremium) {
             try {
-                // localStorage에서 디바이스 ID를 가져오거나 props로 전달받은 것을 사용
-                const activeDeviceId = deviceId || localStorage.getItem('spotify_device_id');
-                
-                if (!activeDeviceId) {
-                    alert('Spotify 플레이어를 초기화 중입니다. 잠시 후에 다시 시도해주세요.');
-                    return;
-                }
-                
-                
                 setCurrentTrack(track); // 선택한 트랙을 Context를 통해 전달
                 
             } catch (error) {

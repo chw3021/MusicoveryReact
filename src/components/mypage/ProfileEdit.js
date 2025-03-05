@@ -1,32 +1,82 @@
-import React, { useState, useEffect } from "react";
-import axios from "../../api/axiosInstance"; // axios 인스턴스
-import useUserInfo from "../../hooks/useUserInfo"; // 사용자 정보 가져오기
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import useUserInfo from "../../hooks/useUserInfo";
 import "../../styles/ProfileEdit.css";
-import defaultProfileImg from "../../assets/defaultProfileImg.png"; // 기본 프로필 이미지
+import defaultProfileImg from "../../assets/defaultProfileImg.png";
 import { useNavigate } from "react-router-dom";
 
-const ProfileEdit = ({ setActiveTab }) => {
+function ProfileEdit({ setActiveTab }) {
   const navigate = useNavigate();
-  const userInfo = useUserInfo(); // ✅ setUserInfo 사용 가능
+  const userInfo = useUserInfo();
 
-  const [nickname, setNickname] = useState("");
+  const [userProfile, setUserProfile] = useState({
+    id: "",
+    nickname: "",
+    bio: "",
+    profileImageUrl: "",
+  });
+
   const [profileImage, setProfileImage] = useState(null);
-  const [bio, setBio] = useState("");
   const [previewImage, setPreviewImage] = useState(defaultProfileImg);
 
   useEffect(() => {
-    if (userInfo?.id) {
-      setNickname(userInfo.nickname || "");
-      setBio(userInfo.bio || "");
-      setPreviewImage(userInfo.profileImageUrl || defaultProfileImg);
-    }
+    if (!userInfo || !userInfo.id) return;
+
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/auth/profile",
+          {
+            id: userInfo.id,
+          }
+        );
+
+        const profileData = response.data;
+        setUserProfile(profileData);
+
+        // 서버에서 받은 profileImageUrl이 있으면 절대 경로로 설정
+        const profileImageUrl = profileData.profileImageUrl
+          ? `http://localhost:8080/images/${profileData.profileImageUrl}`
+          : defaultProfileImg;
+
+        setPreviewImage(profileImageUrl);
+      } catch (error) {
+        console.error("프로필을 불러오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchUserProfile();
   }, [userInfo]);
+
+  const handleInputChange = (e) => {
+    setUserProfile({ ...userProfile, [e.target.name]: e.target.value });
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setProfileImage(file);
-      setPreviewImage(URL.createObjectURL(file));
+      setPreviewImage(URL.createObjectURL(file)); // 파일 미리보기 설정
+    }
+  };
+
+  const handleDeleteImage = async () => {
+    if (!userInfo?.id) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:8080/auth/profile/${userInfo.id}/delete-image`
+      );
+
+      // UI 업데이트
+      setUserProfile({ ...userProfile, profileImageUrl: null });
+      setPreviewImage(defaultProfileImg);
+      setProfileImage(null);
+
+      alert("프로필 이미지가 삭제되었습니다.");
+    } catch (error) {
+      console.error("프로필 이미지 삭제 오류:", error);
+      alert("이미지 삭제에 실패했습니다.");
     }
   };
 
@@ -38,15 +88,18 @@ const ProfileEdit = ({ setActiveTab }) => {
     }
 
     const formData = new FormData();
-    const userProfileDTO = {
-      nickname: nickname,
-      bio: bio,
-      profileImageUrl: userInfo.profileImageUrl,
-    };
-    const userProfileBlob = new Blob([JSON.stringify(userProfileDTO)], {
-      type: "application/json",
-    });
-    formData.append("userProfileDTO", userProfileBlob);
+    formData.append(
+      "userProfileDTO",
+      new Blob(
+        [
+          JSON.stringify({
+            nickname: userProfile.nickname,
+            bio: userProfile.bio,
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
 
     if (profileImage) {
       formData.append("profileImage", profileImage);
@@ -54,17 +107,15 @@ const ProfileEdit = ({ setActiveTab }) => {
 
     try {
       const response = await axios.put(
-        `/auth/profile/${userInfo.id}`,
+        `http://localhost:8080/auth/profile/${userInfo.id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      // ✅ localStorage 업데이트
-      localStorage.setItem("MUSICOVERY_USER", JSON.stringify(response.data));
+      // localStorage 업데이트
+      localStorage.setItem("userProfile", JSON.stringify(response.data));
 
       alert("프로필이 성공적으로 업데이트되었습니다!");
-
-      // ✅ 마이페이지 이동
       setActiveTab("home");
       navigate("/mypage");
     } catch (error) {
@@ -81,27 +132,42 @@ const ProfileEdit = ({ setActiveTab }) => {
           닉네임:
           <input
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            name="nickname"
+            value={userProfile.nickname}
+            onChange={handleInputChange}
           />
         </label>
 
-        <label>
-          프로필 이미지:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          <img
-            src={previewImage}
-            alt="프로필 미리보기"
-            className="profile-preview"
-          />
-        </label>
+        <>
+          <label>
+            프로필 이미지:
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          </label>
 
+          <div className="image-preview-container">
+            <img
+              src={previewImage}
+              alt="프로필 미리보기"
+              className="profile-preview"
+            />
+          </div>
+          {userProfile.profileImageUrl && (
+            <button
+              type="button"
+              onClick={handleDeleteImage}
+              className="delete-image-btn"
+            >
+              프로필 이미지 삭제
+            </button>
+          )}
+        </>
         <label>
           소개글:
           <input
             type="text"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            name="bio"
+            value={userProfile.bio}
+            onChange={handleInputChange}
           />
         </label>
 
@@ -109,6 +175,6 @@ const ProfileEdit = ({ setActiveTab }) => {
       </form>
     </div>
   );
-};
+}
 
 export default ProfileEdit;

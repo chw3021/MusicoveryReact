@@ -10,7 +10,6 @@ const MusicSearch = ({ onSelectTrack }) => {
         results,
         handleSearch,
         isPremium,
-        deviceId,
     } = useMusicSearch();
 
     return (
@@ -29,8 +28,7 @@ const MusicSearch = ({ onSelectTrack }) => {
                 {results.map((track) => (
                     <div key={track.id} onClick={() => onSelectTrack(track)}>
                         <Music 
-                            track={track} 
-                            deviceId={deviceId} 
+                            track={track}
                             isPremium={isPremium} 
                         />
                     </div>
