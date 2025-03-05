@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 가져오기
+import useUserInfo from "../../hooks/useUserInfo";
 import "../../styles/Profile.css";
 
 import defaultProfileImg from "../../assets/defaultProfileImg.png";
@@ -12,38 +12,43 @@ function Profile() {
     profileImageUrl: "",
     bio: "",
   });
+  const [loading, setLoading] = useState(true);
 
   const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
   useEffect(() => {
     if (!userInfo || !userInfo.id) return; // 사용자 정보와 id가 없으면 요청하지 않음
 
-    // localStorage에서 이전에 로드된 프로필 데이터 확인
-    const storedProfile = localStorage.getItem("userProfile");
-    if (storedProfile) {
-      // 이미 로딩된 프로필이 있다면 바로 사용
-      setUserProfile(JSON.parse(storedProfile));
-    } else {
-      // 프로필 데이터를 서버에서 가져오는 경우
-      const fetchUserProfile = async () => {
-        try {
-          const response = await axios.post(
-            "http://localhost:8080/auth/profile", // POST 방식 요청
-            { id: userInfo.id } // 요청 본문에 id 포함
-          );
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/auth/profile",
+          { id: userInfo.id }
+        );
 
-          const profileData = response.data;
-          setUserProfile(profileData); // 프로필 데이터 업데이트
-          // 로드된 프로필 데이터를 localStorage에 저장
-          localStorage.setItem("userProfile", JSON.stringify(profileData));
-        } catch (error) {
-          console.error("프로필을 가져오는 데 실패했습니다.", error);
-        }
-      };
+        setUserProfile(response.data);
+        setLoading(false); // 데이터 로딩이 끝났으면 로딩 상태 변경
+      } catch (error) {
+        console.error("프로필을 가져오는 데 실패했습니다.", error);
+        setLoading(false); // 에러 발생 시에도 로딩 상태 종료
+      }
+    };
 
-      fetchUserProfile();
-    }
-  }, [userInfo]); // userInfo가 바뀔 때마다 다시 실행
+    fetchUserProfile();
+  }, [userInfo]);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <p>로딩 중...</p>
+      </div>
+    );
+  }
+
+  // 프로필 이미지 URL이 없으면 기본 이미지 사용
+  const profileImageUrl = userProfile.profileImageUrl
+    ? `http://localhost:8080/images/${userProfile.profileImageUrl}`
+    : defaultProfileImg;
 
   return (
     <div className="profile-container">
@@ -51,7 +56,7 @@ function Profile() {
       <div className="profile-info">
         <div>
           <img
-            src={userProfile.profileImageUrl || defaultProfileImg}
+            src={profileImageUrl}
             alt="프로필 사진"
             className="profile-image"
           />
