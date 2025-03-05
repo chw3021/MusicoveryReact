@@ -142,6 +142,7 @@ const LoginPage = () => {
       });
       const user = response.data;
       localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
+      localStorage.setItem("LOCAL_ACCESS_TOKEN", JSON.stringify(user));
       setUserInfo(user);
       navigate("/");
     } catch (error) {
