@@ -1,3 +1,14 @@
+.bpm-info-box {
+    margin: 10px 0 0 5%;
+    padding: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    font-size: 14px;
+    width: 92%;
+}
+
 .keyword-recommendation {
     display: flex;
     justify-content: space-between;
