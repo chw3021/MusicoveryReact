@@ -14,9 +14,10 @@ import useUserInfo from "../hooks/useUserInfo"; // useUserInfo 임포트
 
 
 const PlaylistPage = () =>{
-    const data = '';
+    const [data, setData] = useState([]); // 초기값을 빈 배열로 설정
     const [filteredData, setFilteredData] = useState([]);
     const [pivotDate, setPivotDate] = useState(new Date());
+    const [spotifyAnnounce, setSpotifyAnnounce] = useState(false); // Spotify 연동 필요 여부 상태 추가
     const navigate = useNavigate();
     const userInfo = useUserInfo();
     const location = useLocation();
@@ -55,10 +56,17 @@ const PlaylistPage = () =>{
         const fetchData = async () => {
             if (userId) {
                 try {
-                    const data = await getPlaylistsByUserId(userId);
-                    setFilteredData(data);
+                    const playlists = await getPlaylistsByUserId(userId);
+                    setData(playlists); // 전체 플레이리스트 데이터를 설정
+                    setFilteredData(playlists); // 필터링된 데이터도 초기에는 전체 데이터로 설정
+                    setSpotifyAnnounce(false); // 성공적으로 데이터를 가져왔으므로 Spotify 연동 필요 없음
                 } catch (error) {
-                    console.error("Error fetching playlists", error);
+                    //console.error("Error fetching playlists", error);
+                    if (error.response && error.response.status === 500) {
+                        // Spotify 연동이 필요한 경우
+                        setSpotifyAnnounce(true);
+                        setFilteredData([]); // 플레이리스트 데이터를 비움
+                    }
                 }
             }
         };
@@ -74,7 +82,7 @@ const PlaylistPage = () =>{
         navigate(`/playlist/${playlistId}`, { state: { friendInfo: friendInfo } });
     };
 
-    return ( 
+    return (
         <div className="container1">
             <Header />
             <div className="grayBackground">
@@ -82,13 +90,17 @@ const PlaylistPage = () =>{
                     <div className="Textplace">
                         <div id="libText">{isFriendPlaylist ? `${friendInfo.nickname} 님의 플레이리스트` : "내 라이브러리"}</div>
                     </div>
-                    {!isFriendPlaylist && (
+                    {(!isFriendPlaylist && !spotifyAnnounce) && (
                         <div className="goCreateView">
                             <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
                         </div>
                     )}
                 </div>
-                <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
+                {spotifyAnnounce ? (
+                    <div className="spotify-announce">Spotify 계정 연동이 필요합니다.</div>
+                ) : (
+                    <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
+                )}
             </div>
         </div>
     );

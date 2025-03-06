@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        console.log('에러 발생:', error.response?.status, error.response?.data);
+        //console.log('에러 발생:', error.response?.status, error.response?.data);
 
         // 토큰 만료 에러 (직접 401 또는 서버에서 전달된 500) && 아직 재시도하지 않은 요청
         if ((error.response?.status === 401 || 

@@ -16,7 +16,7 @@ const useMusicSearch = () => {
                 const response = await axiosInstance.get('/api/spotify/userInfo');
                 setIsPremium(response.data.product === 'premium');
             } catch (error) {
-                console.error("Failed to check premium status", error);
+                //console.error("Failed to check premium status", error);
             }
         };
         checkPremiumStatus();
