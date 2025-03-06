@@ -39,7 +39,6 @@ const Streaming = ({ onStatusCange }) => { // onStatusChange prop 추가
                 playlistId: playlist.playlistId,
                 hostUser: playlist.user,
                 isLive: true,
-                isPremiumOnly: false,
                 isPublic: true
             })
             .then(response => {
