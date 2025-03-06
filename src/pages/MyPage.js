@@ -5,6 +5,7 @@ import Profile from "../components/mypage/Profile";
 import ProfileEdit from "../components/mypage/ProfileEdit";
 import InfoEdit from "../components/mypage/InfoEdit";
 import DeleteAccount from "../components/mypage/DeleteAccount";
+import SpotifyConnect from "../components/mypage/SpotifyConnect";
 
 function MyPage() {
   const [activeTab, setActiveTab] = useState("home"); // 기본 탭: 홈
@@ -13,6 +14,7 @@ function MyPage() {
     { id: "home", label: "🏠 홈" },
     { id: "profile", label: "📝 프로필 수정" },
     { id: "info", label: "🔐 개인정보 수정" },
+    { id: "spotify", label: "🎧 스포티파이 연동" },
     { id: "delete", label: "❌ 회원 탈퇴" },
   ];
 
@@ -44,6 +46,7 @@ function MyPage() {
           )}
 
           {activeTab === "info" && <InfoEdit setActiveTab={setActiveTab} />}
+          {activeTab === "spotify" && <SpotifyConnect />}
           {activeTab === "delete" && <DeleteAccount />}
         </main>
       </div>
