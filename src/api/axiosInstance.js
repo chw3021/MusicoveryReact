@@ -23,6 +23,10 @@ const axiosInstance = axios.create({
 let isRefreshing = false;
 // 토큰 갱신 대기 중인 요청들
 let refreshSubscribers = [];
+// 토큰 갱신 실패 횟수
+let refreshAttemptCount = 0;
+// 최대 토큰 갱신 시도 횟수
+const MAX_REFRESH_ATTEMPTS = 6;
 
 // 토큰 갱신 후 대기 중인 요청들 실행
 const onRefreshed = (token) => {
@@ -42,6 +46,12 @@ axiosInstance.interceptors.request.use(
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+        else {
+            const token = localStorage.getItem('LOCAL_ACCESS_TOKEN');
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+            }
+        }
         return config;
     },
     (error) => Promise.reject(error)
@@ -53,7 +63,7 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        console.log('에러 발생:', error.response?.status, error.response?.data);
+        //console.log('에러 발생:', error.response?.status, error.response?.data);
 
         // 토큰 만료 에러 (직접 401 또는 서버에서 전달된 500) && 아직 재시도하지 않은 요청
         if ((error.response?.status === 401 || 
@@ -76,8 +86,11 @@ axiosInstance.interceptors.response.use(
             
             try {
                 const refreshToken = localStorage.getItem('MUSICOVERY_REFRESH_TOKEN');
-                if (!refreshToken) {
-                    throw new Error('리프레시 토큰이 없습니다');
+                
+                // MUSICOVERY_ACCESS_TOKEN이 없는 경우, 토큰 갱신 시도하지 않음
+                if (!localStorage.getItem('MUSICOVERY_ACCESS_TOKEN') && localStorage.getItem('LOCAL_ACCESS_TOKEN')) {
+                    console.log('로컬 로그인 상태. 토큰 갱신을 시도하지 않습니다.');
+                    return;
                 }
             
                 console.log('토큰 갱신 요청 시작');
@@ -93,6 +106,9 @@ axiosInstance.interceptors.response.use(
                 console.log('새로운 토큰 발급됨:', newToken.substring(0, 10) + '...');
                 localStorage.setItem('MUSICOVERY_ACCESS_TOKEN', newToken);
                 
+                // 갱신 시도 횟수 초기화
+                refreshAttemptCount = 0;
+                
                 // 대기 중인 요청들 실행
                 onRefreshed(newToken);
                 
@@ -102,13 +118,26 @@ axiosInstance.interceptors.response.use(
 
             } catch (refreshError) {
                 console.error('토큰 갱신 실패:', refreshError);
-                // 토큰 관련 데이터 전부 삭제
-                localStorage.removeItem('MUSICOVERY_ACCESS_TOKEN');
-                localStorage.removeItem('MUSICOVERY_REFRESH_TOKEN');
                 
-                // 사용자에게 알림 후 로그인 페이지로 이동
-                alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
-                window.location.href = '/';
+                refreshAttemptCount++;
+                console.log(`토큰 갱신 시도 횟수: ${refreshAttemptCount}`);
+                
+                if (refreshAttemptCount >= MAX_REFRESH_ATTEMPTS) {
+                    console.error('최대 토큰 갱신 시도 횟수 초과, 로그아웃 처리');
+                    
+                    // 토큰 관련 데이터 전부 삭제
+                    localStorage.removeItem('MUSICOVERY_ACCESS_TOKEN');
+                    localStorage.removeItem('MUSICOVERY_REFRESH_TOKEN');
+                    localStorage.removeItem('LOCAL_ACCESS_TOKEN');
+                    localStorage.removeItem('MUSICOVERY_USER'); // 사용자 정보 삭제
+                    
+                    // 사용자에게 알림 후 로그인 페이지로 이동
+                    alert('로그아웃 되었습니다. 다시 로그인해주세요.');
+                    window.location.href = '/';
+                    return Promise.reject(refreshError);
+                }
+                
+                // 갱신 실패 시에는 에러를 다시 reject
                 return Promise.reject(refreshError);
             } finally {
                 isRefreshing = false;

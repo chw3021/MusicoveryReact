@@ -258,7 +258,9 @@ const root = createBrowserRouter(
         path="mypage"
         element={
           <Suspense fallback={Loading}>
-            <MyPage />
+            <PrivateRoute>
+              <MyPage />
+            </PrivateRoute>
           </Suspense>
         }
       />

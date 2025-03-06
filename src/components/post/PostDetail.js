@@ -19,6 +19,7 @@ const PostDetail = ({ post, onBack }) => {
     const [editedTitle, setEditedTitle] = useState(post.title); // 수정된 제목 상태
     const [editedDescription, setEditedDescription] = useState(post.description); // 수정된 내용 상태
     const [currentPost, setCurrentPost] = useState(post); // 현재 게시글 상태 추가
+    const [spotifyAnnounce, setSpotifyAnnounce] = useState(false);
     const navigate = useNavigate();
     const userInfo = useUserInfo(); 
 
@@ -37,7 +38,8 @@ const PostDetail = ({ post, onBack }) => {
                     playlistPhoto: getImageUrl(response.data.playlist.playlistPhoto), // 기본 이미지 설정
                 });
             } catch (error) {
-                console.error("Error fetching playlist detail", error);
+                //console.error("Error fetching playlist detail", error);
+                setSpotifyAnnounce(true);
             }
         };
 
@@ -237,7 +239,11 @@ const PostDetail = ({ post, onBack }) => {
                     </div>
                 </div>
             ) : (
-                <p>로딩중...</p>
+                spotifyAnnounce ? (
+                    <p>Spotify 계졍 연동이 필요합니다.</p>
+                ) : (
+                    <p>로딩중...</p>
+                )
             )}
 
             {/* 댓글 창 */}
