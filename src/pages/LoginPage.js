@@ -140,9 +140,11 @@ const LoginPage = () => {
         email: email,
         passwd: password,
       });
+
+      const accessToken = response.data.accessToken;
       const user = response.data;
       localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
-      localStorage.setItem("LOCAL_ACCESS_TOKEN", JSON.stringify(user));
+      localStorage.setItem("LOCAL_ACCESS_TOKEN", accessToken);
       setUserInfo(user);
       navigate("/");
     } catch (error) {

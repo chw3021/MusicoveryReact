@@ -14,7 +14,7 @@
 
 /* 📌 신고 목록 (신고된 사용자 리스트) */
 .report-list {
-    flex: 1 1 45%; /* ✅ 유연한 크기 적용 */
+    flex: 1 1 45%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -58,14 +58,21 @@
     background-color: #555;
 }
 
-/* 🚨 신고 접수 상태 붉은색 강조 */
+/* 🚨 신고 접수 상태 (빨간색) */
 .pending-report {
-    background: rgba(255, 0, 0, 0.6);
+    background-color: #ff4d4d !important;
+    color: white;
+}
+
+/* ✅ 해결된 신고 (사유 불충분 / 정지 - 초록색) */
+.resolved-report {
+    background-color: #4CAF50 !important;
+    color: white;
 }
 
 /* 📌 선택된 신고 항목 */
 .selected {
-    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid white !important;
 }
 
 /* 📌 신고 상세 내용 */
@@ -75,7 +82,7 @@
     padding: 20px;
     border-radius: 10px;
     min-height: 200px;
-    max-width: 500px; /* ✅ 최대 크기 제한 */
+    max-width: 500px;
 }
 
 /* 📌 신고된 게시글 스타일 */
