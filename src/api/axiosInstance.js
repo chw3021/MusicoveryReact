@@ -42,6 +42,12 @@ axiosInstance.interceptors.request.use(
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+        else {
+            const token = localStorage.getItem('LOCAL_ACCESS_TOKEN');
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+            }
+        }
         return config;
     },
     (error) => Promise.reject(error)
