@@ -26,7 +26,7 @@ let refreshSubscribers = [];
 // 토큰 갱신 실패 횟수
 let refreshAttemptCount = 0;
 // 최대 토큰 갱신 시도 횟수
-const MAX_REFRESH_ATTEMPTS = 3;
+const MAX_REFRESH_ATTEMPTS = 6;
 
 // 토큰 갱신 후 대기 중인 요청들 실행
 const onRefreshed = (token) => {
@@ -86,8 +86,11 @@ axiosInstance.interceptors.response.use(
             
             try {
                 const refreshToken = localStorage.getItem('MUSICOVERY_REFRESH_TOKEN');
-                if (!refreshToken) {
-                    throw new Error('리프레시 토큰이 없습니다');
+                
+                // MUSICOVERY_ACCESS_TOKEN이 없는 경우, 토큰 갱신 시도하지 않음
+                if (!localStorage.getItem('MUSICOVERY_ACCESS_TOKEN') && localStorage.getItem('LOCAL_ACCESS_TOKEN')) {
+                    console.log('로컬 로그인 상태. 토큰 갱신을 시도하지 않습니다.');
+                    return;
                 }
             
                 console.log('토큰 갱신 요청 시작');
