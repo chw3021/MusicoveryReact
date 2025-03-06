@@ -225,11 +225,13 @@ const SongQuiz = () => {
         <SidebarLayout>
         <div className="song-quiz-social-layout">
             <div className="song-quiz">
-                <h2 className="song-quiz-title">1초 듣고 노래 맞추기 Quiz !</h2>
-                <h4>1초 동안 나오는 노래를 잘 듣고 <br />
+                <h1 className="song-quiz-title">1초 듣고 노래 맞추기 Quiz !</h1>
+                <h2 className='artistTitle'>1초 동안 나오는 노래를 잘 듣고 <br />
                         노래 제목을 맞춰보세요 !
-                </h4>
+                </h2>
                 <div className="artistSelect">   
+                <h4 className='artistTitle'>아티스트 선택하기 ▶</h4>
+                <div className='artistSelectIn'>
                 <input
                     type="text"
                     placeholder="아티스트 이름 입력"
@@ -237,6 +239,7 @@ const SongQuiz = () => {
                     onChange={(e) => setArtist(e.target.value)}
                 />
                 <button className="song-quiz-button" onClick={handleArtistSearch}>검색</button>
+                </div>
                 </div>
                 {currentTrack && (
                     <div className="SendBtn">
