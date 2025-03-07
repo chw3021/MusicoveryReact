@@ -1,22 +1,14 @@
-//사용자 화면 - 내 라이브러리(플레이리스트 조회,수정,삭제,생성)
-
-// import Edit from "./Edit";
-// import Button from "../components/common/Button";
 import Header from "../components/common/Header";
 import ReadMoreList from "../components/playlist/ReadMoreList";
 import { useEffect, useState } from "react";
-import { getMonthRangeByDate} from "../utils/util";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/PlaylistPage.css";
 import Button from "../components/common/Button";
 import axiosInstance from '../api/axiosInstance';
 import useUserInfo from "../hooks/useUserInfo"; // useUserInfo 임포트
 
-
-const PlaylistPage = () =>{
+const PlaylistPage = () => {
     const [data, setData] = useState([]); // 초기값을 빈 배열로 설정
-    const [filteredData, setFilteredData] = useState([]);
-    const [pivotDate, setPivotDate] = useState(new Date());
     const [spotifyAnnounce, setSpotifyAnnounce] = useState(false); // Spotify 연동 필요 여부 상태 추가
     const navigate = useNavigate();
     const userInfo = useUserInfo();
@@ -25,8 +17,6 @@ const PlaylistPage = () =>{
 
     const userId = friendInfo ? friendInfo.id : userInfo?.id;
     const isFriendPlaylist = !!friendInfo;
-
-    
 
     const getPlaylistsByUserId = async (userId) => {
         try {
@@ -38,34 +28,19 @@ const PlaylistPage = () =>{
         }
     };
 
-    useEffect (()=>{
-        if(data.length >=1){
-            const {beginTimeStamp, endTimeStamp} = getMonthRangeByDate(pivotDate);
-            setFilteredData(
-                data.filter(
-                    (it) => beginTimeStamp <= it.data && it.data <= endTimeStamp
-                )
-            );
-        }else{
-             setFilteredData([]);
-         }
-     }, [data,pivotDate]);
-    
-
-     useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             if (userId) {
                 try {
                     const playlists = await getPlaylistsByUserId(userId);
-                    setData(playlists); // 전체 플레이리스트 데이터를 설정
-                    setFilteredData(playlists); // 필터링된 데이터도 초기에는 전체 데이터로 설정
                     setSpotifyAnnounce(false); // 성공적으로 데이터를 가져왔으므로 Spotify 연동 필요 없음
+                    setData(playlists); // 초기 데이터를 바로 설정
                 } catch (error) {
                     //console.error("Error fetching playlists", error);
                     if (error.response && error.response.status === 500) {
                         // Spotify 연동이 필요한 경우
                         setSpotifyAnnounce(true);
-                        setFilteredData([]); // 플레이리스트 데이터를 비움
+                        setData([]); // 플레이리스트 데이터를 비움
                     }
                 }
             }
@@ -73,6 +48,7 @@ const PlaylistPage = () =>{
 
         fetchData();
     }, [userId]);
+
 
     const onClickCreate = () => {
         navigate("/createplaylist");
@@ -99,10 +75,15 @@ const PlaylistPage = () =>{
                 {spotifyAnnounce ? (
                     <div className="spotify-announce">Spotify 계정 연동이 필요합니다.</div>
                 ) : (
-                    <ReadMoreList data={filteredData} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
+                    data.length > 0 ? (
+                        <ReadMoreList data={data} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
+                    ) : (
+                        <p>로딩 중...</p>
+                    )
                 )}
             </div>
         </div>
     );
 }
+
 export default PlaylistPage;
