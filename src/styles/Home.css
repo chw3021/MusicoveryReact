@@ -15,17 +15,9 @@
     margin-left: 25px;
 } */
 /* 페이지 전환 시 스크롤이 작동하도록 */
-html:not(.home-page), 
+html:not(.home-page),
 body:not(.home-page) {
   overflow-y: auto !important;
-}
-
-
-* {
-  box-sizing: border-box;
-}
-
-.hero {
 }
 
 :root {
@@ -208,7 +200,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background-color:#fe65e7;
+  background-color: #fe65e7;
   width: 0%;
   transition: width 0.3s ease;
 }
@@ -344,29 +336,25 @@ body {
 .shatter-piece {
   animation: shatter-particles 0.5s ease-out forwards; /* 애니메이션 시간을 줄여서 더 빠르게 */
 }
-  @keyframes explosion {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
+@keyframes explosion {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
 }
-
-
 
 /* 기존 스타일 유지 */
 .explosion {
-    animation: explosion 1s ease-in-out;
+  animation: explosion 1s ease-in-out;
 }
-
-
 
 /* 페이지 전환 시 조각 애니메이션 */
 .page-transition-container {
