@@ -158,7 +158,7 @@ const PlaylistDetail = () => {
                 </div>
                 <div className="playlist-detail-body">
                     <div className="playlist-detail-left">
-                        <img src={state.playlistPhoto} alt="Playlist" className="playlistPhoto" />
+                        <img src={state.playlistPhoto} alt="Playlist" className="playlist-detail-photo" />
                         {state.isEditing && (
                             <input type="file" onChange={handleFileChange} accept="image/*" />
                         )}

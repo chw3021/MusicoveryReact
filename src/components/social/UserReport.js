@@ -31,10 +31,13 @@ const UserReport = () => {
 
     const fetchReports = async (userId) => {
         try {
-            const response = await axiosInstance.get("/api/userreport/reporter/"+userId); 
-            setReports(response.data);
+            const response = await axiosInstance.get("/api/userreport/reporter/" + userId);
+            console.log("신고 내역:", response.data);
+            
+            setReports(response.data || []); // 응답 데이터가 배열이 아닌 경우 빈 배열로 초기화
         } catch (error) {
             console.error("신고 내역을 불러오는 중 오류 발생:", error);
+            setReports([]); // 오류 발생 시 빈 배열로 초기화
         }
     };
 
@@ -56,8 +59,7 @@ const UserReport = () => {
             setReportedUserId("");
             setReportReason("");
             setCustomReason(""); // 제출 후 자유 입력 필드 초기화
-            fetchReports(); // 신고 후 리스트 업데이트
-            window.location.reload(); // 신고 후 페이지 새로고침
+            fetchReports(userInfo.id); // 신고 후 리스트 업데이트
         } catch (error) {
             console.error("신고 중 오류 발생:", error);
         }
@@ -117,10 +119,9 @@ const UserReport = () => {
                     <button className="reportbutton" type="submit">신고 제출</button>
                 </form>
 
-
                 <h2>신고 내역</h2>
                 <ul className="report-list-ulist">
-                    {reports.map((report) => (
+                    {Array.isArray(reports) && reports.map((report) => (
                         <li className="report-list-list" key={report.id}>
                             <div className="report-list-item">
                                 <strong>사용자: {report.reportedUser.nickname}</strong>
