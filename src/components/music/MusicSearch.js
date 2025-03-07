@@ -25,7 +25,7 @@ const MusicSearch = ({ onSelectTrack }) => {
                 <button type="submit">검색</button>
             </form>
             <div className="search-results">
-                {results.map((track) => (
+                {results.map((track, index) => (
                     <div key={track.id} onClick={() => onSelectTrack(track)}>
                         <Music 
                             track={track}

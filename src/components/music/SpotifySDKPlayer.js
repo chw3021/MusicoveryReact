@@ -28,7 +28,7 @@ const SpotifySDKPlayer = ({ accessToken, track, onDeviceReady, onPlaybackState }
           token={accessToken}
           uris={[track.uri]}
           play={play}
-          autoPlay={true}
+          autoPlay={false}
           callback={(state) => {
             setIsPlaying(state.isPlaying); // 재생 상태 변경 시 Context 상태 업데이트
             setPlay(state.isPlaying); // 로컬 상태도 업데이트

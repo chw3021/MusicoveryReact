@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { parseTracks } from "../../utils/trackUtils";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import { getImageUrl } from "../../utils/imageUtils";
+import useMusicSearch from "../../hooks/useMusicSearch";
 
 const PostDetail = ({ post, onBack }) => {
     const [playlist, setPlaylist] = useState(null);
@@ -22,6 +23,10 @@ const PostDetail = ({ post, onBack }) => {
     const [spotifyAnnounce, setSpotifyAnnounce] = useState(false);
     const navigate = useNavigate();
     const userInfo = useUserInfo(); 
+    
+    const {
+        isPremium,
+    } = useMusicSearch();
 
     useEffect(() => {
         console.log("User info:", userInfo); // userInfo 로깅 추가
@@ -233,8 +238,9 @@ const PostDetail = ({ post, onBack }) => {
                         </div>
                     </div>
                     <div className="playlist-tracks">
-                        {playlist.tracksData.map((track, index) => (
-                            <Music key={index} track={track} />
+                        {playlist.tracksData.map((track) => (
+                            <Music track={track} 
+                            isPremium={isPremium} />
                         ))}
                     </div>
                 </div>

@@ -20,14 +20,6 @@ body:not(.home-page) {
   overflow-y: auto !important;
 }
 
-
-* {
-  box-sizing: border-box;
-}
-
-.hero {
-}
-
 :root {
   --primary: #3b0c99;
   --primary-dark: #fe65e7;
