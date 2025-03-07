@@ -100,7 +100,6 @@ const SignupPage = () => {
   return (
     <div>
       <Header />
-
       <div className="signup-container">
         <div className="signup-wrapper">
           <h2>회원가입</h2>
@@ -115,7 +114,7 @@ const SignupPage = () => {
             <button
               onClick={handleEmailVerification}
               disabled={!email}
-              className="signup-button"
+              className="common-button"
             >
               이메일 인증
             </button>
@@ -155,10 +154,10 @@ const SignupPage = () => {
             onChange={(e) => setAddress(e.target.value)}
             className="signup-input"
           />
-          <button onClick={handleSignup} className="signup-button">
+          <button onClick={handleSignup} className="common-button ">
             회원가입
           </button>
-          <button onClick={() => navigate("/")} className="signup-button">
+          <button onClick={() => navigate("/login")} className="common-button">
             취소
           </button>
         </div>
