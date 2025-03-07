@@ -34,8 +34,6 @@ const LoginPage = () => {
         });
         const userData = response.data;
 
-        console.log(response);
-
         const randomPassword = generateRandomPassword();
 
         const userDTO = {
@@ -143,6 +141,7 @@ const LoginPage = () => {
 
       const accessToken = response.data.accessToken;
       const user = response.data;
+      console.log(user);
       localStorage.setItem("MUSICOVERY_USER", JSON.stringify(user));
       localStorage.setItem("LOCAL_ACCESS_TOKEN", accessToken);
       setUserInfo(user);
