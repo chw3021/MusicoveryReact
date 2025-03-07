@@ -65,7 +65,6 @@ const FriendsList = () => {
             await axiosInstance.post("/friends/add", { userId: userInfo.id, friendId });
             fetchFriends();
             fetchPendingRequests();
-            setShowModal(false);
         } catch (error) {
             console.error("친구 추가에 실패했습니다.", error);
         }
@@ -81,7 +80,8 @@ const FriendsList = () => {
         }
     };
 
-    const handleDeleteFriend = async (friendId) => {
+    const handleDeleteFriend = async (friendId, event) => {
+        event.stopPropagation(); // 이벤트 버블링 막기
         try {
             await axiosInstance.delete("/friends/delete", { params: { userId: userInfo.id, friendId } });
             fetchFriends();
@@ -111,8 +111,8 @@ const FriendsList = () => {
                         <div key={friend.id} className="friend-item" onClick={() => handleFriendClick(friend.friend.id === userInfo.id ? friend.user : friend.friend)}>
                             <p>
                                 <strong>친구 별명 :</strong> {friend.friend.id === userInfo.id ? friend.user.nickname : friend.friend.nickname}
-                                <button className="delete-button" onClick={() => handleDeleteFriend(friend.friend.id)}>❌</button>
                             </p>
+                            <button className="friend-delete-button" onClick={(event) => handleDeleteFriend(friend.friend.id, event)}>❌</button>
                         </div>
                     ))}
                 </div>

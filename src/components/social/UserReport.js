@@ -124,9 +124,9 @@ const UserReport = () => {
                     {Array.isArray(reports) && reports.map((report) => (
                         <li className="report-list-list" key={report.id}>
                             <div className="report-list-item">
-                                <strong>사용자: {report.reportedUser.nickname}</strong>
-                                {report.post && (
-                                    <p><strong>게시글 제목:</strong> {report.post.title}</p>
+                                <strong>사용자: {report.reportedUserNickname}</strong>
+                                {report.postTitle && (
+                                    <p><strong>게시글 제목:</strong> {report.postTitle}</p>
                                 )}
                                 <strong> 사유: {report.reason}</strong>
                             </div>
