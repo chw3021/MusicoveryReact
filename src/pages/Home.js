@@ -6,6 +6,7 @@ import OAuth from "../components/auth/OAuth";
 import { logout } from "../components/auth/auth";
 import "../styles/Home.css";
 import "animate.css";
+import AdminRedirectBox from "../components/admin/AdminRedirectBox";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -233,6 +234,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Header />
+      <AdminRedirectBox />
       <div className="scroll-container" ref={scrollContainerRef}>
         <section
           className={`section hero-section hero ${
