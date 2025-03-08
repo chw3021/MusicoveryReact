@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { showLoading, hideLoading } from '../utils/loadingStore'; // 로딩 상태 관리 함수 임포트
+import { getIsPlaying, setIsPlayingFalse } from '../context/TrackContext';
 
 // 기본 axios 인스턴스 (인증이 필요없는 요청용)
 export const baseAxiosInstance = axios.create({
@@ -42,6 +44,11 @@ const addSubscriber = (cb) => {
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
     (config) => {
+        showLoading(); // 요청 시작 시 로딩 표시
+        
+        if (!getIsPlaying()) {
+            setIsPlayingFalse();
+        }
         const token = localStorage.getItem('MUSICOVERY_ACCESS_TOKEN');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
@@ -54,14 +61,22 @@ axiosInstance.interceptors.request.use(
         }
         return config;
     },
-    (error) => Promise.reject(error)
+    (error) => {
+        hideLoading(); // 요청 실패 시 로딩 숨김
+        return Promise.reject(error);
+    }
 );
 
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        hideLoading(); // 응답 성공 시 로딩 숨김
+        
+        return response;
+    },
     async (error) => {
+        hideLoading(); // 응답 실패 시 로딩 숨김
         const originalRequest = error.config;
         //console.log('에러 발생:', error.response?.status, error.response?.data);
 

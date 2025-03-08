@@ -235,7 +235,7 @@ const Home = () => {
     <div className="home-container">
       <Header />
       <AdminRedirectBox />
-      <div className="scroll-container" ref={scrollContainerRef}>
+      <div className="home-scroll-container" ref={scrollContainerRef}>
         <section
           className={`section hero-section hero ${
             isShattering ? "shattering" : ""

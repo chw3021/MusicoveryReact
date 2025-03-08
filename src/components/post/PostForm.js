@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/PostForm.css";
-import ReadMoreItem from "../playlist/ReadMoreItem";
-import ReadMoreList from "../playlist/ReadMoreList";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import axiosInstance from "../../api/axiosInstance";
 import { getDefaultImage } from "../../utils/imageUtils";
@@ -79,8 +77,8 @@ const PostForm = ({ onSubmit, onCancel }) => {
                 </div>
                 <div className="form-group">
                     <label>플레이리스트 선택</label>
-                    <div className="playlist-list-container">
-                        <div className="playlist-list">
+                    <div className="postform-playlist-list-container">
+                        <div className="postform-playlist-list">
                             {playlists.map((it) => {
                                 // 플레이리스트 이미지가 없을 경우 기본 이미지 사용
                                 const imageUrl = it.playlistPhoto
@@ -93,12 +91,11 @@ const PostForm = ({ onSubmit, onCancel }) => {
                                     <div
                                         key={it.playlistId}
                                         onClick={() => onSelectPlaylist(it)}
-                                        className={`playlist-item ${selectedPlaylist && selectedPlaylist.playlistId === it.playlistId ? 'selected' : ''}`}
+                                        className={`postform-playlist-item ${selectedPlaylist && selectedPlaylist.playlistId === it.playlistId ? 'selected' : ''}`}
                                     >
                                         <img src={imageUrl} alt={it.playlistTitle} />
-                                        <div className="playlist-info">
+                                        <div className="postform-playlist-info">
                                             <div>{it.playlistTitle}</div>
-                                            <div>{it.tracksCount} 곡</div>
                                         </div>
                                     </div>
                                 );
@@ -107,8 +104,8 @@ const PostForm = ({ onSubmit, onCancel }) => {
                     </div>
                 </div>
                 <div className="form-actions">
-                    <button type="button" className="cancel-button" onClick={onCancel}>취소</button>
-                    <button type="submit" className="submit-button">작성</button>
+                    <button type="button" className="postform-cancel-button" onClick={onCancel}>취소</button>
+                    <button type="submit" className="postform-submit-button">작성</button>
                 </div>
             </form>
         </div>

@@ -1,11 +1,11 @@
 /* PostForm.css */
 .post-form {
     padding: 20px;
-    background-color: #f2fff8;
+    background-color: #f2fff815;
     color: #000;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%;
+    width: 80%;
     margin: auto;
 }
 
@@ -20,7 +20,6 @@
 
 .form-group input,
 .form-group textarea {
-    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -31,8 +30,8 @@
     justify-content: space-between;
 }
 
-.submit-button,
-.cancel-button {
+.postform-submit-button,
+.postform-cancel-button {
     background-color: #1db954;
     color: #fff;
     border: none;
@@ -41,24 +40,25 @@
     cursor: pointer;
 }
 
-.submit-button:hover,
-.cancel-button:hover {
+.postform-submit-button:hover,
+.postform-cancel-button:hover {
     background-color: #1ed760;
 }
 
-.playlist-list-container {
+.postform-playlist-list-container {
     width: 100%;
     overflow-x: auto; /* 가로 스크롤 */
     margin-top: 10px;
 }
 
-.playlist-list {
+.postform-playlist-list {
+    padding: 50px 0;
     display: flex; /* 가로로 나열 */
     flex-wrap: nowrap; /* 줄바꿈 방지 */
     padding-bottom: 10px; /* 스크롤바 공간 확보 */
 }
 
-.playlist-item {
+.postform-playlist-item {
     width: 150px; /* 아이템 너비 */
     margin-right: 10px; /* 아이템 간 간격 */
     border: 1px solid #ccc;
@@ -70,24 +70,24 @@
     transition: all 0.3s ease;
 }
 
-.playlist-item:hover {
+.postform-playlist-item:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.playlist-item.selected {
+.postform-playlist-item.selected {
     border-color: blue;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.playlist-item img {
-    width: 100%;
+.postform-playlist-item img {
+    width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 5px;
     margin-bottom: 5px;
 }
 
-.playlist-info {
+.postform-playlist-info {
     font-size: 14px;
 }

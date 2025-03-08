@@ -45,7 +45,6 @@ const useMusicSearch = () => {
     }, []);
 
     const handleSearch = async (e) => {
-        e.preventDefault();
         try {
             const response = await axiosInstance.get(`/api/spotify/search?keyword=${keyword}&type=track`);
             const filteredResults = response.data.tracks.items.filter(
