@@ -1,0 +1,79 @@
+/* 개인정보 수정 컨테이너 */
+.mypage-section {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-width: 400px;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+/* 제목 */
+.mypage-section h2 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* 폼 스타일 */
+.mypage-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 폼 그룹 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-weight: bold;
+  color: #dcdcdc;
+}
+
+/* 입력 필드 */
+.mypage-section input {
+  width: 96%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #333;
+  color: #fff;
+}
+
+/* 비밀번호 일치 메시지 */
+.form-group span {
+  margin-top: 5px;
+  font-size: 14px;
+  display: block;
+  text-align: right;
+}
+
+/* 비밀번호 확인 필드 오른쪽에 일치 여부 메시지 배치 */
+.form-group span {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #fff;
+  position: absolute;
+  right: 5cqi;
+}
+
+/* 수정 버튼 */
+.mypage-section button {
+  background-color: #ff4757;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mypage-section button:hover {
+  background-color: #e63946;
+}

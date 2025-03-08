@@ -3,8 +3,16 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    background-color: rgb(37, 37, 37);
+    height: 90%;
+    width: 90%;
+    margin: auto;
 }
-
+.grapCreateDate{
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px;
+}
 .create-layout {
     display: flex;
     width: 100%;
@@ -21,7 +29,7 @@
     flex: 1;
     padding: 20px;
     width: 40%;
-    max-height: 50rem;
+    max-height: 60rem;
     overflow-y: scroll;
 }
 
@@ -35,7 +43,16 @@
 .create_section2 {
     margin-bottom: 20px;
 }
-
+.create_title_section{
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px;
+}
+.create_explain_section{
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px;
+}
 .fileinputBtn {
     margin-top: 10px;
 }
@@ -49,4 +66,19 @@
 
 .Edit_Btn .button{
     width: 20%;
+}
+
+.form-control{
+    width: 65%;
+}
+
+
+.create_section2{
+    margin-left: 50%;
+}
+
+
+#deleteBtnColor{
+    background-color: #1C1C8C;
+    color: white;
 }

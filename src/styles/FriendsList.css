@@ -1,0 +1,224 @@
+/* 전체 컨테이너 스타일 */
+.friends-list-container {
+    max-width: 600px;
+    width: auto;
+    margin: 1px auto;
+    padding: 6px;
+    border: 1px solid #444; /* 더 어두운 테두리 */
+    border-radius: 5px;
+    background-color: #333; /* 어두운 배경색 */
+    color: #eee; /* 밝은 글자색 */
+    font-size: 12px;
+}
+
+/* 제목 스타일 */
+.friends-list-container h2 {
+    margin-top: 2px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #fff; /* 흰색 제목 */
+}
+
+/* 친구 추가 버튼 스타일 */
+.add-friend-button {
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 8px 8px;
+    background-color: #555; /* 약간 밝은 배경 */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.add-friend-button:hover {
+    background-color: #777; /* 호버 시 더 밝게 */
+}
+
+/* 목록 스타일 */
+.friends-list,
+.pending-requests-list,
+.friend-requests-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #555; /* 더 어두운 테두리 */
+    border-radius: 4px;
+    background-color: #444; /* 어두운 배경 */
+    color: #eee;
+}
+
+/* 목록 아이템 스타일 */
+.friend-item,
+.pending-request-item,
+.friend-request-item {
+    margin-bottom: 10px; /* 간격 줄임 */
+    padding: 2px; /* 패딩 줄임 */
+    border: 1px solid #666;
+    border-radius: 5px; /* 둥근 테두리 추가 */
+    background-color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.friend-item p,
+.pending-request-item p,
+.friend-request-item p {
+    font-size: 14px;
+    color: #ddd;
+}
+
+.friend-item p strong,
+.pending-request-item p strong,
+.friend-request-item p strong {
+    color: #fff; /* 흰색 강조 글자 */
+}
+
+/* 삭제 및 수락 버튼 스타일 */
+.friend-delete-button,
+.accept-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+    color: #e7e7e7; /* 밝은 버튼 색상 */
+    border-radius: 10px;
+}
+
+.friend-delete-button:hover,
+.accept-button:hover {
+    color: #f00; /* 호버 시 빨간색 */
+    background-color: #0e0d0d; /* 호버 시 배경색 변경 */
+}
+/* 마우스 오버 효과 */
+.friend-item:hover {
+    background-color: #777; /* 호버 시 배경색 변경 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 더 진하게 */
+}
+
+
+/* 모달 스타일 */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* 더 어두운 배경 */
+}
+
+.modal-content {
+    background-color: #333; /* 어두운 배경 */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #666; /* 더 어두운 테두리 */
+    width: 80%;
+    max-width: 700px;
+    border-radius: 5px;
+    color: #fdfdfd; /* 밝은 글자색 */
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff; /* 흰색 */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 검색 결과 스타일 */
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.search-result-item {
+    padding: 10px;
+    border: 1px solid #666; /* 더 어두운 테두리 */
+    border-radius: 4px;
+    background-color: #444; /* 어두운 배경 */
+    margin-bottom: 10px;
+}
+
+.search-result-item p {
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.753);
+}
+
+.search-result-item button {
+    padding: 5px 10px;
+    background-color: #5cb85c; /* 녹색 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-result-item button:hover {
+    background-color: #4cae4c; /* 호버 시 약간 어둡게 */
+}
+
+/* 탭 스타일 */
+.modal-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.modal-tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #555; /* 어두운 배경 */
+    color: #eee; /* 밝은 글자색 */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 20%;
+}
+
+.modal-tab-button.active {
+    background-color: #007bff; /* 파란색 */
+    color: white;
+}
+
+/* 탭 내용 스타일 */
+.friendlist-search-tab,
+.friendlist-pending-tab,
+.friendlist-requests-tab {
+    padding: 10px;
+    color: #eee; /* 밝은 글자색 */
+}
+
+.friendlist-search-tab input,
+.friendlist-search-tab button {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #444; /* 어두운 배경 */
+    color: #eee; /* 밝은 글자색 */
+    border: 1px solid #666; /* 더 어두운 테두리 */
+}
+
+.friendlist-search-tab button:hover {
+    background-color: #555; /* 호버 시 약간 밝게 */
+}

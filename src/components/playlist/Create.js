@@ -8,6 +8,7 @@ import Music from "../music/Music";
 import axiosInstance from "../../api/axiosInstance"; // axiosInstance 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const Create = () => {
     const navigate = useNavigate();
@@ -25,6 +26,9 @@ const Create = () => {
         user: userInfo, // 사용자 정보 추가
     });
 
+    // 최대 파일 크기 설정 (예: 5MB)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     // userInfo가 변경될 때마다 상태 업데이트
     useEffect(() => {
         if (userInfo) {
@@ -36,7 +40,7 @@ const Create = () => {
     }, [userInfo]);
 
     const handleSubmit = () => {
-        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate || state.selectedTracks.length < 0) {
+        if (!state.playlistTitle || !state.playlistComment || !state.playlistDate || state.selectedTracks.length <= 0) {
             alert("모든 필드를 입력해주세요.");
             return;
         }
@@ -50,6 +54,9 @@ const Create = () => {
         formData.append("tracks", state.selectedTracks.map(track => track.uri));
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
+        }
+        else{
+            formData.append("playlistPhoto", getDefaultImage());
         }
 
         axiosInstance.post("/playlist/create", formData, {
@@ -98,9 +105,14 @@ const Create = () => {
     };
 
     const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+            alert("파일 크기가 너무 큽니다. 최대 5MB 이하의 파일을 업로드해주세요.");
+            return;
+        }
         setState((prev) => ({
             ...prev,
-            playlistPhoto: e.target.files[0],
+            playlistPhoto: file,
         }));
     };
 
@@ -125,7 +137,8 @@ const Create = () => {
                     <MusicSearch onSelectTrack={handleTrackSelect} />
                     <div className="playlist-info">
                         <div className="create_section">
-                            <h5 id="textCreated">생성일자</h5>
+                            <div className="grapCreateDate">
+                            <h5 id="textCreated">생성일자 ▶ </h5>
                             <input
                                 type="date"
                                 value={state.playlistDate}
@@ -133,18 +146,22 @@ const Create = () => {
                                 name="playlistDate"
                                 id="DateClick"
                             />
+                            </div>
                         </div>
                         <div className="create_title_section">
+                        <h5 id="textCreated">플레이리스트 제목 ▶ </h5>
                             <input
                                 type="text"
                                 className="form-control"
                                 name="playlistTitle"
                                 value={state.playlistTitle}
-                                placeholder="플레이리스트 제목을 입력하세요..."
+                                placeholder="제목을 입력하세요...(15자이내)"
                                 onChange={handleChange}
+                                maxLength="15"
                             />
                         </div>
                         <div className="create_explain_section">
+                        <h5 id="textCreated">플레이리스트 설명 ▶ </h5>
                             <textarea
                                 className="form-control board-textarea"
                                 rows="8"
@@ -152,9 +169,10 @@ const Create = () => {
                                 value={state.playlistComment}
                                 placeholder="플레이리스트 설명을 입력하세요...[300자이내]"
                                 onChange={handleChangeContent}
+                                maxLength="300"
                             ></textarea>
                         </div>
-                        <div className="create_section">
+                        <div className="create_section2">
                             <div className="fileinputBtn">
                                 <input
                                     type="file"
@@ -173,7 +191,7 @@ const Create = () => {
                         {state.selectedTracks.map((track, index) => (
                             <li key={index}>
                                 <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                <button onClick={() => removeTrack(track.id)}>제거</button>
+                                <button id="deleteBtnColor" onClick={() => removeTrack(track.id)}>제거</button>
                             </li>
                         ))}
                     </ul>
@@ -181,7 +199,7 @@ const Create = () => {
             </div>
             <div className="Edit_Btn">
                 <Button text="취소" link={"/PlaylistPage"}/>
-                <Button text="생성하기!" onClick={handleSubmit} />
+                <Button text="생성하기" onClick={handleSubmit} />
             </div>
         </div>
     );

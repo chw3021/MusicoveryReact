@@ -1,0 +1,19 @@
+.connect-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.connect-button:hover {
+  background-color: #cc0000;
+}
+
+.connected-button {
+  background-color: #666;
+  pointer-events: none;
+}

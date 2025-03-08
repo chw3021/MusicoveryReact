@@ -1,114 +1,220 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, Link } from "react-router-dom";
 import Header from "../common/Header";
 import Nav from "../common/Nav";
 import axiosInstance from "../../api/axiosInstance";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 import "../../styles/ChatRoom.css";
+import { parseTracks } from "../../utils/trackUtils";
+import Music from "../music/Music";
+import { getDefaultImage } from "../../utils/imageUtils";
+import SidebarLayout from "../common/SidebarLayout";
 
 const ChatRoom = () => {
-    const { streamId } = useParams(); // URL에서 streamId 가져오기
-    const [messages, setMessages] = useState([]); // 채팅 메시지 목록
-    const [newMessage, setNewMessage] = useState(""); // 입력한 메시지
-    const [user, setUser] = useState(null); // 현재 로그인한 유저 정보
-    const [stream, setStream] = useState(null); // 현재 스트리밍 정보
+    const { streamId } = useParams();
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const [user, setUser] = useState(null);
+    const [stream, setStream] = useState(null);
+    const [client, setClient] = useState(null);
+    const messagesEndRef = useRef(null); // 메시지 끝 참조
+    const [playlist, setPlaylist] = useState(null); // 플레이리스트 상태 추가
+    const [isOpen, setIsOpen] = useState(false); // 상태 추가
 
-    // 현재 스트리밍 정보 가져오기
+    const toggleStreamingTracks = () => {
+        setIsOpen(!isOpen); // 상태 토글
+    };
+
     useEffect(() => {
-        axiosInstance.get(`/api/streaming/${streamId}`)
-            .then(response => {
-                console.log("📡 스트리밍 API 응답 데이터:", response.data);
+        const fetchStream = async () => {
+            try {
+                const response = await axiosInstance.get(`/api/streaming/${streamId}`);
                 setStream(response.data);
-                console.log("📡 스트리밍 데이터:", response.data); // stream 데이터 콘솔 로그
-            })
-            .catch(error => console.error("❌ 스트리밍 정보를 가져오는 데 실패:", error));
-    }, [streamId]);
+            } catch (error) {
+                console.error("스트리밍 정보를 가져오는 데 실패:", error);
+            }
+        };
 
-    // ✅ 로그인한 유저 정보 가져오기
-    useEffect(() => {
-        axiosInstance.get("/api/spotify/userInfo") // 사용자 정보 API 호출
-            .then(response => {
-                console.log("👤 유저 데이터:", response.data);
+        // 로그인한 유저 정보 가져오기
+        const fetchUser = async () => {
+            try {
+                const response = await axiosInstance.get("/api/spotify/userInfo");
                 setUser(response.data);
-            })
-            .catch(error => console.error("❌ 유저 정보를 가져오는 데 실패:", error));
-    }, []);
+            } catch (error) {
+                console.error("유저 정보를 가져오는 데 실패:", error);
+            }
+        };
 
-    // ✅ 채팅 메시지 가져오기
-    useEffect(() => {
-        axiosInstance.get(`/api/chat/${streamId}`)
-           .then(response => {
-              console.log("💬 기존 채팅 데이터:", response.data);
-              setMessages(response.data);
-        })
-        .catch(error => console.error("❌ 채팅 데이터를 가져오는 데 실패:", error));
+        fetchStream();
+        fetchUser();
+        
+        // SockJS를 사용하여 WebSocket 설정
+        const socket = new SockJS(`${process.env.REACT_APP_API_URL}/chat`);
+        const stompClient = new Client({
+            webSocketFactory: () => socket,
+            connectHeaders: {
+                login: "user",
+                passcode: "password",
+            },
+            onConnect: () => {
+                console.log("STOMP 연결 성공");
+                stompClient.subscribe(`/topic/chat/${streamId}`, (message) => {
+                    const newMessage = JSON.parse(message.body);
+                    setMessages((prevMessages) => [...prevMessages, newMessage]);
+                });
+            },
+            onStompError: (frame) => {
+                console.error("STOMP 오류:", frame.headers["message"]);
+            },
+            onWebSocketError: (error) => {
+                console.error("WebSocket 오류:", error);
+            },
+            debug: (str) => {
+                console.log(str);
+            },
+        });
+
+        setClient(stompClient);
+        stompClient.activate();
+
+        return () => {
+            stompClient.deactivate();
+        };
     }, [streamId]);
+
+    useEffect(() => {
+        const fetchPlaylist = async () => {
+            if (stream && stream.playlist) {
+                try {
+                    const response = await axiosInstance.get(`/playlist/detail/${stream.playlist.playlistId}`);
+                    const trackList = parseTracks(response.data.tracks);
+                    setPlaylist({
+                        ...response.data.playlist,
+                        tracksData: trackList,
+                        playlistPhoto: response.data.playlist.playlistPhoto || getDefaultImage(), // 기본 이미지 설정
+                    });
+                } catch (error) {
+                    console.error("Error fetching playlist detail", error);
+                }
+            }
+        };
+
+        fetchPlaylist();
+    }, [stream]); // stream이 변경될 때마다 호출
+
+    // 메시지가 업데이트될 때마다 스크롤을 아래로 내리는 효과
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]); // messages 배열이 변경될 때마다 실행
 
     const sendMessage = () => {
         if (!newMessage.trim()) return;
-    
+
         const messageData = {
             streamId,
-            sender: user ? user.display_name : "Unknown User", // 현재 사용자 닉네임을 display_name으로 설정
+            sender: user ? user.display_name : "Unknown User",
             content: newMessage,
-            receiver: "receiver_nickname", // 수신자 닉네임 또는 ID를 여기 설정
-            roomId: streamId // room_id를 streamId로 설정 (적절한 값으로 수정 가능)
+            receiver: "receiver_nickname",
         };
-    
-        console.log("✉️ 전송할 메시지 데이터:", messageData);
-        console.log("현재 사용자:", user); // 현재 사용자 확인
-    
-        axiosInstance.post("/api/chat/send", messageData)
-            .then(() => {
-                setMessages(prevMessages => [...prevMessages, messageData]); // 기존 메시지 유지하며 추가
-                setNewMessage(""); // 입력 필드 초기화
+
+        if (client && client.connected) {
+            client.publish({
+                destination: `/app/chat/${streamId}`,
+                body: JSON.stringify(messageData),
+            });
+            setNewMessage("");
+
+            // 마지막 메시지를 스트리밍의 마지막 채팅으로 업데이트하는 API 호출 (추가)
+            axiosInstance.post(`/api/streaming/${streamId}/lastMessage`, {
+                lastMessage: messageData.content,
             })
-            .catch(error => console.error("❌ 메시지 전송 실패:", error));
+            .catch(error => console.error("마지막 메시지를 저장하는 데 실패:", error));
+        } else {
+            console.error("STOMP 클라이언트가 연결되어 있지 않습니다.");
+        }
     };
 
-    const messageData = {
-        streamId,
-        sender: user ? user.nickname : "Unknown User", // 현재 사용자 닉네임
-        content: newMessage,
-        receiver: "receiver_nickname", // 수신자 닉네임 또는 ID를 여기 설정
-        roomId: streamId // room_id를 streamId로 설정 (적절한 값으로 수정 가능)
-    };
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            sendMessage(); // Enter 키를 눌렀을 때 메시지 전송
+            sendMessage();
         }
     };
 
     return (
         <div className="chat-container">
             <Header />
-            <Nav />
 
-            <div className="chat-content">
-                <h2>채팅방: {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}</h2>
-                <p>플레이리스트: {stream ? stream.playlist?.playlistTitle : "로딩 중..."}</p>
+            <SidebarLayout>
+            <div className="social-layout">
 
-                <div className="chat-box">
-                    {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.sender === user?.display_name ? "mine" : "other"}`}
-                            >
-                            <strong>{msg.sender}:</strong> {msg.content}
+                <div>
+                    <div className="chat-wrapper">
+                        <div className="exit">
+                            <h2 className="chat-title">
+                                {stream ? `${stream.hostUser?.nickname}의 스트리밍` : "로딩 중..."}
+                                <Link to="/social"><button>나가기</button></Link>
+                            </h2>
                         </div>
-                    ))}
-                </div>
 
-                <div className="chat-input">
-                    <input
-                        type="text"
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyDown={handleKeyDown} // Enter 키 처리
-                        placeholder="메시지를 입력하세요..."
-                    />
-                    <button onClick={sendMessage}>전송</button>
+                        {playlist ? ( // playlist 상태 사용
+                            <div className="streaming-playlist-info">
+                                <div className="playlist-info-place">
+                                    <p id="explain"><strong>설명:</strong> {playlist.playlistComment || "설명이 없습니다."}</p>
+                                    <p><strong>트랙 수:</strong> {playlist.tracksData ? playlist.tracksData.length : 0}곡</p>
+                                    <button onClick={toggleStreamingTracks}>
+                                        {isOpen ? '접기' : '펼쳐보기'} {/* 버튼 텍스트 변경 */}
+                                    </button>
+                                    </div> 
+                                        {isOpen && ( // 조건부 렌더링
+                                        <div className="content-nav2">
+                                            <div className="streaming-tracks">
+                                                {playlist.tracksData.map((track, index) => (
+                                                    <Music key={index} track={track} />
+                                                ))}
+                                            </div>
+                                            
+                                        </div>
+                                       
+                                    )}
+                                </div>
+                        ) : (
+                            <p className="playlist-info-place">플레이리스트 정보가 없습니다.</p>
+                        )}
+                        <div className="chat-messages-input-wrapper">
+                            <div className="chat-messages">
+                                {messages.length > 0 ? (
+                                    messages.map((msg, index) => (
+                                        <div
+                                            key={index}
+                                            className={`chat-message ${msg.sender === (user ? user.display_name : "Unknown User") ? 'my-message' : 'other-message'}`}
+                                        >
+                                            <strong>{msg.sender}:</strong> <span>{msg.content}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="no-messages">메시지가 없습니다.</div>
+                                )}
+                                <div ref={messagesEndRef} /> {/* 메시지 끝 참조 */}
+                            </div>
+                            <div className="chat-input">
+                                <input
+                                    type="text"
+                                    value={newMessage}
+                                    onChange={(e) => setNewMessage(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="메시지를 입력하세요..."
+                                />
+                                <button onClick={sendMessage}>전송</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };

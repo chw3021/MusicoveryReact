@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
 import PostForm from "./PostForm";
-import axiosInstance from "../../api/axiosInstance";
 import "../../styles/PostBody.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import axiosInstance from "../../api/axiosInstance";
 
 const PostBody = () => {
     const [posts, setPosts] = useState([]);
@@ -12,34 +13,59 @@ const PostBody = () => {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [sortOption, setSortOption] = useState('latest');
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchType, setSearchType] = useState('title');
 
-    const fetchPosts = async (currentPage) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        setPage(parseInt(params.get('page') || '0', 10));
+        setSortOption(params.get('sort') || 'latest');
+        setSearchType(params.get('searchType') || 'title');
+        setSearchKeyword(params.get('keyword') || '');
+    }, [location.search]);
+
+    const fetchPosts = useCallback(async (currentPage, sort, searchType, keyword) => {
         try {
             setIsLoading(true);
-            const response = await axiosInstance.get(`/post/list?page=${currentPage}&size=15`);
-            console.log(response);
+            let url = `/post/list?page=${currentPage}&size=15`;
+            if (sort) url += `&sort=${sort}`;
+            if (searchType && keyword) url += `&searchType=${searchType}&keyword=${keyword}`;
+
+            const response = await axiosInstance.get(url);
+            //console.log(response);
             
-            
-            // 새로운 페이지 데이터로 교체
-            setPosts(response.data._embedded.playlistPostDTOList);
+            setPosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
         } catch (error) {
             console.error("Failed to fetch posts", error);
+            setPosts([]);
+            setTotalPages(0);
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    // 페이지 변경 시 스크롤 최상단으로 이동
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
     useEffect(() => {
-        fetchPosts(page);
-    }, [page]);
+        fetchPosts(page, sortOption, searchType, searchKeyword);
+    }, [page, sortOption, fetchPosts]);
+
+
+    const updateURL = useCallback(() => {
+        const params = new URLSearchParams();
+        params.set('page', page.toString());
+        params.set('sort', sortOption);
+        params.set('searchType', searchType);
+        params.set('keyword', searchKeyword);
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [page, sortOption, searchType, searchKeyword, navigate]);
+
+    useEffect(() => {
+        updateURL();
+    }, [page, sortOption, searchType, searchKeyword, updateURL]);
 
     const handlePreviousPage = () => {
         if (page > 0) {
@@ -64,18 +90,35 @@ const PostBody = () => {
         setIsCreating(false);
     };
 
-    const handleCreate = async (post) => {
-        try {
-            await axiosInstance.post('/post', post);
-            setIsCreating(false);
-            fetchPosts(page); // 게시글 생성 후 현재 페이지 새로고침
-        } catch (error) {
-            console.error("Failed to create post", error);
-        }
+    const handleSortChange = (newSortOption) => {
+        setSortOption(newSortOption);
+        setPage(0);
+    };
+
+    const handleSearch = (newSearchType, newSearchKeyword) => {
+        setSearchType(newSearchType);
+        setSearchKeyword(newSearchKeyword);
+        setPage(0);
+        fetchPosts(0, sortOption, newSearchType, newSearchKeyword);
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     if (isCreating) {
-        return <PostForm onSubmit={handleCreate} onCancel={handleBack} />;
+        return (
+            <PostForm
+                onSubmit={() => {
+                    setIsCreating(false);
+                    fetchPosts(page, sortOption, searchType, searchKeyword);
+                }}
+                onCancel={handleBack}
+            />
+        );
     }
 
     if (selectedPost) {
@@ -88,25 +131,33 @@ const PostBody = () => {
                 <div className="loading-spinner">로딩 중...</div>
             ) : (
                 <>
-                    <PostList posts={posts} onSelectPost={handleSelectPost} />
+                    <PostList
+                        posts={posts}
+                        onSelectPost={handleSelectPost}
+                        onSortChange={handleSortChange}
+                        onSearch={handleSearch}
+                        sortOption={sortOption}
+                        searchKeyword={searchKeyword}
+                        searchType={searchType}
+                    />
                     <div className="pagination">
-                        <button 
-                            className="page-button" 
-                            onClick={handlePreviousPage} 
+                        <button
+                            className="page-button"
+                            onClick={handlePreviousPage}
                             disabled={page === 0}
                         >
                             이전
                         </button>
                         <span className="page-number">{page + 1}</span>
-                        <button 
-                            className="page-button" 
-                            onClick={handleNextPage} 
+                        <button
+                            className="page-button"
+                            onClick={handleNextPage}
                             disabled={page === totalPages - 1}
                         >
                             다음
                         </button>
-                        <button 
-                            className="write-button" 
+                        <button
+                            className="write-button"
                             onClick={() => setIsCreating(true)}
                         >
                             작성

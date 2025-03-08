@@ -9,25 +9,30 @@ const sortOptionList = [
     { value: "oldest", name: "오래된 순" },
 ];
 
-const ReadMoreList = ({ data }) => {
+const ReadMoreList = ({ data, onSelect = () => {}, isFriendPlaylist, onPlaylistClick }) => {
     const [sortType, setSortType] = useState("latest");
-    const navigate = useNavigate();
     const [sortedData, setSortedData] = useState([]);
 
     useEffect(() => {
         const compare = (a, b) => {
+            const dateA = new Date(a.playlistDate);
+            const dateB = new Date(b.playlistDate);
+
             if (sortType === "latest") {
-                return new Date(b.date) - new Date(a.date);
+                return dateB - dateA;
             } else {
-                return new Date(a.date) - new Date(b.date);
+                return dateA - dateB;
             }
         };
 
-        const copyList = Array.isArray(data) ? [...data] : [];
-        copyList.sort(compare);
-        setSortedData(copyList);
+        if (Array.isArray(data) && data.every(item => item.playlistDate)) {
+            const copyList = [...data];
+            copyList.sort(compare);
+            setSortedData(copyList);
+        } else {
+            setSortedData([]);
+        }
     }, [data, sortType]);
-
 
     const onChangeSortType = (e) => {
         setSortType(e.target.value);
@@ -35,7 +40,6 @@ const ReadMoreList = ({ data }) => {
 
     return (
         <div className="ReadMoreList">
-
             <div className="searchText">
                 <input
                     type="text"
@@ -54,14 +58,17 @@ const ReadMoreList = ({ data }) => {
 
             <div className="list_lower">
                 {sortedData.map((it) => (
-                    <ReadMoreItem 
-                        key={it.playlistId} 
-                        playlistId={it.playlistId}
-                        playlistTitle={it.playlistTitle}
-                        playlistComment={it.playlistComment}
-                        playlistPhoto={it.playlistPhoto}
-                        playlistDate={it.playlistDate}
-                    />
+                    <div key={it.playlistId} onClick={() => onSelect(it.playlistId)}>
+                        <ReadMoreItem 
+                            playlistId={it.playlistId} 
+                            playlistTitle={it.playlistTitle}
+                            playlistComment={it.playlistComment}
+                            playlistPhoto={it.playlistPhoto}
+                            playlistDate={it.playlistDate}
+                            isFriendPlaylist={isFriendPlaylist}
+                            onPlaylistClick={onPlaylistClick}
+                        />
+                    </div>
                 ))}
             </div>
         </div>

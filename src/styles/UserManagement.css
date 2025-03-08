@@ -1,0 +1,180 @@
+/* 📌 사용자 관리 페이지 */
+.user-management {
+    padding: 20px;
+}
+
+/* 📌 검색 & 정렬 컨트롤 */
+.user-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    gap: 10px;
+}
+
+/* 📌 검색 바 */
+.user-controls input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.user-controls input:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+    outline: none;
+}
+
+/* 📌 드롭다운 스타일 */
+.user-controls select {
+    padding: 10px;
+    min-width: 140px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* 📌 드롭다운 선택지 스타일 */
+.user-controls select option {
+    background-color: #333; /* ✅ 어두운 배경 */
+    color: white; /* ✅ 폰트 색상을 하얗게 */
+    padding: 10px;
+}
+
+.user-controls select:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 📌 사용자 목록 테이블 */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* ✅ 테이블 셀 크기 균일하게 설정 */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow-x: auto; /* ✅ 가로 스크롤 허용 */
+}
+
+/* 📌 테이블 셀 스타일 */
+.user-table th,
+.user-table td {
+    padding: 12px;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-table th {
+    background: rgba(255, 255, 255, 0.15);
+    font-weight: bold;
+}
+
+/* 📌 테이블 hover 효과 */
+.user-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+/* 📌 버튼 스타일 */
+.user-table button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* 📌 승인 버튼 */
+.user-table .approve-button {
+    background: #4CAF50;
+    color: white;
+}
+
+.user-table .approve-button:hover {
+    background: #3d8b40;
+}
+
+/* 📌 삭제 버튼 */
+.user-table .delete-button {
+    background: #FF4D4D;
+    color: white;
+}
+
+.user-table .delete-button:hover {
+    background: #cc3a3a;
+}
+
+/* 📌 모달 스타일 */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* 📌 모달 컨텐츠 */
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.623);
+    animation: fadeIn 0.3s;
+    max-width: 400px; /* ✅ 크기 제한 */
+    width: 80%;
+}
+
+/* 📌 모달 닫기 버튼 */
+.modal-content button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #FF4D4D;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal-content button:hover {
+    background: #cc3a3a;
+}
+
+/* 📌 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 📌 로딩 메시지 */
+.loading-text {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px;
+    color: #ccc;
+}

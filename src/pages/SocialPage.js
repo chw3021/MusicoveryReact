@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance";
 import Header from "../components/common/Header";
-import "../styles/SocialPage.css";
 import JoinChat from "../components/social/JoinChat"; // ✅ JoinChat 컴포넌트 추가
 import Nav from "../components/common/Nav";
+import defaultImage from "../assets/defaultImage.png"; 
+import SidebarLayout from "../components/common/SidebarLayout";
+import "../styles/SocialPage.css";
+
 
 const SocialPage = () => {
     const [liveStreams, setLiveStreams] = useState([]);
@@ -31,32 +34,45 @@ const SocialPage = () => {
         <div className="social-container">
             <Header />
 
-            <div className="social-layout">
-                <Nav />
-                <main className="social-content">
-                    <p>현재 진행 중인 스트리밍 목록입니다.</p>
+            <SidebarLayout>
+
+            <div className="social-layout-container">
+                <div className="social-content">
+                    <p className="textplace">현재 진행 중인 스트리밍 채팅방 목록입니다.</p>
                     <div className="streaming-list">
                         {liveStreams.length === 0 ? (
-                            <p>현재 진행 중인 스트리밍이 없습니다.</p>
+                            <p className="textplace">현재 진행 중인 스트리밍이 없습니다.</p>
                         ) : (
                             liveStreams.map(stream => (
                                 stream.public && ( // public이 true일 때만 표시
+                                <div className="ViewStyle">  
                                     <div key={stream.id} className="stream-card">
-                                        <h3>스트리밍 호스트 ID: {stream.hostUser.nickname}</h3>
-                                        <p>플레이리스트: {stream.playlist.playlistTitle}</p>
+                                        <div className="grapplace">
+                                            <div className="sectionleft">   
+                                                <img src={defaultImage} alt="defaultImage" id="defaultImageStyle" />
+                                            </div> 
+                                            <div className="sectionright">   
+                                                <p id="TitlePlace">{stream.playlist.playlistTitle}</p>
+                                                <h5 id="placebottom">스트리밍 호스트 ID: {stream.hostUser.nickname}</h5>
+                                             </div> 
+                                        </div>
 
                                         <div className="chat-box">
-                                            <p><strong>마지막 채팅:</strong> (최근 채팅 내용 표시)</p>
+                                            <p><strong>마지막 채팅:</strong> {stream.lastMessage ? stream.lastMessage : "메시지가 없습니다."}</p>
+                                            
                                             <JoinChat streamId={stream.id} /> {/* ✅ JoinChat 버튼 사용 */}
                                         </div>
                                     </div>
+                                </div>      
                                 )
                             ))
                         )}
                     </div>
                     
-                </main>
+                </div>
+                <Nav />
             </div>
+            </SidebarLayout>
         </div>
     );
 };

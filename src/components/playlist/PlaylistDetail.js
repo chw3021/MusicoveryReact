@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import Music from "../music/Music"; // Music 컴포넌트 임포트
 import MusicSearch from "../music/MusicSearch";
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import Button from "../common/Button"; // Button 컴포넌트 임포트
-import { getFormattedDate } from "../../utils/util"; // getFormattedDate 유틸 함수 임포트
+import { parseTracks } from "../../utils/trackUtils"; // parseTracks 유틸 함수 임포트
+import { getImageUrl } from "../../utils/imageUtils"; 
 import "./PlaylistDetail.css"; // 스타일 파일 임포트
 import Header from "../common/Header";
 
@@ -15,6 +16,9 @@ const PlaylistDetail = () => {
     const navigate = useNavigate();
     const userInfo = useUserInfo(); // 사용자 정보 가져오기
     const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
+    const location = useLocation();
+    const friendInfo = location.state?.friendInfo;
+    const isFriendPlaylist = !!friendInfo;
 
     const [state, setState] = useState({
         playlistTitle: '',
@@ -26,29 +30,19 @@ const PlaylistDetail = () => {
         user: userInfo,
     });
 
-    const SPRING_SERVER_URL = "http://localhost:8080"; // 스프링 서버 URL 선언
-
     useEffect(() => {
         const fetchPlaylist = async () => {
             try {
                 const response = await axiosInstance.get(`/playlist/detail/${playlistId}`);
     
-                // tracks가 문자열이면 JSON으로 파싱
-                let parsedTracks = typeof response.data.tracks === "string"
-                    ? JSON.parse(response.data.tracks)
-                    : response.data.tracks;
-
-                // tracks.items에서 track 정보만 추출
-                const trackList = parsedTracks.items.map(item => ({
-                    id: item.track.id, // track.id 추가
-                    ...item.track, // track 객체 전체 추가
-                }));
+                // tracks 데이터를 파싱하고 변환
+                const trackList = parseTracks(response.data.tracks);
                 
                 setState(prevState => ({
                     ...prevState,
                     playlistTitle: response.data.playlist.playlistTitle,
                     playlistComment: response.data.playlist.playlistComment,
-                    playlistPhoto: response.data.playlist.playlistPhoto,
+                    playlistPhoto: getImageUrl(response.data.playlist.playlistPhoto), // 이미지 URL 설정
                     playlistDate: response.data.playlist.playlistDate.substring(0, 10),
                     isPublic: response.data.playlist.isPublic,
                     tracksData: trackList,
@@ -88,10 +82,10 @@ const PlaylistDetail = () => {
         formData.append("isPublic", state.isPublic);
         formData.append("userId", state.user.userId); // 예시로 userId 값 사용
     
-        if (state.playlistPhoto) {
+        if (state.playlistPhoto && typeof state.playlistPhoto !== "string") {
             formData.append("playlistPhoto", state.playlistPhoto);
         } else {
-            formData.append("playlistPhoto", state.playlistPhoto || ""); // 기존 이미지를 그대로 사용
+            formData.append("existingPlaylistPhoto", state.playlistPhoto || ""); // 기존 이미지를 그대로 사용
         }
     
         formData.append("tracks", state.tracksData.map(track => track.uri));
@@ -136,14 +130,10 @@ const PlaylistDetail = () => {
         return <div>Loading...</div>;
     }
 
-    // 기본 이미지 설정
-    const defaultImage = "/images/default.jpg";  // 기본 이미지 파일 추가 필요
+    const goBack = () => {
+        navigate(-1); // 이전 페이지로 이동
+    };
 
-    // playlistPhoto가 null이면 기본 이미지 사용
-    const imageUrl = state.playlistPhoto 
-        ? (state.playlistPhoto.startsWith("/images/") ? `${SPRING_SERVER_URL}${state.playlistPhoto}` : URL.createObjectURL(state.playlistPhoto))
-        : defaultImage;
-        
     return (
         <div className="container1">
             <Header />
@@ -168,10 +158,35 @@ const PlaylistDetail = () => {
                 </div>
                 <div className="playlist-detail-body">
                     <div className="playlist-detail-left">
-                        <img src={imageUrl} alt="Playlist" className="playlistPhoto" />
+                        <img src={state.playlistPhoto} alt="Playlist" className="playlist-detail-photo" />
                         {state.isEditing && (
                             <input type="file" onChange={handleFileChange} accept="image/*" />
                         )}
+                                
+                        <div className="playlist-tracks-container">
+                            {state.isEditing && (
+                                <div className="music-search-container">
+                                    <MusicSearch onSelectTrack={handleTrackSelect} />
+                                </div>
+                            )}
+                            <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
+                                {state.tracksData.length > 0 ? (
+                                    state.tracksData.map((track, index) => {
+                                        const key = `${playlistId}-${index}`;
+                                        return (
+                                            <div key={key} className="list-track-item">
+                                                <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                                                {state.isEditing && (
+                                                    <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
+                                                )}
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p>노래가 없습니다.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="playlist-detail-right">
                         {state.isEditing ? (
@@ -191,37 +206,17 @@ const PlaylistDetail = () => {
                         )}
                         <p>{state.playlistDate}</p>
                         <div className="editing-button-area">
-                            {state.isEditing ? (
-                                <Button text="저장" onClick={handleSave} />
-                            ) : (
-                                <Button text="수정" onClick={handleEdit} />
-                            )}
-                            <Button text="뒤로가기" link={"/PlaylistPage"} />
+                            {!isFriendPlaylist ? (
+                                <>
+                                    {state.isEditing ? (
+                                        <Button text="저장" onClick={handleSave} />
+                                    ) : (
+                                        <Button text="수정" onClick={handleEdit} />
+                                    )}
+                                </>
+                            ) : null}
+                            <Button text="뒤로가기" onClick={goBack} />
                         </div>
-                    </div>
-                </div>
-                <div className="playlist-tracks-container">
-                    {state.isEditing && (
-                        <div className="music-search-container">
-                            <MusicSearch onSelectTrack={handleTrackSelect} />
-                        </div>
-                    )}
-                    <div className={`playlist-tracks ${state.isEditing ? 'playlist-tracks-editing' : ''}`}>
-                        {state.tracksData.length > 0 ? (
-                            state.tracksData.map((track, index) => {
-                                const key = `${playlistId}-${index}`;
-                                return (
-                                    <div key={key} className="list-track-item">
-                                        <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                        {state.isEditing && (
-                                            <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
-                                        )}
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <p>노래가 없습니다.</p>
-                        )}
                     </div>
                 </div>
             </div>

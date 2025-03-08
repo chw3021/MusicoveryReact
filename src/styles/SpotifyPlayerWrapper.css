@@ -1,0 +1,32 @@
+.spotify-player-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 12px;
+  background-color: #282828;
+  padding: 0 6px;
+  border-radius: 10px 10px 0 0;
+  z-index: 1;
+  transition: background-color 0.3s ease, height 0.3s ease;
+  overflow: hidden;
+}
+
+.spotify-player-wrapper:hover {
+  height: auto;
+}
+
+.spotify-player-wrapper.is-playing {
+  background: linear-gradient(90deg, #1DB954, #191414, #1DB954);
+  background-size: 200% 100%;
+  animation: wave 5s linear infinite;
+}
+
+@keyframes wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}

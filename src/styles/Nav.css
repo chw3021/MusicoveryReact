@@ -1,0 +1,36 @@
+
+.social-sidebar {
+    width: 13%;
+    height: 15vh;
+    background-color: #121212;
+    padding: 20px;
+}
+
+.nav-menu {
+    margin-bottom: 20px;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-menu li {
+    margin-bottom: 10px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #1db954;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-menu a:hover {
+    color: #1ed760;
+}
+
+.streaming-list {
+    margin-top: 20px;
+}

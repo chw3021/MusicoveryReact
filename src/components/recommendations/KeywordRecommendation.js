@@ -8,6 +8,7 @@ import Music from "../music/Music";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 임포트
 import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
+import { getDefaultImage } from "../../utils/imageUtils";
 
 const KeywordRecommendation = () => {
     const navigate = useNavigate();
@@ -29,6 +30,11 @@ const KeywordRecommendation = () => {
         user: userInfo, // 사용자 정보 추가
     });
 
+    const [showBpmInfo, setShowBpmInfo] = useState(false); // BPM 설명 박스 표시 여부 상태
+
+    // 최대 파일 크기 설정 (예: 5MB)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     // userInfo가 변경될 때마다 상태 업데이트
     useEffect(() => {
         if (userInfo) {
@@ -38,6 +44,7 @@ const KeywordRecommendation = () => {
             }));
         }
     }, [userInfo]);
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setState((prev) => ({
@@ -47,9 +54,14 @@ const KeywordRecommendation = () => {
     };
 
     const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+            alert("파일 크기가 너무 큽니다. 최대 5MB 이하의 파일을 업로드해주세요.");
+            return;
+        }
         setState((prev) => ({
             ...prev,
-            playlistPhoto: e.target.files[0],
+            playlistPhoto: file,
         }));
     };
 
@@ -79,7 +91,7 @@ const KeywordRecommendation = () => {
     };
 
     const handleSubmit = async () => {
-        if (!state.selectedGenres.length || !state.bpm || !state.mood) {
+        if (state.selectedGenres.length <= 0 || !state.bpm || !state.mood) {
             alert("모든 필드를 입력해주세요.");
             return;
         }
@@ -98,8 +110,6 @@ const KeywordRecommendation = () => {
                 loading: false,
                 showSaveForm: true,
             }));
-            console.log("추천된 트랙 목록:", parsedRecommendations);
-
         } catch (error) {
             console.error("추천 요청 실패:", error);
             setState((prev) => ({ ...prev, loading: false }));
@@ -121,6 +131,8 @@ const KeywordRecommendation = () => {
         formData.append("tracks", state.recommendations.map(track => track.uri));
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
+        } else {
+            formData.append("playlistPhoto", getDefaultImage());
         }
 
         axiosInstance.post("/playlist/create", formData, {
@@ -129,14 +141,13 @@ const KeywordRecommendation = () => {
             },
         })
         .then(response => {
-            console.log("✅ 플레이리스트 생성 완료:", response.data);
             navigate("/PlaylistPage");
         })
         .catch(error => {
-            console.error("❌ 플레이리스트 생성 실패:", error);
+            console.error("플레이리스트 생성 실패:", error);
             if (error.response) {
-                console.error("📌 응답 데이터:", error.response.data);
-                console.error("📌 상태 코드:", error.response.status);
+                console.error("응답 데이터:", error.response.data);
+                console.error("상태 코드:", error.response.status);
             }
         });
     };
@@ -150,7 +161,7 @@ const KeywordRecommendation = () => {
 
     return (
         <div className="keyword-recommendation">
-            <div className="form-container">
+            <div className="keyword-form-container">
                 <div className="form-group">
                     <label htmlFor="genre">장르</label>
                     <select
@@ -177,13 +188,54 @@ const KeywordRecommendation = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="bpm">BPM</label>
+                    <button onClick={() => setShowBpmInfo(!showBpmInfo)}>?</button> {/* 설명 버튼 추가 */}
                     <input
                         type="number"
                         name="bpm"
                         value={state.bpm}
                         onChange={handleChange}
+                        className="bpm-form-input"
                         placeholder="BPM을 입력하세요..."
+                        min="30"     // 최소값 30
+                        max="990"    // 최대값 990
+                        step="5"     //5씩 상승
                     />
+                    
+                </div>
+                <div>
+                    {showBpmInfo && <div className="bpm-info-box">
+                        BPM이란? Beats per minute의 약자로 1분에 비트가 몇 번 반복되는지를 세는 단위이다.<br />
+                [ 고르기 쉽게 알려주는 BPM종류! ]<br />
+                붐뱁 : 80(160)~100(200)<br />
+                트랩 : 4/4박자 기준: 50~80 , 2/ 2박자 기준: 100~160 <br />
+                디스코 : 110~130 <br />
+                한국 댄스가요: 125 ~ 290+ ,
+                일본 댄스가요: 140~170+<br />
+                정통 트로트 : 60~90, 세미 트로트 : 90~120, 댄스 트로트: 120~140, 뽕짝 트로트 : 140+<br />
+                라틴 팝: 65~110<br />
+                유로비트: 145~165<br />
+                하우스 및 이로부터 큰 영향을 받은 차트뮤직: 120~134,
+                하드 하우스: 130~140<br />
+                디트로이트 테크노 이후의 테크노: 130~150<br />
+                하드 테크노 및 슈란츠: 145~170+<br />
+                앰비언트 테크노: 100~120+<br />
+                빅 비트: 90~140<br />
+                트랜스 : 130~145<br />
+                프로그레시브 트랜스: 130 초 ,더치/업리프팅 : 130~140<br />
+                싸이트랜스같이 매니악한 방계장르 : 140 ~ 160+<br />
+                덥스텝: 70~140<br />
+                드럼스텝 및 하프타임 드럼 앤 베이스: 80~120+<br />
+                퓨처 베이스: 70~120<br />
+                드럼 앤 베이스 및 정글계열: 160~180+
+                올드스쿨 레이브: 130~150<br />
+                데스 메탈: 130~350+<br />
+                퓨너럴 둠 메탈: 30~100<br />
+                하드코어 테크노: 170~200+<br />
+                개버류: 180~300+<br />
+                프렌치코어: 200~225<br />
+                메인스트림 하드코어: 150 ~ 180+<br />
+                스피드코어(스플리터코어, 엑스트라톤 포함): 300~999 <br />
+                하드스타일: 150~160</div>} {/* 설명 박스 */}
                 </div>
                 <div className="form-group">
                     <label htmlFor="mood">분위기</label>
@@ -201,7 +253,7 @@ const KeywordRecommendation = () => {
                     </select>
                 </div>
                 <div className="form-group">
-                    <Button text="생성하기!" onClick={handleSubmit} />
+                    <Button text="생성하기" onClick={handleSubmit} />
                 </div>
             </div>
 
@@ -215,19 +267,19 @@ const KeywordRecommendation = () => {
                                 <h5>추천된 트랙 목록</h5>
                                 <ul>
                                     {state.recommendations.map((track, index) => (
-                                        <li key={index}>
+                                        <li className="keyword-recommendations-list-item" key={index}>
                                             <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                            <button onClick={() => removeTrack(track.id)}>제거</button>
+                                            <button onClick={() => removeTrack(track.id)}>❌</button>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         )}
                         {state.showSaveForm && (
-                            <div>
-                                <h5>플레이리스트 저장</h5>
+                            <div className="playlist-save-form">
+                                <h5>플레이리스트 생성</h5>
                                 <div className="form-group">
-                                    <label htmlFor="playlistDate">생성일자</label>
+                                    <label htmlFor="playlistDate">생성일자 ▶ </label>
                                     <input
                                         type="date"
                                         name="playlistDate"
@@ -236,7 +288,7 @@ const KeywordRecommendation = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="playlistPhoto">플레이리스트 사진</label>
+                                    <label htmlFor="playlistPhoto">대표 사진 ▶ </label>
                                     <input
                                         type="file"
                                         name="playlistPhoto"
@@ -244,20 +296,26 @@ const KeywordRecommendation = () => {
                                         accept="image/*" // 이미지 파일만 허용
                                     />
                                 </div>
-                                <input
-                                    type="text"
-                                    name="playlistTitle"
-                                    value={state.playlistTitle}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 제목을 입력하세요..."
-                                />
-                                <textarea
-                                    name="playlistComment"
-                                    value={state.playlistComment}
-                                    onChange={handleChange}
-                                    placeholder="플레이리스트 설명을 입력하세요..."
-                                ></textarea>
-                                <Button text="저장하기" onClick={handleSave} />
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        name="playlistTitle"
+                                        value={state.playlistTitle}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 제목을 입력하세요...(25자이내)"
+                                         maxLength="25"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <textarea
+                                        name="playlistComment"
+                                        value={state.playlistComment}
+                                        onChange={handleChange}
+                                        placeholder="플레이리스트 설명을 입력하세요...(300자이내)"
+                                        maxLength="300"
+                                    ></textarea>
+                                </div>
+                                <Button text="생성하기" onClick={handleSave} />
                             </div>
                         )}
                     </div>

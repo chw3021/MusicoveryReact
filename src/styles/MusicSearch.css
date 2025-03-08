@@ -12,25 +12,37 @@
     margin-bottom: 10px;
 }
 
-.music-search input {
+.music-search-placeholder {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 100px;
+    color: #b3b3b381;
+}
+
+.music-search-input {
     flex: 1;
-    padding: 5px;
     border: none;
     border-radius: 5px;
     margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffffffcc;
 }
 
 .music-search button {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #1db954;
+    background-color:  #0b4a8518;
     color: #fff;
     cursor: pointer;
 }
 
-.search-results {
-    max-height: 20rem; /* 최대 높이 설정 */
+.music-search-results {
+    min-height: 500px;
+    margin-top: 5px;
+    background-color: #0000001a;
+   
     overflow-y: auto; /* 스크롤바 적용 */
 }
 
@@ -70,7 +82,7 @@
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #1db954;
+    background-color:#1C1C8C;
     color: #fff;
     cursor: pointer;
 }

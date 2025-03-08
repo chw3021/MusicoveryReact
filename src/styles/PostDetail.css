@@ -1,28 +1,192 @@
-/* PostDetail.css */
 .post-detail {
+    max-width: 90%;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
-    color: #000;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #4d4d4da6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-meta-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.post-meta-writer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.post-meta-bottom-button{
+    cursor: pointer;
+    border: none;
+    padding: 6px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    background-color: #d3d3d3a8;
+}
+
+.post-meta-bottom-button:hover{
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    color: rgba(245, 245, 245, 0.842);
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+    transition: color 0.3s ease;
+    
+}
+
+.like-button:hover {
+    color: #0056b3;
 }
 
 .back-button {
-    background-color: #1db954;
-    color: #fff;
+    background: #ebf4ff;
+    color: rgb(73, 70, 70);
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.playlist-detail {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #b8b8b85b;
+    height: 60rem;
+    overflow-y: scroll;
+    white-space: inherit;
+}
+
+.post-playlist-meta{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #c4c4c4;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 20px;
+}
+
+.post-playlist-meta > .post-playlist-meta-text{
+    width: 70%;
+    color: #000000;
+}
+
+.post-playlist-meta > .post-playlist-meta-text > p{
+    font-size: 0.8rem;
+    text-align: left;
+    color: #141111ad;
+}
+
+.post-playlist-meta > .post-playlist-meta-image{
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.playlist-tracks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.comments-section {
+    margin-top: 40px;
+}
+
+.comment-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-.back-button:hover {
-    background-color: #1ed760;
+.comment-input textarea {
+    width: 95%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
-.post-meta {
-    margin-top: 20px;
+.comment-input button {
+    align-self: flex-end;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-input button:hover {
+    background-color: #218838;
+}
+
+.post-comments-list {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post-comment-item {
+    padding: 10px;
+    border-radius: 4px;
+    color: #000000;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+}
+
+.post-comment-text {
+    max-width: 70%;
+}
+.post-comment-item>.post-comment-button {
+    max-width: 15%;
+    padding: 10px;
+    border-radius: 4px;
+    color: #000000;
+    background-color: #f8f9fa;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.post-comment-button>button{
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.post-comment-button>button:hover {
+    background-color: #c82333;
+}
+
+.comment-author {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.comment-content {
+    word-break: break-word;
 }

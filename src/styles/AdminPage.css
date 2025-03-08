@@ -1,0 +1,58 @@
+/* 전체 레이아웃 */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background: #121212;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 220px;
+    min-width: auto; /* ✅ 크기 강제 고정 해제 */
+    background: #2c2c2c;
+    padding: 10px;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* 사이드바 메뉴 스타일 */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #3a3a3a;
+    color: #dcdcdc;
+    transition: 0.3s;
+}
+
+.sidebar li:hover,
+.sidebar .active {
+    background: #505050;
+    color: #fff;
+}
+
+.sidebar .active {
+    background: #ff4757;
+    font-weight: bold;
+}
+
+/* 메인 콘텐츠 */
+.content {
+    flex: 1;
+    padding: 30px;
+    overflow-x: auto; /* ✅ 가로 스크롤 문제 해결 */
+}

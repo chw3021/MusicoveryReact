@@ -1,0 +1,133 @@
+/* 📌 대시보드 전체 정렬 */
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 📌 대시보드 카드 + 차트 컨테이너 */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap; /* ✅ 반응형 자동 줄바꿈 */
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* 📌 개별 박스 (카드 + 차트) */
+.dashboard-box {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    flex: 1 1 300px; /* ✅ 최소 300px, 화면 크기에 따라 자동 조정 */
+    max-width: 400px; /* ✅ 너무 넓어지지 않도록 제한 */
+}
+
+/* 📌 개별 카드 */
+.dashboard-card {
+    background: #2c2c2c;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.dashboard-card:hover {
+    background: #3a3a3a;
+}
+
+/* 📌 개별 차트 */
+.dashboard-chart {
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    min-width: 250px;
+}
+
+/* 📌 차트 크기 조정 */
+.dashboard-chart canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* 📌 하단 추가 콘텐츠 (최근 가입 유저, 인기 스트리밍 곡, 관리자 알림) */
+.dashboard-extra {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* 📌 추가 콘텐츠 개별 박스 */
+.dashboard-section {
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1 1 300px; /* ✅ 최소 300px, 최대 크기 자동 조정 */
+    max-width: 400px;
+    color: #fff;
+}
+
+/* 📌 섹션 타이틀 */
+.dashboard-section h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* 📌 리스트 스타일 */
+.dashboard-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-section li {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 📌 아이콘 크기 */
+.dashboard-icon {
+    font-size: 24px;
+}
+
+.dashboard-section li svg {
+    font-size: 18px;
+}
+
+/* 📌 버튼 스타일 */
+.link-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+/* 📌 버튼 호버 효과 */
+.link-button:hover {
+    text-decoration: underline;
+}
