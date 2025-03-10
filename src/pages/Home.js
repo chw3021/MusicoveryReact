@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
-import Button from "../components/common/Button";
 import OAuth from "../components/auth/OAuth";
 import { logout } from "../components/auth/auth";
 import "../styles/Home.css";
@@ -216,10 +215,6 @@ const Home = () => {
     navigate("/Signup");
   };
 
-  const goToMypage = () => {
-    navigate("/mypage");
-  };
-
   const handlePrevClick = () => {
     if (currentSection > 0) {
       transitionToSection(currentSection - 1);
@@ -248,7 +243,6 @@ const Home = () => {
               Personalized playlists curated just for you, based on your unique
               taste in music.
             </p>
-            <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
             {!isLoggedIn ? (
               <>
                 <button className="cta-button" onClick={goToLogin}>
@@ -263,19 +257,16 @@ const Home = () => {
                 <button className="cta-button" onClick={handleLogoutClick}>
                   로그아웃
                 </button>
-                <button className="cta-button" onClick={goToMypage}>
-                  마이페이지
-                </button>
               </>
             )}
-            <button className="cta-button" onClick={handleLoginClick}>
+            {/* <button className="cta-button" onClick={handleLoginClick}>
               임시 로그인(스포티파이로 로그인)
-            </button>
+            </button> */}
             <button className="cta-button" onClick={adminLoginClick}>
               임시 관리자페이지
             </button>
 
-            {showOAuth && <OAuth />}
+            {/* {showOAuth && <OAuth />} */}
           </div>
         </section>
         <section className={`section`} data-index="1">

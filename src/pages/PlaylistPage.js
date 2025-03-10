@@ -15,7 +15,7 @@ const PlaylistPage = () => {
     const location = useLocation();
     const friendInfo = location.state?.friendInfo;
 
-    const userId = friendInfo ? friendInfo.id : userInfo?.id;
+    const userId = friendInfo ? friendInfo.userId : userInfo?.userId;
     const isFriendPlaylist = !!friendInfo;
 
     const getPlaylistsByUserId = async (userId) => {
@@ -78,7 +78,7 @@ const PlaylistPage = () => {
                     data.length > 0 ? (
                         <ReadMoreList data={data} isFriendPlaylist={isFriendPlaylist} onPlaylistClick={handlePlaylistClick} />
                     ) : (
-                        <p>로딩 중...</p>
+                        <p>새 리스트를 생성해주세요</p>
                     )
                 )}
             </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/Header.module.css";
 import useUserInfo from "../../hooks/useUserInfo";
-import { getImageUrl } from "../../utils/imageUtils";
+import Button from "./Button";
 
 import logoImage from "../../assets/logo.png"; // 이미지 import
 import "animate.css";
@@ -74,6 +74,12 @@ const Header = ({ isHomePage = false }) => {
     navigate(link);
   };
 
+  
+
+  const goToMypage = () => {
+    navigate("/mypage");
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -121,18 +127,10 @@ const Header = ({ isHomePage = false }) => {
       <div className={styles.userInfo}>
         {userInfo ? (
           <div className={styles.userDetails}>
-            {userInfo.profileImageUrl && (
-              <img
-                src={getImageUrl(userInfo.profileImageUrl)}
-                alt="Profile"
-                className={styles.profileImage}
-              />
-            )}
-            <div className={styles.userText}>
-              <div>스포티파이 닉네임: {userInfo.nickname}</div>
-              <div>이메일: {userInfo.email}</div>
-              <div>아이디: {userInfo.userId}</div>
-            </div>
+              <button className="cta-button" onClick={goToMypage}>
+                마이페이지
+              </button>
+              <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
           </div>
         ) : (
           <div className={styles.userText}>로그인되지 않음</div>
