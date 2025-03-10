@@ -23,10 +23,17 @@ const PostBody = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        setPage(parseInt(params.get('page') || '0', 10));
-        setSortOption(params.get('sort') || 'latest');
-        setSearchType(params.get('searchType') || 'title');
-        setSearchKeyword(params.get('keyword') || '');
+        const currentPage = parseInt(params.get('page') || '0', 10);
+        const currentSortOption = params.get('sort') || 'latest';
+        const currentSearchType = params.get('searchType') || 'title';
+        const currentSearchKeyword = params.get('keyword') || '';
+
+        setPage(currentPage);
+        setSortOption(currentSortOption);
+        setSearchType(currentSearchType);
+        setSearchKeyword(currentSearchKeyword);
+
+        fetchPosts(currentPage, currentSortOption, currentSearchType, currentSearchKeyword);
     }, [location.search]);
 
     const fetchPosts = useCallback(async (currentPage, sort, searchType, keyword) => {
@@ -47,11 +54,6 @@ const PostBody = () => {
             setIsLoading(false);
         }
     }, []);
-
-
-    useEffect(() => {
-        fetchPosts(page, sortOption, searchType, searchKeyword);
-    }, [page, sortOption, fetchPosts]);
 
     const updateURL = useCallback(() => {
         const params = new URLSearchParams();
