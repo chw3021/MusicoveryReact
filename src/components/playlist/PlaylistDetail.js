@@ -126,10 +126,7 @@ const PlaylistDetail = () => {
             tracksData: [...prev.tracksData, track],
         }));
     };
-    if (!state.playlistTitle) {
-        return <div>Loading...</div>;
-    }
-
+    
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
     };
