@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/Header.module.css";
 import useUserInfo from "../../hooks/useUserInfo";
-import Button from "./Button";
+import { logout } from "../auth/auth";
 
 import logoImage from "../../assets/logo.png"; // 이미지 import
 import "animate.css";
@@ -74,10 +74,13 @@ const Header = ({ isHomePage = false }) => {
     navigate(link);
   };
 
-  
-
   const goToMypage = () => {
     navigate("/mypage");
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    navigate("/");
   };
 
   return (
@@ -127,10 +130,12 @@ const Header = ({ isHomePage = false }) => {
       <div className={styles.userInfo}>
         {userInfo ? (
           <div className={styles.userDetails}>
-              <button className="cta-button" onClick={goToMypage}>
-                마이페이지
-              </button>
-              <Button link={"/PlaylistPage"} text={"내 플레이리스트"} />
+            <button className="cta-button" onClick={goToMypage}>
+              마이페이지
+            </button>
+            <button className="cta-button" onClick={handleLogoutClick}>
+              로그아웃
+            </button>
           </div>
         ) : (
           <div className={styles.userText}>로그인되지 않음</div>
