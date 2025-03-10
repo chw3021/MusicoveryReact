@@ -79,7 +79,7 @@ export default function AdminSupport() {
                       }}
                       className="view-btn"
                     >
-                      상세 보기
+                      답변 등록
                     </button>
                   </td>
                 </tr>

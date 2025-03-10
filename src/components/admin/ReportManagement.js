@@ -53,12 +53,14 @@ const ReportManagement = () => {
             alert("🚨 먼저 신고 항목을 선택하세요.");
             return;
         }
-
+    
         try {
             await axiosInstance.put(
-                `http://localhost:8080/api/userreport/status/${selectedReport.id}?status=사유 불충분`
+                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  // ✅ URL 수정 (쿼리 스트링 제거)
+                { status: "사유 불충분" },  // ✅ JSON 객체로 데이터 전달
+                { headers: { "Content-Type": "application/json" } }  // ✅ 헤더 추가 (JSON 요청 명시)
             );
-
+    
             alert("🚨 신고가 '사유 불충분' 상태로 변경되었습니다.");
             window.location.reload();
         } catch (error) {
@@ -69,6 +71,7 @@ const ReportManagement = () => {
             });
         }
     };
+    
 
     return (
         <div className="report-management">
