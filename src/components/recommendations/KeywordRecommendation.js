@@ -187,8 +187,9 @@ const KeywordRecommendation = () => {
                     ))}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="bpm">BPM</label>
-                    <button onClick={() => setShowBpmInfo(!showBpmInfo)}>?</button> {/* 설명 버튼 추가 */}
+                    <label htmlFor="bpm">BPM
+                        <button onClick={() => setShowBpmInfo(!showBpmInfo)}>?</button> {/* 설명 버튼 추가 */}
+                    </label>
                     <input
                         type="number"
                         name="bpm"
@@ -252,7 +253,7 @@ const KeywordRecommendation = () => {
                         <option value="우울한">우울한</option>
                     </select>
                 </div>
-                <div className="form-group">
+                <div className="form-group-button">
                     <Button text="생성하기" onClick={handleSubmit} />
                 </div>
             </div>
@@ -315,7 +316,7 @@ const KeywordRecommendation = () => {
                                         maxLength="300"
                                     ></textarea>
                                 </div>
-                                <Button text="생성하기" onClick={handleSave} />
+                                <Button text="저장하기" onClick={handleSave} />
                             </div>
                         )}
                     </div>

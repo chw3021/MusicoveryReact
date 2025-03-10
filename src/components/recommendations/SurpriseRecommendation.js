@@ -192,7 +192,7 @@ function SurpriseRecommendation() {
                         maxLength="300"
                     ></textarea>
                 </div>
-                <Button text="생성하기" onClick={handleSave} />
+                <Button text="저장하기" onClick={handleSave} />
               </div>
             )}
           </div>
