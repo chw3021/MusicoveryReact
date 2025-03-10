@@ -58,21 +58,28 @@
     background-color: #555;
 }
 
-/* 🚨 신고 접수 상태 (빨간색) */
+/* 🚨 신고 접수 상태 */
 .pending-report {
-    background-color: #ff4d4d !important;
+    background-color: #da7800 !important;
     color: white;
 }
 
-/* ✅ 해결된 신고 (사유 불충분 / 정지 - 초록색) */
+/* ✅ 해결된 신고 (사유 불충분) */
 .resolved-report {
-    background-color: #4CAF50 !important;
+    background-color: #2E8B57 !important;
     color: white;
 }
+
+/* 🚨 정지된 사용자 (빨간색 강조) */
+.banned-report {
+    background-color: #D32F2F !important; /* 어두운 빨강 */
+    color: white;
+}
+
 
 /* 📌 선택된 신고 항목 */
 .selected {
-    border: 2px solid white !important;
+    border: 3px solid white !important;
 }
 
 /* 📌 신고 상세 내용 */
@@ -123,6 +130,11 @@
     margin-top: 5px;
 }
 
+/* 🚀 마우스 호버 시 강조 */
+.report-item:hover {
+    filter: brightness(1.2);
+}
+
 /* 📌 반응형 스타일 (화면이 작을 때 한 줄로 표시) */
 @media (max-width: 768px) {
     .report-container {
@@ -134,4 +146,34 @@
         flex: 1 1 100%;
         max-width: 100%;
     }
+}
+
+/* ✅ 페이지네이션 스타일 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* 🚀 신고 목록과 간격 추가 */
+}
+
+.pagination-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.pagination-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+.pagination-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
 }

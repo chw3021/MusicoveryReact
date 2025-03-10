@@ -15,56 +15,46 @@
     gap: 10px;
 }
 
-/* 📌 검색 바 */
-.user-controls input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.user-controls input:focus {
-    background-color: rgba(255, 255, 255, 0.3);
-    outline: none;
-}
-
-/* 📌 드롭다운 스타일 */
+/* 📌 입력 필드 & 드롭다운 공통 스타일 */
+.user-controls input,
 .user-controls select {
     padding: 10px;
-    min-width: 140px;
     border-radius: 8px;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
-    cursor: pointer;
     font-size: 14px;
     transition: 0.3s;
 }
 
-/* 📌 드롭다운 선택지 스타일 */
-.user-controls select option {
-    background-color: #333; /* ✅ 어두운 배경 */
-    color: white; /* ✅ 폰트 색상을 하얗게 */
-    padding: 10px;
+.user-controls input {
+    flex: 1;
 }
 
+.user-controls input:focus,
 .user-controls select:focus {
-    outline: none;
     background-color: rgba(255, 255, 255, 0.3);
+    outline: none;
+}
+
+.user-controls select {
+    min-width: 140px;
+    cursor: pointer;
+}
+
+.user-controls select option {
+    background-color: #333;
+    color: white;
+    padding: 10px;
 }
 
 /* 📌 사용자 목록 테이블 */
 .user-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* ✅ 테이블 셀 크기 균일하게 설정 */
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    overflow-x: auto; /* ✅ 가로 스크롤 허용 */
+    overflow-x: auto;
 }
 
 /* 📌 테이블 셀 스타일 */
@@ -72,7 +62,6 @@
 .user-table td {
     padding: 12px;
     text-align: center;
-    overflow-wrap: break-word;
     word-break: break-word;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -84,97 +73,124 @@
 
 /* 📌 테이블 hover 효과 */
 .user-table tr:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     transition: 0.3s;
 }
 
-/* 📌 버튼 스타일 */
-.user-table button {
+/* 📌 버튼 공통 스타일 */
+.user-table button,
+.action-button {
     padding: 8px 12px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     font-size: 14px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    margin-right: 5px;
 }
 
-/* 📌 승인 버튼 */
-.user-table .approve-button {
-    background: #4CAF50;
+/* ✅ 보기 버튼 (네온 블루) */
+.view-button {
+    background: #007BFF;
     color: white;
-}
-
-.user-table .approve-button:hover {
-    background: #3d8b40;
-}
-
-/* 📌 삭제 버튼 */
-.user-table .delete-button {
-    background: #FF4D4D;
-    color: white;
-}
-
-.user-table .delete-button:hover {
-    background: #cc3a3a;
-}
-
-/* 📌 모달 스타일 */
-.modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-}
-
-/* 📌 모달 컨텐츠 */
-.modal-content {
-    background: #222;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.623);
-    animation: fadeIn 0.3s;
-    max-width: 400px; /* ✅ 크기 제한 */
-    width: 80%;
-}
-
-/* 📌 모달 닫기 버튼 */
-.modal-content button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background: #FF4D4D;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.modal-content button:hover {
-    background: #cc3a3a;
-}
-
-/* 📌 애니메이션 */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* 📌 로딩 메시지 */
-.loading-text {
-    text-align: center;
-    font-size: 16px;
+    border: 2px solid #00FFFF;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
     font-weight: bold;
-    padding: 20px;
-    color: #ccc;
+}
+
+.view-button:hover {
+    background: #0056b3;
+    border-color: #00E5FF;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.8);
+}
+
+
+/* ✅ 네온 주황 (비활성화 버튼) */
+.deactivate-button {
+    background: #FF9800;
+    color: white;
+    border: 2px solid #E65100;
+    box-shadow: 0 0 8px rgba(255, 152, 0, 0.8);
+    font-weight: bold;
+}
+
+.deactivate-button:hover {
+    background: #E65100;
+    border-color: #BF360C;
+}
+
+/* ✅ 네온 녹색 (활성화 버튼) */
+.activate-button {
+    background: #4CAF50;
+    border: 2px solid #388E3C;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+}
+
+.activate-button:hover {
+    background: #388E3C;
+    border-color: #2E7D32;
+}
+
+/* ✅ 네온 핑크 (삭제 버튼) */
+.delete-button {
+    background: #ff007f;
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background: #cc0066;
+    border-color: #ff00cc;
+}
+
+/* ✅ 활성화된 상태 */
+.status-active {
+    color: #4CAF50; /* 녹색 */
+    font-weight: bold;
+}
+
+/* ✅ 비활성화된 상태 */
+.status-inactive {
+    color: #FF9800; /* 주황색 */
+    font-weight: bold;
+}
+
+/* ✅ 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.pagination button {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 0 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #333;
+    border-color: #777;
+}
+
+.pagination button.active {
+    background-color: #ff007f;
+    border-color: #ff00ff;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+}
+
+.pagination button:disabled {
+    background-color: #222;
+    border-color: #444;
+    color: #777;
+    cursor: not-allowed;
 }

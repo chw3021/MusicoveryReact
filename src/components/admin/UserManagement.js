@@ -109,21 +109,38 @@ const UserManagement = () => {
                             <td colSpan="5" className="loading-text">유저를 불러오는 중입니다...</td>
                         </tr>
                     ) : currentUsers.length > 0 ? (
-                        currentUsers.map((user, index) => (
-                            <tr key={user.id || `user-${index}`}>
-                                <td>{user.email}</td>
-                                <td>{user.nickname}</td>
-                                <td>{new Date(user.regdate).toISOString().split("T")[0]}</td>
-                                <td>{user.active ? "정상" : "비활성화됨"}</td>
-                                <td>
-                                    <button onClick={() => setSelectedUser(user)}>보기</button>
-                                    <button onClick={() => handleToggleUserStatus(user.id)}>
-                                        {user.active ? "비활성화" : "활성화"}
-                                    </button>
-                                    <button onClick={() => handleDeleteUser(user.id)}>삭제</button>
-                                </td>
-                            </tr>
-                        ))
+                        currentUsers.map((user, index) => {
+                            const isActive = user.active;
+                            return (
+                                <tr key={user.id || `user-${index}`}>
+                                    <td>{user.email}</td>
+                                    <td>{user.nickname}</td>
+                                    <td>{new Date(user.regdate).toISOString().split("T")[0]}</td>
+                                    <td className={isActive ? "status-active" : "status-inactive"}>
+                                        {isActive ? "정상" : "비활성화됨"}
+                                    </td>
+                                    <td>
+                                        {/* ✅ 보기 버튼 */}
+                                        <button className="action-button view-button" onClick={() => setSelectedUser(user)}>
+                                            보기
+                                        </button>
+
+                                        {/* ✅ 활성화 / 비활성화 버튼 (동적 클래스 적용) */}
+                                        <button
+                                            className={`action-button ${isActive ? "deactivate-button" : "activate-button"}`}
+                                            onClick={() => handleToggleUserStatus(user.id)}
+                                        >
+                                            {isActive ? "비활성화" : "활성화"}
+                                        </button>
+
+                                        {/* ✅ 삭제 버튼 */}
+                                        <button className="action-button important delete-button" onClick={() => handleDeleteUser(user.id)}>
+                                            삭제
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })
                     ) : (
                         <tr>
                             <td colSpan="5">유저 정보가 없습니다.</td>
@@ -132,34 +149,33 @@ const UserManagement = () => {
                 </tbody>
             </table>
 
-            {/* ✅ 페이지네이션 (이전/다음 버튼 포함) */}
-            {users.length > usersPerPage && (
-                <div className="pagination">
-                    <button 
-                        onClick={() => paginate(currentPage - 1)} 
-                        disabled={currentPage === 1}
-                    >
-                        ◀
-                    </button>
+            {/* ✅ 페이지네이션 (이전/다음 버튼 포함) */}  
+            <div className="pagination">
+                <button 
+                    onClick={() => paginate(currentPage - 1)} 
+                    disabled={currentPage === 1}
+                >
+                    ◀
+                </button>
 
-                    {Array.from({ length: totalPages }, (_, i) => (
-                        <button 
-                            key={i} 
-                            onClick={() => paginate(i + 1)} 
-                            className={currentPage === i + 1 ? "active" : ""}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-
+                {Array.from({ length: totalPages }, (_, i) => (
                     <button 
-                        onClick={() => paginate(currentPage + 1)} 
-                        disabled={currentPage === totalPages}
+                        key={i} 
+                        onClick={() => paginate(i + 1)} 
+                        className={currentPage === i + 1 ? "active" : ""}
                     >
-                        ▶
+                        {i + 1}
                     </button>
-                </div>
-            )}
+                ))}
+
+                <button 
+                    onClick={() => paginate(currentPage + 1)} 
+                    disabled={currentPage === totalPages}
+                >
+                    ▶
+                </button>
+            </div>
+
 
             {/* 유저 상세 모달 */}
             {selectedUser && (
