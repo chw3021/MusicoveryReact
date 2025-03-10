@@ -1,4 +1,4 @@
-/* 📌 신고 관리 페이지 기본 스타일 */
+/* 📌 신고 관리 페이지 */
 .report-management {
     text-align: center;
     padding: 20px;
@@ -12,7 +12,7 @@
     gap: 20px;
 }
 
-/* 📌 신고 목록 (신고된 사용자 리스트) */
+/* 📌 신고 목록 */
 .report-list {
     flex: 1 1 45%;
     display: flex;
@@ -21,7 +21,35 @@
     min-width: 300px;
 }
 
-/* 📌 신고 목록 스타일 */
+/* 📌 신고 내용 박스 (네온 블루 테두리) */
+.report-details {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 2px solid rgba(0, 170, 255, 0.7);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+    transition: all 0.3s ease-in-out;
+}
+
+.report-details:hover {
+    box-shadow: 0 0 15px rgba(0, 170, 255, 1);
+}
+
+/* 📌 신고된 게시글 박스 (네온 오렌지 테두리) */
+.reported-post {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+    transition: all 0.3s ease-in-out;
+}
+
+.reported-post:hover {
+    box-shadow: 0 0 15px rgb(255, 0, 0);
+}
+
 .report-list ul {
     list-style-type: none;
     padding: 0;
@@ -29,7 +57,7 @@
 
 .report-list li {
     padding: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(245, 240, 240, 0.2);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -37,45 +65,17 @@
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     transition: background 0.2s ease-in-out;
+    margin-bottom: 8px; /* ✅ 신고 항목 간격 추가 */
 }
 
 .report-list li:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* 📌 신고 항목 기본 스타일 */
-.report-item {
-    background-color: #444;
-    color: white;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    transition: background 0.2s ease-in-out;
-}
-
-.report-item:hover {
-    background-color: #555;
-}
-
-/* 🚨 신고 접수 상태 */
-.pending-report {
-    background-color: #da7800 !important;
-    color: white;
-}
-
-/* ✅ 해결된 신고 (사유 불충분) */
-.resolved-report {
-    background-color: #2E8B57 !important;
-    color: white;
-}
-
-/* 🚨 정지된 사용자 (빨간색 강조) */
-.banned-report {
-    background-color: #D32F2F !important; /* 어두운 빨강 */
-    color: white;
-}
-
+/* 🚨 신고 상태별 스타일 */
+.pending-report { background-color: #da7800 !important; } /* 신고 접수 */
+.resolved-report { background-color: #2E8B57 !important; } /* 해결된 신고 */
+.banned-report { background-color: #D32F2F !important; } /* 정지된 사용자 */
 
 /* 📌 선택된 신고 항목 */
 .selected {
@@ -92,50 +92,72 @@
     max-width: 500px;
 }
 
-/* 📌 신고된 게시글 스타일 */
-.report-post-info,
-.report-playlist-info {
+/* ✅ 신고 관리 버튼 스타일 */
+.report-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 20px;
-    padding: 15px;
-    background-color: #333;
-    border-radius: 8px;
 }
 
-.report-playlist-info {
-    max-height: 600px;
-    overflow-y: auto;
-}
-/* 📌 신고된 게시글 제목 */
-.report-post-info h3 {
-    margin-bottom: 10px;
-    color: #ffcc00;
-}
-
-/* 📌 신고된 게시글 내용 */
-.report-post-info p {
-    margin: 5px 0;
-    font-size: 14px;
+/* ✅ 정지 기간 선택 (네온 블루) */
+.ban-select {
+    padding: 10px;
+    font-size: 16px;
+    background: #007BFF;
     color: white;
+    border: 2px solid #00FFFF;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 226, 226, 0.8);
+    transition: all 0.3s ease;
 }
 
-/* 📌 플레이리스트 트랙 스타일 */
-.report-playlist-tracks {
-    margin-top: 10px;
+.ban-select:hover {
+    background: #0056b3;
+    border-color: #00E5FF;
+    box-shadow: 0 0 15px rgb(1, 204, 226);
 }
 
-.report-track-item {
-    padding: 8px;
-    background-color: #444;
-    border-radius: 6px;
-    margin-top: 5px;
+/* ✅ 정지 적용 버튼 (네온 레드) */
+.ban-button {
+    padding: 10px 14px;
+    font-size: 16px;
+    background: #ff4444;
+    color: white;
+    border: 2px solid #ff6666;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.9);
+    transition: all 0.3s ease;
 }
 
-/* 🚀 마우스 호버 시 강조 */
-.report-item:hover {
-    filter: brightness(1.2);
+.ban-button:hover {
+    background: #cc3a3a;
+    border-color: #ff3333;
+    box-shadow: 0 0 15px rgba(255, 51, 51, 1);
 }
 
-/* 📌 반응형 스타일 (화면이 작을 때 한 줄로 표시) */
+/* ✅ 사유 불충분 버튼 (네온 오렌지) */
+.reject-button {
+    padding: 10px 14px;
+    font-size: 16px;
+    background: #ff9800;
+    color: white;
+    border: 2px solid #ffcc80;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.9);
+    transition: all 0.3s ease;
+}
+
+.reject-button:hover {
+    background: #e65100;
+    border-color: #ff6f00;
+    box-shadow: 0 0 15px rgba(255, 111, 0, 1);
+}
+
+/* 📌 반응형 스타일 */
 @media (max-width: 768px) {
     .report-container {
         flex-direction: column;
@@ -146,34 +168,9 @@
         flex: 1 1 100%;
         max-width: 100%;
     }
-}
 
-/* ✅ 페이지네이션 스타일 */
-.pagination-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px; /* 🚀 신고 목록과 간격 추가 */
-}
-
-.pagination-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    margin: 0 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: 0.2s;
-}
-
-.pagination-button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-}
-
-.pagination-text {
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
+    .report-actions {
+        width: 100%;
+        align-items: center;
+    }
 }

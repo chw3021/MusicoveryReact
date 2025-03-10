@@ -6,31 +6,21 @@ import UserManagement from "../components/admin/UserManagement";
 import ReportManagement from "../components/admin/ReportManagement";
 import AdminSupport from "../components/admin/AdminSupport";
 
-
-
 const AdminPage = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
 
     const menuItems = [
         { id: "dashboard", label: "📊 대시보드" },
         { id: "users", label: "👤 사용자 관리" },
-        { id: "report", label: "🚨  신고 관리" },
+        { id: "report", label: "🚨 신고 관리" },
         { id: "support", label: "📞 고객 지원" }
     ];
 
-    const renderContent = () => {
-        switch (activeSection) {
-            case "dashboard":
-                return <AdminDashboard setActiveSection={setActiveSection} />;
-            case "users":
-                return <UserManagement />;
-            case "report":
-                return <ReportManagement />;
-            case "support":
-                return <AdminSupport />;
-            default:
-                return <AdminDashboard setActiveSection={setActiveSection} />;
-        }
+    const sections = {
+        dashboard: <AdminDashboard setActiveSection={setActiveSection} />,
+        users: <UserManagement />,
+        report: <ReportManagement />,
+        support: <AdminSupport />,
     };
 
     return (
@@ -40,18 +30,18 @@ const AdminPage = () => {
                 <aside className="sidebar">
                     <h2>관리자 메뉴</h2>
                     <ul>
-                        {menuItems.map((item) => (
+                        {menuItems.map(({ id, label }) => (
                             <li
-                                key={item.id}
-                                className={activeSection === item.id ? "active" : ""}
-                                onClick={() => setActiveSection(item.id)}
+                                key={id}
+                                className={activeSection === id ? "active" : ""}
+                                onClick={() => setActiveSection(id)}
                             >
-                                {item.label}
+                                {label}
                             </li>
                         ))}
                     </ul>
                 </aside>
-                <main className="content">{renderContent()}</main>
+                <main className="content">{sections[activeSection] || sections.dashboard}</main>
             </div>
         </div>
     );
