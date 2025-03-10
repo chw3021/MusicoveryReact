@@ -4,6 +4,7 @@ import styles from "../../styles/Header.module.css";
 import useUserInfo from "../../hooks/useUserInfo";
 import { logout } from "../auth/auth";
 
+import informationImg from "../../assets/information.png";
 import logoImage from "../../assets/logo.png"; // 이미지 import
 import "animate.css";
 
@@ -130,9 +131,14 @@ const Header = ({ isHomePage = false }) => {
       <div className={styles.userInfo}>
         {userInfo ? (
           <div className={styles.userDetails}>
-            <button className="cta-button" onClick={goToMypage}>
-              마이페이지
-            </button>
+            {/* <button className="" onClick={goToMypage}> */}
+            <img
+              className="mypage-btn"
+              src={informationImg}
+              alt="mypage"
+              onClick={goToMypage}
+            ></img>
+            {/* </button> */}
             <button className="cta-button" onClick={handleLogoutClick}>
               로그아웃
             </button>
