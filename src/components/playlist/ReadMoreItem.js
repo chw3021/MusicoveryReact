@@ -37,7 +37,7 @@ const ReadMoreItem = ({ playlistId, playlistTitle, playlistComment, playlistPhot
 
     return (
         <div className="ReadMoreItem" onClick={handleClick}>
-            <img src={spotifyImage} alt="Spotify" className="playlistPhoto" /> {/* 이미지 경로를 사용 */}
+            <img src={ getImageUrl(playlistPhoto)} alt="Spotify" className="playlistPhoto" /> {/* 이미지 경로를 사용 */}
             <div className="playlistInfo">
                 <div className="playlistTitle">{playlistTitle}</div>
                 <div className="playlistComment">{playlistComment}</div>

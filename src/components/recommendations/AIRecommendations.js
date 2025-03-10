@@ -175,10 +175,31 @@ const AIRecommendations = () => {
 
     return (
         <div className="keyword-recommendation">
-            <div className="form-container">
+            <div className="keyword-form-container">
                 <div className="form-group2">
                     <Button text="AI 추천 받기" onClick={handleSubmit} />
                 </div>
+                {state.aiFailed && (
+                    <div className="ai-failed">
+                        <p>AI 추천 데이터가 부족합니다.. 깜짝 추천을 대신 제공합니다.</p>
+                        {state.surpriseLoading ? (
+                            <div>깜짝 추천 로딩 중...</div>
+                        ) : null}
+                    </div>
+                )}
+                {state.recommendations.length > 0 && (
+                    <div className="keyword-recommendations">
+                        <h5>추천된 트랙 목록</h5>
+                        <ul>
+                            {state.recommendations.map((track, index) => (
+                                <li className="keyword-recommendations-list-item" key={index}>
+                                    <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                                    <button onClick={() => removeTrack(track.id)}>❌</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
             
             <div className="results-container">
@@ -186,27 +207,6 @@ const AIRecommendations = () => {
                     <div>로딩 중...</div>
                 ) : (
                     <div>
-                        {state.aiFailed && (
-                            <div className="ai-failed">
-                                <p>AI 추천 데이터가 부족합니다.. 깜짝 추천을 대신 제공합니다.</p>
-                                {state.surpriseLoading ? (
-                                    <div>깜짝 추천 로딩 중...</div>
-                                ) : null}
-                            </div>
-                        )}
-                        {state.recommendations.length > 0 && (
-                            <div className="keyword-recommendations">
-                                <h5>추천된 트랙 목록</h5>
-                                <ul>
-                                    {state.recommendations.map((track, index) => (
-                                        <li className="keyword-recommendations-list-item" key={index}>
-                                            <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                            <button onClick={() => removeTrack(track.id)}>❌</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div> 
-                        )}
                         {state.showSaveForm && (
                             <div className="playlist-save-form">
                                 <h5>플레이리스트 생성</h5>
