@@ -17,7 +17,7 @@ const UserReport = () => {
     // 신고 대상 유저 정보 가져오기
     useEffect(() => {
         if (location.state && location.state.reportedPost) {
-            setReportedUserId(location.state.reportedPost.user.userId);
+            setReportedUserId(location.state.reportedPost.user.id);
             setReportedPost(location.state.reportedPost);
         }
     }, [location.state]);
@@ -50,8 +50,8 @@ const UserReport = () => {
         }
         try {
             const response = await axiosInstance.post("/api/userreport/report", {
-                reporter: userInfo.id,
-                reportedUser: reportedUserId,
+                reporterId: userInfo.id,
+                reportedUserId: reportedUserId,
                 reason: reportReason === "직접입력" ? customReason : reportReason, // 직접입력일 때만 customReason 사용
                 postId: reportedPost.id // 신고된 게시글 ID 추가
             });
