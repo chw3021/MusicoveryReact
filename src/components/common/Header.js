@@ -131,12 +131,14 @@ const Header = ({ isHomePage = false }) => {
       <div className={styles.userInfo}>
         {userInfo ? (
           <div className={styles.userDetails}>
+            {/* <button className="" onClick={goToMypage}> */}
             <img
               className={styles.mypageBtn}
               src={informationImg}
               alt="mypage"
               onClick={goToMypage}
             ></img>
+            {/* </button> */}
             <button className={styles.ctaButton} onClick={handleLogoutClick}>
               로그아웃
             </button>
