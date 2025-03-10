@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/common/Header";
 import SocialHeader from "../components/common/SocialHeader";
 import PostBody from "../components/post/PostBody";
+import NoticeBody from "../components/post/NoticeBody";
 import CustomerSupport from "../components/social/CustomerSupport";
 import SidebarLayout from "../components/common/SidebarLayout";
 import "../styles/PostPage.css";
@@ -20,7 +21,9 @@ const PostPage = () => {
                 <SidebarLayout>
                     <SocialHeader onContentChange={handleContentChange} />
                     <div className="post-list-container">
-                        {content === 'post' ? <PostBody /> : <CustomerSupport />}
+                        {content === 'post' && <PostBody />}
+                        {content === 'notice' && <NoticeBody />}
+                        {content === 'customerSupport' && <CustomerSupport />}
                     </div>
                 </SidebarLayout>
             </div>

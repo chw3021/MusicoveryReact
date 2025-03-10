@@ -6,6 +6,7 @@ const SocialHeader = ({ onContentChange }) => {
     return (
         <div className="social-header">
             <Button text={"게시판홈"} color="blue" onClick={() => onContentChange('post')} />
+            <Button text={"공지사항"} color="blue" onClick={() => onContentChange('notice')} />
             <Button text={"문의사항"} color="blue" onClick={() => onContentChange('customerSupport')} />
         </div>
     );

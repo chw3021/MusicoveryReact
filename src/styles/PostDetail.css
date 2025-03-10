@@ -20,21 +20,27 @@
     margin-bottom: 15px;
 }
 
+.post-meta-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
 .post-meta-bottom-button{
     cursor: pointer;
     border: none;
     padding: 6px;
-    font-size: 16px;
     transition: color 0.3s ease;
     font-size: 1rem;
-    background-color: #d3d3d3a8;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+    background-color: #28a745;
 }
 
 .post-meta-bottom-button:hover{
-    font-size: 16px;
-    transition: color 0.3s ease;
-    font-size: 1rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
     color: rgba(245, 245, 245, 0.842);
+    background-color: #218838;
 }
 
 .like-button {

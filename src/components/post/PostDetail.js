@@ -67,11 +67,27 @@ const PostDetail = ({ post, onBack }) => {
             }
         };
 
+
+        // 조회수 증가 API 호출
+        const increaseViewCount = async () => {
+            try {
+                await axiosInstance.put(`/post/increaseview/${post.id}`, null, {
+                    params: {
+                        title: post.title,
+                        description: post.description,
+                    },
+                });
+            } catch (error) {
+                console.error("Error increasing view count", error);
+            }
+        };
+
         if (post.playlist) {
             fetchPlaylist();
         }
         fetchReplies();
         fetchLikeCount();
+        increaseViewCount(); // 컴포넌트 마운트 시 조회수 증가
     }, [post.playlist, post.id]);
 
     const handleLike = async () => {
@@ -205,6 +221,8 @@ const PostDetail = ({ post, onBack }) => {
             </div>
             {isEditing ? (
                 <>
+                <div className="post-meta-edit">
+
                     <input
                         type="text"
                         value={editedTitle}
@@ -214,6 +232,7 @@ const PostDetail = ({ post, onBack }) => {
                         value={editedDescription}
                         onChange={(e) => setEditedDescription(e.target.value)}
                     />
+                </div>
                 </>
             ) : (
                 <>
@@ -226,7 +245,7 @@ const PostDetail = ({ post, onBack }) => {
                 <span>작성자: {currentPost.user.nickname}</span>
             </div>
 
-            {playlist ? (
+            {!currentPost.isNotice && playlist ? (
                 <div className="playlist-detail">
                     <h3>플레이리스트 정보</h3>
                     <div className="post-playlist-meta">
@@ -248,7 +267,7 @@ const PostDetail = ({ post, onBack }) => {
                 spotifyAnnounce ? (
                     <p>Spotify 계졍 연동이 필요합니다.</p>
                 ) : (
-                    <p>로딩중...</p>
+                    <p></p>
                 )
             )}
 
