@@ -2,16 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/ReportManagement.css";
 import axiosInstance from "../../api/axiosInstance";
-import Music from "../music/Music"; // Music 컴포넌트 임포트
-import useMusicSearch from "../../hooks/useMusicSearch"; // useMusicSearch 훅 임포트
-import { parseTracks } from "../../utils/trackUtils"; // parseTracks 유틸 함수 임포트
 
 const ReportManagement = () => {
     const [userReports, setUserReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
     const [selectedBanDays, setSelectedBanDays] = useState(null);
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null); // 플레이리스트 데이터 저장 공간
-    const { handlePlay, isPremium } = useMusicSearch(); // useMusicSearch 훅 사용
 
     // ✅ 신고된 사용자 목록 가져오기
     useEffect(() => {
@@ -26,34 +21,15 @@ const ReportManagement = () => {
     }, []);
 
     // ✅ 특정 신고 선택 시 데이터 업데이트
-    const selectReport = async (index) => {
+    const selectReport = (index) => {
         const report = userReports[index];
-        console.log("✅ 선택된 신고 데이터:", report); // 🚨 여기에 로그 추가
+        console.log("✅ 선택된 신고 데이터:", report);
         if (!report) {
             console.error("🚨 오류: 선택된 신고 데이터가 없습니다!");
             return;
         }
         setSelectedReport(report);
-
-        // ✅ 신고된 게시글의 플레이리스트 가져오기
-        if (report.postId) {
-            try {
-                const playlistResponse = await axiosInstance.get(`http://localhost:8080/post/playlist/${report.postId}`);
-                console.log("✅ 플레이리스트 데이터:", playlistResponse.data);
-                // 스프링에서 반환하는 데이터 구조에 맞춰 수정
-                setSelectedPlaylist({
-                    playlist: playlistResponse.data.playlist,
-                    tracks: playlistResponse.data.tracks
-                });
-            } catch (error) {
-                console.error("플레이리스트 가져오기 오류:", error);
-                setSelectedPlaylist(null); // 오류 발생 시 플레이리스트 데이터 초기화
-            }
-        } else {
-            setSelectedPlaylist(null); // postId가 없는 경우 플레이리스트 데이터 초기화
-        }
     };
-    
 
     // ✅ 유저 정지 API 호출
     const handleBanUser = async () => {
@@ -77,12 +53,14 @@ const ReportManagement = () => {
             alert("🚨 먼저 신고 항목을 선택하세요.");
             return;
         }
-
+    
         try {
             await axiosInstance.put(
-                `http://localhost:8080/api/userreport/status/${selectedReport.id}?status=사유 불충분`
+                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  // ✅ URL 수정 (쿼리 스트링 제거)
+                { status: "사유 불충분" },  // ✅ JSON 객체로 데이터 전달
+                { headers: { "Content-Type": "application/json" } }  // ✅ 헤더 추가 (JSON 요청 명시)
             );
-
+    
             alert("🚨 신고가 '사유 불충분' 상태로 변경되었습니다.");
             window.location.reload();
         } catch (error) {
@@ -93,6 +71,7 @@ const ReportManagement = () => {
             });
         }
     };
+    
 
     return (
         <div className="report-management">
@@ -111,7 +90,10 @@ const ReportManagement = () => {
                                     ${selectedReport === report ? "selected" : ""}`}
                                 onClick={() => selectReport(index)}
                             >
-                                <span className="report-user">{report.reportedUser}</span> 
+                                {/* 🚀 피신고자 닉네임 + 신고자 닉네임 추가 */}
+                                <span className="report-user">
+                                    {report.reportedUserNickname  || "알 수 없음"} (신고자: {report.reporterNickname || "알 수 없음"})
+                                </span> 
                                 <span className="report-date">(신고일: {new Date(report.reportedAt).toLocaleDateString()})</span>
                             </li>
                         ))}
@@ -137,31 +119,6 @@ const ReportManagement = () => {
                                 </div>
                             ) : (
                                 <p>🚨 신고된 게시글 정보가 없습니다.</p>
-                            )}
-
-                            {/* ✅ 신고된 플레이리스트 정보 */}
-                            {selectedPlaylist ? (
-                                <div className="report-playlist-info">
-                                    <h3>🎵 신고된 플레이리스트</h3>
-                                    <p><strong>제목:</strong> {selectedPlaylist.playlist.playlistTitle || "제목 없음"}</p>
-                                    <p><strong>설명:</strong> {selectedPlaylist.playlist.playlistComment || "설명 없음"}</p>
-                                    <div className="report-playlist-tracks">
-                                        {selectedPlaylist.tracks ? (
-                                            parseTracks(selectedPlaylist.tracks).map((track, index) => {
-                                                const key = `${selectedPlaylist.playlist.playlistId}-${index}`;
-                                                return (
-                                                    <div key={key} className="report-track-item">
-                                                        <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                                                    </div>
-                                                );
-                                            })
-                                        ) : (
-                                            <p>🚨 트랙 정보가 없습니다.</p>
-                                        )}
-                                    </div>
-                                </div>
-                            ) : (
-                                <p>🚨 신고된 플레이리스트 정보가 없습니다.</p>
                             )}
 
                             {/* ✅ 유저 정지 & 신고 기각 기능 */}

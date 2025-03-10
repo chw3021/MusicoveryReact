@@ -28,14 +28,16 @@ const AdminDashboard = ({ setActiveSection }) => {
     const [totalPlaylists, setTotalPlaylists] = useState(0);
     const [recentPlaylists, setRecentPlaylists] = useState([]);
 
-    const [reportCount, setReportCount] = useState(0); // 🚀 신고 개수 상태 추가
+    const [reportCount, setReportCount] = useState(0);
+    const [inquiryCount, setInquiryCount] = useState(0);
 
     // 백엔드 데이터 불러오기
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [usersRes, totalUsersRes, recentUsersRes, 
-                       playlistsRes, totalPlaylistsRes, recentPlaylistsRes, reportCountRes] = await Promise.all([
+                       playlistsRes, totalPlaylistsRes, recentPlaylistsRes,
+                    reportCountRes, inquiriesRes] = await Promise.all([
                     axios.get("http://localhost:8080/auth/weekly-users"),
                     axios.get("http://localhost:8080/auth/count"),
                     axios.get("http://localhost:8080/auth/recent-users"),
@@ -43,6 +45,7 @@ const AdminDashboard = ({ setActiveSection }) => {
                     axios.get("http://localhost:8080/playlist/count"),
                     axios.get("http://localhost:8080/playlist/recent-playlists"),
                     axios.get("http://localhost:8080/api/userreport/count"),
+                    axios.get("http://localhost:8080/customersupport/count"),
                 ]);
 
                 setWeeklyNewUsers(usersRes.data.length === 7 ? usersRes.data : new Array(7).fill(0));
@@ -52,7 +55,9 @@ const AdminDashboard = ({ setActiveSection }) => {
                 setWeeklyPlaylists(playlistsRes.data.length === 7 ? playlistsRes.data : new Array(7).fill(0));
                 setTotalPlaylists(totalPlaylistsRes.data || 0);
                 setRecentPlaylists(recentPlaylistsRes.data || []);
-                setReportCount(reportCountRes.data || 0); // 🚀 신고 개수 반영
+
+                setReportCount(reportCountRes.data || 0);
+                setInquiryCount(inquiriesRes.data || 0);
             } catch (error) {
                 console.error("데이터 불러오기 실패:", error);
             }
@@ -156,7 +161,7 @@ const AdminDashboard = ({ setActiveSection }) => {
             <div className="dashboard-extra">
                 <DashboardSection title="최근 가입한 유저" icon={<FaUser />} items={recentUsers} type="user" />
                 <DashboardSection title="최근 생성된 플레이리스트" icon={<FaMusic />} items={recentPlaylists} type="playlist" />
-                <DashboardAlerts setActiveSection={setActiveSection} reportCount={reportCount} />
+                <DashboardAlerts setActiveSection={setActiveSection} reportCount={reportCount} inquiryCount={inquiryCount}/>
             </div>
         </div>
     );
@@ -183,7 +188,7 @@ const DashboardSection = ({ title, icon, items, type }) => (
 );
 
 // 관리자 알림 섹션
-const DashboardAlerts = ({ setActiveSection, reportCount }) => (
+const DashboardAlerts = ({ setActiveSection, reportCount , inquiryCount }) => (
     <div className="dashboard-section">
         <h3><FaBell /> 관리자 알림</h3>
         <ul>
@@ -192,7 +197,11 @@ const DashboardAlerts = ({ setActiveSection, reportCount }) => (
                     🚨 신고된 게시물 {reportCount}개
                 </button>
             </li>
-            <li>📞 문의사항 ()개</li>
+            <li>
+            <button onClick={() => setActiveSection("support")} className="link-button">
+                    📞 문의사항 {inquiryCount}개
+                </button>
+            </li>
         </ul>
     </div>
 );

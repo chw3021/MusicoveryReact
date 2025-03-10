@@ -115,7 +115,18 @@ function InfoEdit({ setActiveTab }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="confirmPasswd">비밀번호 확인</label>
+          <label htmlFor="confirmPasswd">
+            비밀번호 확인
+            {passwordMatch === false && (
+              <span style={{ color: "red" }}>
+                비밀번호가 일치하지 않습니다.
+              </span>
+            )}
+            {passwordMatch === true && (
+              <span style={{ color: "green" }}>비밀번호가 일치합니다.</span>
+            )}
+          </label>
+
           <input
             type="password"
             id="confirmPasswd"
@@ -124,12 +135,6 @@ function InfoEdit({ setActiveTab }) {
             onChange={handleChange}
             placeholder="비밀번호 확인"
           />
-          {passwordMatch === false && (
-            <span style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</span>
-          )}
-          {passwordMatch === true && (
-            <span style={{ color: "green" }}>비밀번호가 일치합니다.</span>
-          )}
         </div>
 
         <div className="form-group">

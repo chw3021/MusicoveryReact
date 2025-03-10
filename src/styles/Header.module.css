@@ -93,6 +93,10 @@
   color: var(--light);
 }
 
+.userDetails {
+  width: 291px;
+}
+
 .ctaButton {
   background: light;
   color: dark;
