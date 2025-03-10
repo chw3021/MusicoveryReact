@@ -210,7 +210,7 @@ const FriendsList = () => {
                                             <div key={request.id} className="friend-request-item">
                                                 
                                                 <p>
-                                                    <strong>요청한 사용자:</strong> {request.friend.nickname}
+                                                    <strong>요청한 사용자:</strong> {request.user.nickname}
                                                     <button className="accept-button" onClick={() => handleAcceptFriendRequest(request.id)}>✅</button>
                                                 </p>
                                             </div>

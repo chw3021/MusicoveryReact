@@ -5,9 +5,9 @@ import PostForm from "./PostForm";
 import "../../styles/PostBody.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from "../../api/axiosInstance";
+import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 
-const PostBody = () => {
-    const [posts, setPosts] = useState([]);
+const NoticeBody = () => {
     const [noticePosts, setNoticePosts] = useState([]);
     const [selectedPost, setSelectedPost] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
@@ -17,6 +17,7 @@ const PostBody = () => {
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchType, setSearchType] = useState('title');
+    const userInfo = useUserInfo(); // 사용자 정보 가져오기
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,29 +30,25 @@ const PostBody = () => {
         setSearchKeyword(params.get('keyword') || '');
     }, [location.search]);
 
-    const fetchPosts = useCallback(async (currentPage, sort, searchType, keyword) => {
+    const fetchNoticePosts = useCallback(async () => {
         try {
             setIsLoading(true);
-            let url = `/post/list?page=${currentPage}&size=15`;
-            if (sort) url += `&sort=${sort}`;
-            if (searchType && keyword) url += `&searchType=${searchType}&keyword=${keyword}`;
-
-            const response = await axiosInstance.get(url);
-            setPosts(response.data._embedded?.playlistPostDTOList || []);
+            const response = await axiosInstance.get('/post/notices?page=0&size=15');
+            setNoticePosts(response.data._embedded?.playlistPostDTOList || []);
             setTotalPages(response.data.page.totalPages);
         } catch (error) {
-            console.error("Failed to fetch posts", error);
-            setPosts([]);
+            console.error("Failed to fetch notice posts", error);
+            setNoticePosts([]);
             setTotalPages(0);
         } finally {
             setIsLoading(false);
         }
-    }, []);
-
+        console.log(userInfo);
+    }, [userInfo]);
 
     useEffect(() => {
-        fetchPosts(page, sortOption, searchType, searchKeyword);
-    }, [page, sortOption, fetchPosts]);
+        fetchNoticePosts();
+    }, [page, sortOption, fetchNoticePosts]);
 
     const updateURL = useCallback(() => {
         const params = new URLSearchParams();
@@ -98,7 +95,6 @@ const PostBody = () => {
         setSearchType(newSearchType);
         setSearchKeyword(newSearchKeyword);
         setPage(0);
-        fetchPosts(0, sortOption, newSearchType, newSearchKeyword);
     };
 
     const scrollToTop = () => {
@@ -113,10 +109,10 @@ const PostBody = () => {
             <PostForm
                 onSubmit={() => {
                     setIsCreating(false);
-                    fetchPosts(page, sortOption, searchType, searchKeyword);
+                    fetchNoticePosts();
                 }}
                 onCancel={handleBack}
-                isNoticeForm={false}
+                isNoticeForm={true} // 공지 작성 폼임을 나타내는 prop 추가
             />
         );
     }
@@ -132,14 +128,14 @@ const PostBody = () => {
             ) : (
                 <>
                     <PostList
-                        posts={posts}
+                        posts={noticePosts}
                         onSelectPost={handleSelectPost}
                         onSortChange={handleSortChange}
                         onSearch={handleSearch}
                         sortOption={sortOption}
                         searchKeyword={searchKeyword}
                         searchType={searchType}
-                        isNoticeList={false}
+                        isNoticeList={true}
                     />
                     <div className="pagination">
                         <button
@@ -157,12 +153,14 @@ const PostBody = () => {
                         >
                             다음
                         </button>
-                        <button
-                            className="write-button"
-                            onClick={() => setIsCreating(true)}
-                        >
-                            작성
-                        </button>
+                        {userInfo && userInfo.admin && (
+                            <button
+                                className="write-button"
+                                onClick={() => setIsCreating(true)}
+                            >
+                                작성
+                            </button>
+                        )}
                     </div>
                 </>
             )}
@@ -170,4 +168,4 @@ const PostBody = () => {
     );
 };
 
-export default PostBody;
+export default NoticeBody;

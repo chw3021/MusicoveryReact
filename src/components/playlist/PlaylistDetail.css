@@ -49,10 +49,11 @@
 .playlist-tracks-container {
     display: flex;
     flex-direction: row;
+    width: 90%;
 }
 
 .playlist-tracks {
-    max-height: 300px; /* Adjust as needed */
+    max-height: 600px; /* Adjust as needed */
     overflow-y: auto;
     flex: 1;
 }
