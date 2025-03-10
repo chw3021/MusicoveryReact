@@ -47,17 +47,17 @@
 }
 
 /* 닉네임 중복 확인 메시지 */
-.nickname-message {
+.signup-message {
   font-size: 14px;
   text-align: left;
   margin: 5px 0;
 }
 
-.nickname-message.valid {
+.signup-message.valid {
   color: #2ecc71;
 }
 
-.nickname-message.invalid {
+.signup-message.invalid {
   color: #e74c3c;
 }
 
