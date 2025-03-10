@@ -91,7 +91,7 @@
 }
 
 .keyword-recommendations {
-    max-height: 15rem; /* 최대 높이 설정 */
+    max-height: 40rem; /* 최대 높이 설정 */
     overflow-y: auto; /* 스크롤바 적용 */
 }
 

@@ -23,6 +23,7 @@ function SurpriseRecommendation() {
     playlistDate: getFormattedDate(new Date()),
     showSaveForm: false,
     user: userInfo,
+    previewURL: null, // 이미지 미리보기 URL
   });
 
   // 최대 파일 크기 설정 (예: 5MB)
@@ -43,10 +44,26 @@ function SurpriseRecommendation() {
       alert("파일 크기가 너무 큽니다. 최대 5MB 이하의 파일을 업로드해주세요.");
       return;
     }
-    setState((prev) => ({
-      ...prev,
-      playlistPhoto: file,
-    }));
+
+    // 파일리더 API를 사용하여 이미지 미리보기 URL 생성
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setState((prev) => ({
+        ...prev,
+        playlistPhoto: file,
+        previewURL: reader.result, // 미리보기 URL 설정
+      }));
+    };
+
+    if (file) {
+      reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+    } else {
+      setState((prev) => ({
+        ...prev,
+        playlistPhoto: null,
+        previewURL: null, // 파일 선택 취소 시 미리보기 URL 초기화
+      }));
+    }
   };
 
   const handleChangeDate = (e) => {
@@ -128,10 +145,23 @@ function SurpriseRecommendation() {
 
   return (
     <div className="keyword-recommendation">
-      <div className="form-container">
+      <div className="keyword-form-container">
         <div className="form-group2">
           <Button text="Surprise 추천 받기" onClick={handleSubmit} />
         </div>
+        {state.recommendations.length > 0 && (
+          <div className="keyword-recommendations">
+            <h5>추천된 트랙 목록</h5>
+            <ul>
+              {state.recommendations.map((track, index) => (
+                <li className="keyword-recommendations-list-item" key={index}>
+                  <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
+                  <button onClick={() => removeTrack(track.id)}>❌</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="results-container">
@@ -139,19 +169,6 @@ function SurpriseRecommendation() {
           <div>로딩 중...</div>
         ) : (
           <div>
-            {state.recommendations.length > 0 && (
-              <div className="keyword-recommendations">
-                <h5>추천된 트랙 목록</h5>
-                <ul>
-                  {state.recommendations.map((track, index) => (
-                    <li className="keyword-recommendations-list-item" key={index}>
-                      <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
-                      <button onClick={() => removeTrack(track.id)}>❌</button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
             {state.showSaveForm && (
               <div className="playlist-save-form">
                 <h5>플레이리스트 생성</h5>
@@ -172,25 +189,29 @@ function SurpriseRecommendation() {
                     onChange={handleFileChange}
                     accept="image/*" // 이미지 파일만 허용
                   />
+                  {/* 이미지 미리보기 */}
+                  {state.previewURL && (
+                    <img src={state.previewURL} alt="미리보기" style={{ width: '100px', height: '100px' }} />
+                  )}
                 </div>
                 <div className="form-group">
-                    <input
-                        type="text"
-                        name="playlistTitle"
-                        value={state.playlistTitle}
-                        onChange={handleChange}
-                        placeholder="플레이리스트 제목을 입력하세요...(25자이내)"
-                        maxLength="25"
-                    />
+                  <input
+                    type="text"
+                    name="playlistTitle"
+                    value={state.playlistTitle}
+                    onChange={handleChange}
+                    placeholder="플레이리스트 제목을 입력하세요...(25자이내)"
+                    maxLength="25"
+                  />
                 </div>
                 <div className="form-group">
-                    <textarea
-                        name="playlistComment"
-                        value={state.playlistComment}
-                        onChange={handleChange}
-                        placeholder="플레이리스트 설명을 입력하세요...(300자이내)"
-                        maxLength="300"
-                    ></textarea>
+                  <textarea
+                    name="playlistComment"
+                    value={state.playlistComment}
+                    onChange={handleChange}
+                    placeholder="플레이리스트 설명을 입력하세요...(300자이내)"
+                    maxLength="300"
+                  ></textarea>
                 </div>
                 <Button text="저장하기" onClick={handleSave} />
               </div>
