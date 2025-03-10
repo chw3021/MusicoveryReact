@@ -18,6 +18,8 @@ function ProfileEdit({ setActiveTab }) {
 
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(defaultProfileImg);
+  const [nicknameMessage, setNicknameMessage] = useState("");
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
 
   useEffect(() => {
     if (!userInfo || !userInfo.id) return;
@@ -34,7 +36,6 @@ function ProfileEdit({ setActiveTab }) {
         const profileData = response.data;
         setUserProfile(profileData);
 
-        // 서버에서 받은 profileImageUrl이 있으면 절대 경로로 설정
         const profileImageUrl = profileData.profileImageUrl
           ? `http://localhost:8080/images/${profileData.profileImageUrl}`
           : defaultProfileImg;
@@ -49,14 +50,28 @@ function ProfileEdit({ setActiveTab }) {
   }, [userInfo]);
 
   const handleInputChange = (e) => {
-    setUserProfile({ ...userProfile, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "nickname") {
+      const nicknameRegex = /^[a-zA-Z0-9가-힣!@#$%^&*(),.?":{}|<>_-]{2,20}$/;
+
+      if (nicknameRegex.test(value)) {
+        setIsNicknameValid(true);
+        setNicknameMessage("사용 가능한 닉네임입니다.");
+      } else {
+        setIsNicknameValid(false);
+        setNicknameMessage("닉네임은 2~20자 이내여야 합니다.");
+      }
+    }
+
+    setUserProfile({ ...userProfile, [name]: value });
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setProfileImage(file);
-      setPreviewImage(URL.createObjectURL(file)); // 파일 미리보기 설정
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
@@ -68,7 +83,6 @@ function ProfileEdit({ setActiveTab }) {
         `http://localhost:8080/auth/profile/${userInfo.id}/delete-image`
       );
 
-      // UI 업데이트
       setUserProfile({ ...userProfile, profileImageUrl: null });
       setPreviewImage(defaultProfileImg);
       setProfileImage(null);
@@ -84,6 +98,11 @@ function ProfileEdit({ setActiveTab }) {
     e.preventDefault();
     if (!userInfo?.id) {
       alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+      return;
+    }
+
+    if (!isNicknameValid) {
+      alert("닉네임 조건을 확인해주세요.");
       return;
     }
 
@@ -112,7 +131,6 @@ function ProfileEdit({ setActiveTab }) {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      // localStorage 업데이트
       localStorage.setItem("userProfile", JSON.stringify(response.data));
 
       alert("프로필이 성공적으로 업데이트되었습니다!");
@@ -137,30 +155,29 @@ function ProfileEdit({ setActiveTab }) {
             onChange={handleInputChange}
           />
         </label>
+        <span className={isNicknameValid ? "valid-message" : "error-message"}>
+          {nicknameMessage}
+        </span>
 
-        <>
-          <label>
-            프로필 이미지:
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </label>
+        <label>프로필 이미지:</label>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <div className="image-preview-container">
+          <img
+            src={previewImage}
+            alt="프로필 미리보기"
+            className="profile-preview"
+          />
+        </div>
+        {userProfile.profileImageUrl && (
+          <button
+            type="button"
+            onClick={handleDeleteImage}
+            className="delete-image-btn"
+          >
+            프로필 이미지 삭제
+          </button>
+        )}
 
-          <div className="image-preview-container">
-            <img
-              src={previewImage}
-              alt="프로필 미리보기"
-              className="profile-preview"
-            />
-          </div>
-          {userProfile.profileImageUrl && (
-            <button
-              type="button"
-              onClick={handleDeleteImage}
-              className="delete-image-btn"
-            >
-              프로필 이미지 삭제
-            </button>
-          )}
-        </>
         <label>
           소개글:
           <input
