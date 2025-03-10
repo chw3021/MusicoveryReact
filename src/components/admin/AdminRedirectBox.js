@@ -8,6 +8,7 @@ const AdminRedirectBox = () => {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("MUSICOVERY_USER"));
+    console.log("admin:", JSON.stringify(userData)); // 수정된 부분
     if (userData?.admin) {
       setShowBox(true); // admin인 경우 팝업을 표시
     }
