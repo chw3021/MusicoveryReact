@@ -33,29 +33,44 @@ const ReportManagement = () => {
 
     // ✅ 유저 정지 API 호출 (`is_active` 변경)
     const handleBanUser = async () => {
-        if (!selectedReport) {
-            alert("🚨 먼저 신고 항목을 선택하세요.");
+        if (!selectedReport || selectedBanDays === null) {
+            alert("🚨 정지 기간을 선택해주세요.");
             return;
         }
     
-        if (!window.confirm("해당 유저를 정지하시겠습니까?")) return;
+        if (!window.confirm("🚨 해당 유저를 정지하시겠습니까?")) return;
     
         try {
+            // ✅ 백엔드에 정지 요청 (DB 업데이트)
             await axios.put(`http://localhost:8080/admin/users/${selectedReport.reportedUserId}/status`);
     
-            // ✅ 상태 업데이트 (정지됨으로 변경)
+            // ✅ 신고 상태도 '정지됨'으로 업데이트
+            await axiosInstance.put(
+                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  
+                { status: "정지됨" },  
+                { headers: { "Content-Type": "application/json" } }  
+            );
+    
+            // ✅ 프론트엔드에서도 즉시 반영
+            setUserReports(prevReports =>
+                prevReports.map(report =>
+                    report.id === selectedReport.id ? { ...report, status: "정지됨" } : report
+                )
+            );
+    
             setSelectedReport(prev => ({
                 ...prev,
                 status: "정지됨"
             }));
     
-            alert("🚨 유저 상태가 변경되었습니다.");
-            window.location.reload();
+            alert("🚨 유저가 정지되었습니다.");
         } catch (error) {
-            console.error("유저 정지 실패:", error);
+            console.error("🚨 유저 정지 실패:", error);
             alert("🚨 유저 상태 변경에 실패했습니다.");
         }
     };
+    
+    
     
     
 
@@ -66,25 +81,37 @@ const ReportManagement = () => {
             return;
         }
     
+        // ✅ 상태 변경: 사유 불충분이면 정지됨, 정지됨이면 사유 불충분
+        let newStatus = selectedReport.status === "사유 불충분" ? "정지됨" : "사유 불충분";
+    
         try {
+            // ✅ 백엔드에 상태 변경 요청 (DB 업데이트)
             await axiosInstance.put(
                 `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  
-                { status: "사유 불충분" },  
+                { status: newStatus },  
                 { headers: { "Content-Type": "application/json" } }  
             );
     
-            // ✅ 상태 업데이트 (사유 불충분으로 변경)
+            // ✅ 프론트엔드에서도 즉시 반영
+            setUserReports(prevReports =>
+                prevReports.map(report =>
+                    report.id === selectedReport.id ? { ...report, status: newStatus } : report
+                )
+            );
+    
             setSelectedReport(prev => ({
                 ...prev,
-                status: "사유 불충분"
+                status: newStatus
             }));
     
-            alert("🚨 신고가 '사유 불충분' 상태로 변경되었습니다.");
-            window.location.reload();
+            alert(`🚨 신고 상태가 '${newStatus}'으로 변경되었습니다.`);
         } catch (error) {
-            console.error("신고 상태 업데이트 오류:", error);
+            console.error("🚨 신고 상태 업데이트 오류:", error);
+            alert("🚨 상태 변경에 실패했습니다.");
         }
     };
+    
+    
     
 
     return (

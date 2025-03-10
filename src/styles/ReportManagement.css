@@ -10,15 +10,17 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
+    margin-right: 100px;
 }
 
 /* 📌 신고 목록 */
 .report-list {
-    flex: 1 1 45%;
+    flex: 1 1 ;
     display: flex;
     flex-direction: column;
     gap: 10px;
     min-width: 300px;
+    max-width: 800px;
 }
 
 /* 📌 신고 내용 박스 (네온 블루 테두리) */
