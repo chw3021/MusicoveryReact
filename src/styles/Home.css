@@ -161,6 +161,8 @@ body {
   position: relative;
   overflow: hidden;
   z-index: 1;
+  margin: 0 20px;
+  vertical-align: middle;
 }
 
 .cta-button:hover {
@@ -385,4 +387,21 @@ body {
     transform: rotateY(90deg); /* 최종 상태: Y축을 기준으로 90도 회전 */
     opacity: 0; /* 최종 상태: 완전히 투명 */
   }
+}
+
+.mypage-btn {
+  height: 60px;
+  width: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin: 0 20px;
+  vertical-align: middle;
+}
+
+.mypage-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
