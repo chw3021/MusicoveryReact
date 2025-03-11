@@ -3,7 +3,7 @@ import axiosInstance from "../../api/axiosInstance";
 import "../../styles/UserReport.css";
 import Header from "../common/Header";
 import useUserInfo from "../../hooks/useUserInfo";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 추가
 
 const UserReport = () => {
     const [reports, setReports] = useState([]);
@@ -12,6 +12,7 @@ const UserReport = () => {
     const [customReason, setCustomReason] = useState(""); // 자유 입력을 위한 상태
     const userInfo = useUserInfo();
     const location = useLocation();
+    const navigate = useNavigate(); // useNavigate 훅 추가
     const [reportedPost, setReportedPost] = useState(null);
 
     // 신고 대상 유저 정보 가져오기
@@ -56,12 +57,11 @@ const UserReport = () => {
                 postId: reportedPost.id // 신고된 게시글 ID 추가
             });
             alert("신고가 접수되었습니다.");
-            setReportedUserId("");
-            setReportReason("");
-            setCustomReason(""); // 제출 후 자유 입력 필드 초기화
-            fetchReports(userInfo.id); // 신고 후 리스트 업데이트
+            // 신고 접수 후 PostPage로 이동
+            navigate("/post"); // 게시판 페이지로 이동
         } catch (error) {
             console.error("신고 중 오류 발생:", error);
+            alert("신고 접수 중 오류가 발생했습니다.");
         }
     };
 
