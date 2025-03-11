@@ -50,9 +50,9 @@ const PlaylistPage = () => {
     }, [userId]);
 
 
-    const onClickCreate = () => {
-        navigate("/createplaylist");
-    };
+    // const onClickCreate = () => {
+    //     navigate("/createplaylist");
+    // };
 
     const handlePlaylistClick = (playlistId) => {
         navigate(`/playlist/${playlistId}`, { state: { friendInfo: friendInfo } });
@@ -68,7 +68,7 @@ const PlaylistPage = () => {
                     </div>
                     {(!isFriendPlaylist && !spotifyAnnounce) && (
                         <div className="goCreateView">
-                            <Button link={"/createplaylist"} text={"플레이리스트 생성"} onClick={onClickCreate} />
+                            <Button link={"/createplaylist"} text={"플레이리스트 생성"} />
                         </div>
                     )}
                 </div>

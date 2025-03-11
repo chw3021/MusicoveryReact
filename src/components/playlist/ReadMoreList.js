@@ -41,12 +41,7 @@ const ReadMoreList = ({ data, onSelect = () => {}, isFriendPlaylist, onPlaylistC
     return (
         <div className="ReadMoreList">
             <div className="searchText">
-                <input
-                    type="text"
-                    className="form-control"
-                    name="searchList"
-                    placeholder="플레이리스트 검색"
-                />
+                <div className="form-control">플레이리스트 리스트</div>
                 <select value={sortType} onChange={onChangeSortType}>
                     {sortOptionList.map((it, idx) => (
                         <option key={idx} value={it.value}>
