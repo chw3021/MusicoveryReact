@@ -3,9 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   background: #222;
   padding: 20px;
+  min-height: 80dvh;
 }
 
 /* 로그인 박스 */
