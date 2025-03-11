@@ -27,7 +27,7 @@ function ProfileEdit({ setActiveTab }) {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8080/auth/profile",
+          `${process.env.REACT_APP_API_URL}/auth/profile`,
           {
             id: userInfo.id,
           }
@@ -37,7 +37,7 @@ function ProfileEdit({ setActiveTab }) {
         setUserProfile(profileData);
 
         const profileImageUrl = profileData.profileImageUrl
-          ? `http://localhost:8080/images/${profileData.profileImageUrl}`
+          ? `${process.env.REACT_APP_API_URL}/images/${profileData.profileImageUrl}`
           : defaultProfileImg;
 
         setPreviewImage(profileImageUrl);
@@ -80,7 +80,7 @@ function ProfileEdit({ setActiveTab }) {
 
     try {
       await axios.delete(
-        `http://localhost:8080/auth/profile/${userInfo.id}/delete-image`
+        `${process.env.REACT_APP_API_URL}/auth/profile/${userInfo.id}/delete-image`
       );
 
       setUserProfile({ ...userProfile, profileImageUrl: null });
@@ -126,7 +126,7 @@ function ProfileEdit({ setActiveTab }) {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/auth/profile/${userInfo.id}`,
+        `${process.env.REACT_APP_API_URL}/auth/profile/${userInfo.id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

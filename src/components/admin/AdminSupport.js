@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import "../../styles/AdminSupport.css";
 
 export default function AdminSupport() {
@@ -13,7 +13,7 @@ export default function AdminSupport() {
   // ✅ 문의 목록 불러오기 함수 (외부에서 사용 가능하게 설정)
   const fetchInquiries = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/customersupport/inquiriesAll", {
+      const res = await axiosInstance.get("/customersupport/inquiriesAll", {
         params: { page: 0, size: 10, responded: filter },
       });
       setInquiries(res.data.content);
@@ -30,8 +30,8 @@ export default function AdminSupport() {
   // ✅ 답변 등록
   const handleRespond = async (inquiryId) => {
     try {
-      await axios.post(
-        `http://localhost:8080/customersupport/respond/${inquiryId}`,
+      await axiosInstance.post(
+        `/customersupport/respond/${inquiryId}`,
         { response: responseText },
         { headers: { "Content-Type": "application/json" } }
       );

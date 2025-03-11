@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import useUserInfo from "../../hooks/useUserInfo";
 import "../../styles/Profile.css";
+import axiosInstance from "../../api/axiosInstance";
 
 import defaultProfileImg from "../../assets/defaultProfileImg.png";
 
@@ -21,8 +21,8 @@ function Profile() {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8080/auth/profile",
+        const response = await axiosInstance.post(
+          "/auth/profile",
           { id: userInfo.id }
         );
 
@@ -47,7 +47,7 @@ function Profile() {
 
   // 프로필 이미지 URL이 없으면 기본 이미지 사용
   const profileImageUrl = userProfile.profileImageUrl
-    ? `http://localhost:8080/images/${userProfile.profileImageUrl}`
+    ? `${process.env.REACT_APP_API_URL}/images/${userProfile.profileImageUrl}`
     : defaultProfileImg;
 
   return (

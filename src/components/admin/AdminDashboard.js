@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "../../styles/AdminDashboard.css";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 
 Chart.register(...registerables, ChartDataLabels);
 
@@ -45,14 +45,14 @@ const AdminDashboard = ({ setActiveSection }) => {
                     reportCountRes,
                     inquiriesRes
                 ] = await Promise.all([
-                    axios.get("http://localhost:8080/auth/weekly-users"),
-                    axios.get("http://localhost:8080/auth/count"),
-                    axios.get("http://localhost:8080/auth/recent-users"),
-                    axios.get("http://localhost:8080/playlist/weekly-playlists"),
-                    axios.get("http://localhost:8080/playlist/count"),
-                    axios.get("http://localhost:8080/playlist/recent-playlists"),
-                    axios.get("http://localhost:8080/api/userreport/count"),
-                    axios.get("http://localhost:8080/customersupport/count"),
+                    axiosInstance.get("/auth/weekly-users"),
+                    axiosInstance.get("/auth/count"),
+                    axiosInstance.get("/auth/recent-users"),
+                    axiosInstance.get("/playlist/weekly-playlists"),
+                    axiosInstance.get("/playlist/count"),
+                    axiosInstance.get("/playlist/recent-playlists"),
+                    axiosInstance.get("/api/userreport/count"),
+                    axiosInstance.get("/customersupport/count"),
                 ]);
 
                 setWeeklyNewUsers(usersRes.data.length === 7 ? usersRes.data : new Array(7).fill(0));

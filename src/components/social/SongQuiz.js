@@ -164,7 +164,7 @@ const SongQuiz = () => {
 
     const handleArtistSearch = async () => {
         try {
-            const response = await axiosInstance.get(`http://localhost:8080/api/spotify/searchArtist?query=${encodeURIComponent(artist)}`);
+            const response = await axiosInstance.get(`/api/spotify/searchArtist?query=${encodeURIComponent(artist)}`);
             console.log("검색 결과:", response.data);
     
             if (response.data?.tracks?.length > 0) {

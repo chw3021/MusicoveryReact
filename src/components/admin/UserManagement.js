@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/UserManagement.css";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -19,7 +19,7 @@ const UserManagement = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get("http://localhost:8080/admin/users", {
+            const { data } = await axiosInstance.get("/admin/users", {
                 params: { search: searchTerm, sort: sortBy }  // ✅ API 파라미터 일치
             });
             setUsers(data || []);
@@ -35,7 +35,7 @@ const UserManagement = () => {
     const handleToggleUserStatus = async (userId) => {
         if (!window.confirm("해당 유저의 상태를 변경하시겠습니까?")) return;
         try {
-            await axios.put(`http://localhost:8080/admin/users/${userId}/status`);
+            await axiosInstance.put(`/admin/users/${userId}/status`);
             alert("유저 상태가 변경되었습니다.");
             fetchUsers();
         } catch (error) {
@@ -48,7 +48,7 @@ const UserManagement = () => {
     const handleDeleteUser = async (userId) => {
         if (!window.confirm("해당 유저를 삭제하시겠습니까?")) return;
         try {
-            await axios.delete(`http://localhost:8080/admin/users/${userId}`);
+            await axiosInstance.delete(`/admin/users/${userId}`);
             alert("유저가 삭제되었습니다.");
             fetchUsers();
         } catch (error) {
