@@ -17,6 +17,7 @@
     text-align: center;
     margin-top: 100px;
     color: #b3b3b381;
+
 }
 
 .music-search-input {
@@ -44,16 +45,19 @@
     background-color: #0000001a;
    
     overflow-y: auto; /* 스크롤바 적용 */
+    height: 100px;
 }
 
 .search-results {
     margin-top: 10px;
+    
 }
 
 .track-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    
 }
 
 .track-item img {
