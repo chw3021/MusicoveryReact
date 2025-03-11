@@ -133,7 +133,7 @@ const PlaylistDetail = () => {
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
     };
-    // 전체 트랙 재생 함수 추가
+    
     const handlePlayAll = () => {
         if (state.tracksData.length === 0) {
             alert('재생할 트랙이 없습니다.');
@@ -161,19 +161,22 @@ const PlaylistDetail = () => {
                 <div className="playlist-detail-header">
                     
                 {state.isEditing ? (
-                            <>
-                                <input value={state.playlistTitle}
-                                    onChange={(e) => setState(prevState => ({
-                                        ...prevState,
-                                        playlistTitle: e.target.value,
-                                    }))} 
-                                />
-                            </>
-                        ) : (
-                            <>
-                                 <h2>{state.playlistTitle}</h2>
-                            </>
-                        )}
+                        <>
+                            <input
+                                className="playlist-detail-title-input"
+                                value={state.playlistTitle}
+                                onChange={(e) => setState(prevState => ({
+                                    ...prevState,
+                                    playlistTitle: e.target.value,
+                                }))} 
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <h2 className="playlist-detail-title">{state.playlistTitle}</h2>
+                        </>
+                    )
+                }
                 </div>
                 <div className="playlist-detail-body">
                     <div className="playlist-detail-left">
@@ -196,7 +199,7 @@ const PlaylistDetail = () => {
                                             <div key={key} className="list-track-item">
                                                 <Music track={track} handlePlay={handlePlay} isPremium={isPremium} />
                                                 {state.isEditing && (
-                                                    <button onClick={() => handleRemoveTrack(track.id)}>삭제</button>
+                                                    <button className="playlist-update-track-remove-button" onClick={() => handleRemoveTrack(track.id)}>❌</button>
                                                 )}
                                             </div>
                                         );
@@ -222,6 +225,7 @@ const PlaylistDetail = () => {
                         {state.isEditing ? (
                             <>
                                 <textarea 
+                                    className="playlist-detail-playlistComment-input"
                                     value={state.playlistComment} 
                                     onChange={(e) => setState(prevState => ({
                                         ...prevState,
@@ -231,7 +235,9 @@ const PlaylistDetail = () => {
                             </>
                         ) : (
                             <>
-                                <p>{state.playlistComment}</p>
+                                <p className="playlist-detail-playlistComment">
+                                    {state.playlistComment}
+                                </p>
                             </>
                         )}
                         <p>{state.playlistDate}</p>

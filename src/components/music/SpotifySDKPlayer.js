@@ -69,7 +69,7 @@ const SpotifySDKPlayer = ({ accessToken, onPlaybackState, onDeviceReady }) => {
               // 현재 재생 중인 트랙의 인덱스 찾기
               const newIndex = trackList.findIndex(t => t.id === state.track.id);
               if (newIndex >= 0 && newIndex !== currentIndex) {
-                // goToTrack(newIndex); // 현재 인덱스 업데이트
+                goToTrack(newIndex); // 현재 인덱스 업데이트
               }
             }
             

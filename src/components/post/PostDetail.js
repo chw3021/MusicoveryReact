@@ -246,7 +246,7 @@ const PostDetail = ({ post, onBack }) => {
             </div>
 
             {!currentPost.isNotice && playlist ? (
-                <div className="playlist-detail">
+                <div className="post-playlist-detail">
                     <h3>플레이리스트 정보</h3>
                     <div className="post-playlist-meta">
                         <img className="post-playlist-meta-image" src={ getImageUrl(playlist.playlistPhoto)} alt="Playlist" />
@@ -256,7 +256,7 @@ const PostDetail = ({ post, onBack }) => {
                             <p>작성일: {new Date(playlist.playlistDate).toLocaleDateString()}</p>
                         </div>
                     </div>
-                    <div className="playlist-tracks">
+                    <div className="post-playlist-tracks">
                         {playlist.tracksData.map((track) => (
                             <Music track={track} 
                             isPremium={isPremium} />
