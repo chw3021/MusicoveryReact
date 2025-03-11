@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import Music from "../music/Music"; // Music 컴포넌트 임포트
@@ -8,6 +8,7 @@ import useUserInfo from "../../hooks/useUserInfo"; // useUserInfo 훅 임포트
 import Button from "../common/Button"; // Button 컴포넌트 임포트
 import { parseTracks } from "../../utils/trackUtils"; // parseTracks 유틸 함수 임포트
 import { getImageUrl } from "../../utils/imageUtils"; 
+import { TrackContext } from '../../context/TrackContext';
 import "./PlaylistDetail.css"; // 스타일 파일 임포트
 import Header from "../common/Header";
 
@@ -19,6 +20,8 @@ const PlaylistDetail = () => {
     const location = useLocation();
     const friendInfo = location.state?.friendInfo;
     const isFriendPlaylist = !!friendInfo;
+
+    const { addTracksToList, setIsPlaying, deviceReady } = useContext(TrackContext);
 
     const [state, setState] = useState({
         playlistTitle: '',
@@ -130,6 +133,25 @@ const PlaylistDetail = () => {
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
     };
+    // 전체 트랙 재생 함수 추가
+    const handlePlayAll = () => {
+        if (state.tracksData.length === 0) {
+            alert('재생할 트랙이 없습니다.');
+            return;
+        }
+
+        // 모든 트랙을 재생 목록에 추가
+        addTracksToList(state.tracksData);
+        
+        // 디바이스가 준비되면 재생 시작
+        if (deviceReady) {
+            setIsPlaying(true);
+        } else {
+            setTimeout(() => {
+                setIsPlaying(true);
+            }, 1000);
+        }
+    };
 
     return (
         <div className="container1">
@@ -186,6 +208,17 @@ const PlaylistDetail = () => {
                         </div>
                     </div>
                     <div className="playlist-detail-right">
+                        {isPremium && (
+                            <div className="playlist-play-controls">
+                                <button 
+                                    className="playlist-play-all-button"
+                                    onClick={handlePlayAll}
+                                    disabled={state.tracksData.length === 0}
+                                >
+                                    ▶
+                                </button>
+                            </div>
+                        )}
                         {state.isEditing ? (
                             <>
                                 <textarea 

@@ -66,3 +66,16 @@
 .music-search-container {
     width: 50%;
 }
+
+.playlist-play-all-button{
+    margin-bottom: 50px;
+    padding: 10px 25px 15px;
+    background-color: #1db954;
+    color: white;
+    font-size: 40px;
+    border-radius: 20px;
+}
+
+.playlist-play-all-button:hover {
+    background-color: #1ed760;
+}
