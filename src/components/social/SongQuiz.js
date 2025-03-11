@@ -230,30 +230,36 @@ const SongQuiz = () => {
                         노래 제목을 맞춰보세요 !
                 </h2>
                 <div className="artistSelect">   
-                <h4 className='artistTitle'>아티스트 선택하기 ▶</h4>
+                    <h4 className='artistTitle'>아티스트 선택하기 ▶</h4>
                 <div className='artistSelectIn'>
                 <input
                     type="text"
                     placeholder="아티스트 이름 입력"
                     value={artist}
+                    className='forBorder'
                     onChange={(e) => setArtist(e.target.value)}
                 />
                 <button className="song-quiz-button" onClick={handleArtistSearch}>검색</button>
                 </div>
                 </div>
                 {currentTrack && (
-                    <div className="SendBtn">
+                    <div className='SendBtn'>
+                        <h4 className='artistTitle'>이 곡의 제목은 ? </h4>
+                        <div className="resultTool">
                         <input
                             type="text"
-                            placeholder="곡 제목을 입력하세요"
+                            placeholder="정답을 입력하세요"
                             value={userAnswer}
+                            className='forBorder'
                             onChange={(e) => setUserAnswer(e.target.value)}
                         />
                         <button className="song-quiz-button" onClick={handleAnswerSubmit}>정답 제출</button>
                         <button className="song-quiz-button" onClick={playTrack}>재생</button>
                         {hintVisible && <button className="song-quiz-button" onClick={playHint}>힌트</button>}
                     </div>
+                    </div>
                 )}
+                
             </div>
         <Nav />
         </div>
