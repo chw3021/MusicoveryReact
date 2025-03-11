@@ -9,7 +9,7 @@ const UserManagement = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10; // 한 페이지당 최대 10명
+    const usersPerPage = 5; // 한 페이지당 최대 10명
 
     useEffect(() => {
         fetchUsers();
@@ -20,7 +20,7 @@ const UserManagement = () => {
         setLoading(true);
         try {
             const { data } = await axios.get("http://localhost:8080/admin/users", {
-                params: { search: searchTerm, sort: sortBy }
+                params: { search: searchTerm, sort: sortBy }  // ✅ API 파라미터 일치
             });
             setUsers(data || []);
             setCurrentPage(1);
@@ -29,6 +29,7 @@ const UserManagement = () => {
         }
         setLoading(false);
     };
+    
 
     // 유저 상태 변경 (정지 <-> 활성화)
     const handleToggleUserStatus = async (userId) => {

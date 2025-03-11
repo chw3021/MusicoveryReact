@@ -1,7 +1,7 @@
 /* 전체 레이아웃 */
 .mypage-container {
   display: flex;
-  height: 100vh;
+  height: 80dvh;
   background: #181818;
   color: #fff;
 }

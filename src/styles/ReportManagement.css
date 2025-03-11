@@ -39,7 +39,7 @@
 }
 
 /* 📌 신고된 게시글 박스 (네온 오렌지 테두리) */
-.reported-post {
+.post-info {
     background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     border-radius: 10px;
@@ -48,7 +48,7 @@
     transition: all 0.3s ease-in-out;
 }
 
-.reported-post:hover {
+.post-info:hover {
     box-shadow: 0 0 15px rgb(255, 0, 0);
 }
 
@@ -102,8 +102,8 @@
     margin-top: 20px;
 }
 
-/* ✅ 정지 기간 선택 (네온 블루) */
-.ban-select {
+/* ✅ 정지 해제 버튼 (네온 블루) */
+.unban-button {
     padding: 10px;
     font-size: 16px;
     background: #007BFF;
@@ -115,7 +115,7 @@
     transition: all 0.3s ease;
 }
 
-.ban-select:hover {
+.unban-button:hover {
     background: #0056b3;
     border-color: #00E5FF;
     box-shadow: 0 0 15px rgb(1, 204, 226);
@@ -141,7 +141,7 @@
 }
 
 /* ✅ 사유 불충분 버튼 (네온 오렌지) */
-.reject-button {
+.insufficient-reason-button {
     padding: 10px 14px;
     font-size: 16px;
     background: #ff9800;
@@ -153,7 +153,7 @@
     transition: all 0.3s ease;
 }
 
-.reject-button:hover {
+.insufficient-reason-button:hover {
     background: #e65100;
     border-color: #ff6f00;
     box-shadow: 0 0 15px rgba(255, 111, 0, 1);
