@@ -23,11 +23,15 @@
     border-radius: 6px;
 }
 
-.search-form input {
+.search-form > input {
     margin-right: 5px;
+    padding: 9px;
+    border-radius: 6px;
 }
-.search-form button {
+.search-form> button {
     min-width: 60px;
+    padding: 9px;
+    border-radius: 6px;
 }
 
 
@@ -86,10 +90,20 @@
 
 .notice {
     background-color: #f0f0f0;
+    color: brown;
     font-weight: bold;
 }
 
 .notice-label {
     color: red;
     margin-right: 5px;
+}
+
+.post-meta-edit > *{
+    display: block;
+    margin: auto;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    width: 50%;
 }

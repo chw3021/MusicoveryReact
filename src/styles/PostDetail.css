@@ -1,9 +1,9 @@
 .post-detail {
-    max-width: 700px;
+    max-width: 90%;
     margin: 20px auto;
     padding: 20px;
     border-radius: 10px;
-    background: #9b9b9b;
+    background: #4d4d4da6;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -20,21 +20,27 @@
     margin-bottom: 15px;
 }
 
+.post-meta-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
 .post-meta-bottom-button{
     cursor: pointer;
     border: none;
     padding: 6px;
-    font-size: 16px;
     transition: color 0.3s ease;
     font-size: 1rem;
-    background-color: #ebf4ff;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+    background-color: #28a745;
 }
 
 .post-meta-bottom-button:hover{
-    font-size: 16px;
-    transition: color 0.3s ease;
-    font-size: 1rem;
-    color: white;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    color: rgba(245, 245, 245, 0.842);
+    background-color: #218838;
 }
 
 .like-button {
@@ -64,29 +70,38 @@
     margin-top: 20px;
     padding: 15px;
     border-radius: 8px;
-    background: #b8b8b8;
-    height: 30rem;
+    background: #b8b8b85b;
+    height: 60rem;
     overflow-y: scroll;
     white-space: inherit;
 }
 
 .post-playlist-meta{
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
     margin-bottom: 15px;
-    background-color: #ebf4ff;
+    background-color: #c4c4c4;
     padding: 10px;
     border-radius: 5px;
+    gap: 20px;
 }
 
 .post-playlist-meta > .post-playlist-meta-text{
     width: 70%;
     color: #000000;
 }
+
+.post-playlist-meta > .post-playlist-meta-text > p{
+    font-size: 0.8rem;
+    text-align: left;
+    color: #141111ad;
+}
+
 .post-playlist-meta > .post-playlist-meta-image{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
+    padding: 10px;
     border-radius: 5px;
 }
 .playlist-tracks {

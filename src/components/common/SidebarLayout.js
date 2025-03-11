@@ -5,12 +5,12 @@ import FriendsList from "../social/FriendsList";
 
 const SidebarLayout = ({ children }) => {
     return (
-        <div className="layout">
-            <div className="sidebar">
+        <div className="sidebar-layout-layout">
+            <div className="sidebar-layout-sidebar">
                 <MusicSearch onSelectTrack={()=>{}}/>
                 <FriendsList />
             </div>
-            <div className="main-content">
+            <div className="sidebar-layout-main-content">
                 {children}
             </div>
         </div>

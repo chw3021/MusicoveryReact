@@ -4,27 +4,44 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background: #fff;
+    background: #646464;
+    color: #f0f0f0;
+    width: 92%;
+    text-align: left;
+}
+.reported-post-info > p {
+    color: #f0f0f0;
 }
 
 .user-report-container {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background: #fff;
+    background: #292929;
 }
 
 .user-report-container > h2 {
     text-align: center;
-    color: #333;
+    color: #f0f0f0;
 }
 
 .user-report-container > form {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.user-report-container > form > input,
+.user-report-container > form > textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #f0f0f0;
+    background: #646464;
 }
 
 .user-report-container > form > input, 

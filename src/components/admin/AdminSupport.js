@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import "../../styles/AdminSupport.css"; // ✅ CSS 적용
+import "../../styles/AdminSupport.css";
 
 export default function AdminSupport() {
   const [inquiries, setInquiries] = useState([]);
@@ -10,10 +10,7 @@ export default function AdminSupport() {
   const [filter, setFilter] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    fetchInquiries();
-  }, [filter]);
-
+  // ✅ 문의 목록 불러오기 함수 (외부에서 사용 가능하게 설정)
   const fetchInquiries = async () => {
     try {
       const res = await axios.get("http://localhost:8080/customersupport/inquiriesAll", {
@@ -25,22 +22,28 @@ export default function AdminSupport() {
     }
   };
 
+  // ✅ 처음 마운트될 때 & 필터 변경될 때 실행
+  useEffect(() => {
+    fetchInquiries();
+  }, [filter]);
+
+  // ✅ 답변 등록
   const handleRespond = async (inquiryId) => {
     try {
       await axios.post(
         `http://localhost:8080/customersupport/respond/${inquiryId}`,
-        { response: responseText },  // JSON 형식으로 변경
-        { headers: { "Content-Type": "application/json" } } // 헤더 추가
+        { response: responseText },
+        { headers: { "Content-Type": "application/json" } }
       );
-  
+
       setResponseText("");
-      fetchInquiries();
-      setSelectedInquiry(null);
       setIsOpen(false);
+      setSelectedInquiry(null);
+      fetchInquiries(); // ✅ 문의 목록 새로고침
     } catch (error) {
       console.error("응답 등록 실패:", error);
     }
-  };  
+  };
 
   return (
     <div className="admin-support">
@@ -48,9 +51,15 @@ export default function AdminSupport() {
 
       {/* ✅ 필터 버튼 */}
       <div className="support-controls">
-        <button onClick={() => setFilter(null)} className="all-btn">전체</button>
-        <button onClick={() => setFilter(false)} className="pending-btn">미답변</button>
-        <button onClick={() => setFilter(true)} className="resolved-btn">답변 완료</button>
+        {["전체", "미답변", "답변 완료"].map((label, idx) => (
+          <button 
+            key={idx} 
+            onClick={() => setFilter(idx === 0 ? null : idx === 1 ? false : true)} 
+            className={idx === 0 ? "all-btn" : idx === 1 ? "pending-btn" : "resolved-btn"}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {/* ✅ 문의 리스트 테이블 */}
@@ -75,11 +84,11 @@ export default function AdminSupport() {
                     <button
                       onClick={() => {
                         setSelectedInquiry(inquiry);
-                        setTimeout(() => setIsOpen(true), 50);
+                        setIsOpen(true);
                       }}
                       className="view-btn"
                     >
-                      상세 보기
+                      답변 등록
                     </button>
                   </td>
                 </tr>

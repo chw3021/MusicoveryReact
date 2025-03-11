@@ -59,6 +59,7 @@
     background-color: rgba(253, 5, 224, 0.1); /* 배경색 */
     border-radius: 8px; /* 둥글게 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 */
+    width: 80%;
     
 }
 
@@ -118,7 +119,7 @@
 
 
 .toggle-button{
-    width: 8%;
+    width: 10%;
     height: 50%;
     margin-top: 2%;
 }

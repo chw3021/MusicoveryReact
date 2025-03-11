@@ -17,7 +17,7 @@ const UserReport = () => {
     // 신고 대상 유저 정보 가져오기
     useEffect(() => {
         if (location.state && location.state.reportedPost) {
-            setReportedUserId(location.state.reportedPost.user.userId);
+            setReportedUserId(location.state.reportedPost.user.id);
             setReportedPost(location.state.reportedPost);
         }
     }, [location.state]);
@@ -31,10 +31,13 @@ const UserReport = () => {
 
     const fetchReports = async (userId) => {
         try {
-            const response = await axiosInstance.get("/api/userreport/reporter/"+userId); 
-            setReports(response.data);
+            const response = await axiosInstance.get("/api/userreport/reporter/" + userId);
+            console.log("신고 내역:", response.data);
+            
+            setReports(response.data || []); // 응답 데이터가 배열이 아닌 경우 빈 배열로 초기화
         } catch (error) {
             console.error("신고 내역을 불러오는 중 오류 발생:", error);
+            setReports([]); // 오류 발생 시 빈 배열로 초기화
         }
     };
 
@@ -47,8 +50,8 @@ const UserReport = () => {
         }
         try {
             const response = await axiosInstance.post("/api/userreport/report", {
-                reporter: userInfo.id,
-                reportedUser: reportedUserId,
+                reporterId: userInfo.id,
+                reportedUserId: reportedUserId,
                 reason: reportReason === "직접입력" ? customReason : reportReason, // 직접입력일 때만 customReason 사용
                 postId: reportedPost.id // 신고된 게시글 ID 추가
             });
@@ -56,8 +59,7 @@ const UserReport = () => {
             setReportedUserId("");
             setReportReason("");
             setCustomReason(""); // 제출 후 자유 입력 필드 초기화
-            fetchReports(); // 신고 후 리스트 업데이트
-            window.location.reload(); // 신고 후 페이지 새로고침
+            fetchReports(userInfo.id); // 신고 후 리스트 업데이트
         } catch (error) {
             console.error("신고 중 오류 발생:", error);
         }
@@ -117,15 +119,14 @@ const UserReport = () => {
                     <button className="reportbutton" type="submit">신고 제출</button>
                 </form>
 
-
                 <h2>신고 내역</h2>
                 <ul className="report-list-ulist">
-                    {reports.map((report) => (
+                    {Array.isArray(reports) && reports.map((report) => (
                         <li className="report-list-list" key={report.id}>
                             <div className="report-list-item">
-                                <strong>사용자: {report.reportedUser.nickname}</strong>
-                                {report.post && (
-                                    <p><strong>게시글 제목:</strong> {report.post.title}</p>
+                                <strong>사용자: {report.reportedUserNickname}</strong>
+                                {report.postTitle && (
+                                    <p><strong>게시글 제목:</strong> {report.postTitle}</p>
                                 )}
                                 <strong> 사유: {report.reason}</strong>
                             </div>

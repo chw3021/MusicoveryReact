@@ -28,18 +28,31 @@ const AdminDashboard = ({ setActiveSection }) => {
     const [totalPlaylists, setTotalPlaylists] = useState(0);
     const [recentPlaylists, setRecentPlaylists] = useState([]);
 
+    const [reportCount, setReportCount] = useState(0);
+    const [inquiryCount, setInquiryCount] = useState(0);
+
     // 백엔드 데이터 불러오기
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersRes, totalUsersRes, recentUsersRes, 
-                       playlistsRes, totalPlaylistsRes, recentPlaylistsRes] = await Promise.all([
+                const [
+                    usersRes,
+                    totalUsersRes,
+                    recentUsersRes,
+                    playlistsRes,
+                    totalPlaylistsRes,
+                    recentPlaylistsRes,
+                    reportCountRes,
+                    inquiriesRes
+                ] = await Promise.all([
                     axios.get("http://localhost:8080/auth/weekly-users"),
                     axios.get("http://localhost:8080/auth/count"),
                     axios.get("http://localhost:8080/auth/recent-users"),
                     axios.get("http://localhost:8080/playlist/weekly-playlists"),
                     axios.get("http://localhost:8080/playlist/count"),
                     axios.get("http://localhost:8080/playlist/recent-playlists"),
+                    axios.get("http://localhost:8080/api/userreport/count"),
+                    axios.get("http://localhost:8080/customersupport/count"),
                 ]);
 
                 setWeeklyNewUsers(usersRes.data.length === 7 ? usersRes.data : new Array(7).fill(0));
@@ -49,6 +62,9 @@ const AdminDashboard = ({ setActiveSection }) => {
                 setWeeklyPlaylists(playlistsRes.data.length === 7 ? playlistsRes.data : new Array(7).fill(0));
                 setTotalPlaylists(totalPlaylistsRes.data || 0);
                 setRecentPlaylists(recentPlaylistsRes.data || []);
+
+                setReportCount(reportCountRes.data || 0);
+                setInquiryCount(inquiriesRes.data || 0);
             } catch (error) {
                 console.error("데이터 불러오기 실패:", error);
             }
@@ -61,7 +77,7 @@ const AdminDashboard = ({ setActiveSection }) => {
     const todayNewUsers = weeklyNewUsers[6] || 0;
     const todayNewPlaylists = weeklyPlaylists[6] || 0;
 
-    // 통계 카드 + 차트 데이터
+    // 통계 카드 데이터
     const stats = [
         {
             id: 1,
@@ -89,31 +105,31 @@ const AdminDashboard = ({ setActiveSection }) => {
 
             {/* 통계 카드 + 개별 차트 */}
             <div className="dashboard-grid">
-                {stats.map((stat, index) => (
-                    <div key={stat.id} className="dashboard-box">
+                {stats.map(({ id, label, value, icon, chartData, todayCount, color }, index) => (
+                    <div key={id} className="dashboard-box">
                         {/* 카드 */}
-                        <div className="dashboard-card" style={{ borderLeft: `5px solid ${stat.color}` }}>
-                            <div className="dashboard-icon" style={{ color: stat.color }}>
-                                {stat.icon}
+                        <div className="dashboard-card" style={{ borderLeft: `5px solid ${color}` }}>
+                            <div className="dashboard-icon" style={{ color }}>
+                                {icon}
                             </div>
                             <div>
-                                <h3>{stat.label}</h3>
-                                <p>{stat.value}</p>
+                                <h3>{label}</h3>
+                                <p>{value}</p>
                             </div>
                         </div>
 
                         {/* 차트 */}
                         <div className="dashboard-chart">
-                            <Line 
+                            <Line
                                 data={{
                                     labels,
                                     datasets: [{
-                                        label: index === 0 
-                                            ? `📊 오늘의 가입자 수: ${stat.todayCount}명`
-                                            : `📊 오늘 생성된 플레이리스트 수: ${stat.todayCount}개`,
-                                        data: stat.chartData,
-                                        borderColor: stat.color,
-                                        backgroundColor: `${stat.color}33`,
+                                        label: index === 0
+                                            ? `📊 오늘의 가입자 수: ${todayCount}명`
+                                            : `📊 오늘 생성된 플레이리스트 수: ${todayCount}개`,
+                                        data: chartData,
+                                        borderColor: color,
+                                        backgroundColor: `${color}33`,
                                         tension: 0.3,
                                         fill: true
                                     }]
@@ -123,25 +139,25 @@ const AdminDashboard = ({ setActiveSection }) => {
                                     plugins: {
                                         title: {
                                             display: true,
-                                            text: index === 0 
-                                                ? `📊 오늘의 가입자 수: ${stat.todayCount}명`
-                                                : `📊 오늘 생성된 플레이리스트 수: ${stat.todayCount}개`,
+                                            text: index === 0
+                                                ? `📊 오늘의 가입자 수: ${todayCount}명`
+                                                : `📊 오늘 생성된 플레이리스트 수: ${todayCount}개`,
                                             color: "#ffffff",
                                             font: { size: 16 },
                                             padding: { bottom: 50 }
                                         },
                                         legend: { display: false },
                                         tooltip: { enabled: true },
-                                        datalabels: { 
+                                        datalabels: {
                                             display: true,
                                             color: "white",
                                             font: { size: 12, weight: "bold" },
-                                            anchor: "end", 
+                                            anchor: "end",
                                             align: "top",
                                             offset: 12
                                         }
                                     }
-                                }} 
+                                }}
                             />
                         </div>
                     </div>
@@ -152,7 +168,7 @@ const AdminDashboard = ({ setActiveSection }) => {
             <div className="dashboard-extra">
                 <DashboardSection title="최근 가입한 유저" icon={<FaUser />} items={recentUsers} type="user" />
                 <DashboardSection title="최근 생성된 플레이리스트" icon={<FaMusic />} items={recentPlaylists} type="playlist" />
-                <DashboardAlerts setActiveSection={setActiveSection} />
+                <DashboardAlerts setActiveSection={setActiveSection} reportCount={reportCount} inquiryCount={inquiryCount} />
             </div>
         </div>
     );
@@ -164,11 +180,11 @@ const DashboardSection = ({ title, icon, items, type }) => (
         <h3>{icon} {title}</h3>
         <ul>
             {items.length > 0 ? (
-                items.map(item => (
-                    <li key={item.id || item.playlistId}>
-                        {type === "user" 
-                            ? `🟢 ${item.nickname} (가입일: ${formatDate(item.regdate)})`
-                            : `🎵 ${item.playlistTitle} (생성일: ${formatDate(item.playlistDate)})`}
+                items.map(({ id, playlistId, nickname, regdate, playlistTitle, playlistDate }) => (
+                    <li key={id || playlistId}>
+                        {type === "user"
+                            ? `🟢 ${nickname} (가입일: ${formatDate(regdate)})`
+                            : `🎵 ${playlistTitle} (생성일: ${formatDate(playlistDate)})`}
                     </li>
                 ))
             ) : (
@@ -179,17 +195,20 @@ const DashboardSection = ({ title, icon, items, type }) => (
 );
 
 // 관리자 알림 섹션
-const DashboardAlerts = ({ setActiveSection }) => (
+const DashboardAlerts = ({ setActiveSection, reportCount, inquiryCount }) => (
     <div className="dashboard-section">
         <h3><FaBell /> 관리자 알림</h3>
         <ul>
             <li>
                 <button onClick={() => setActiveSection("report")} className="link-button">
-                    🚨 신고된 게시물 3개
+                    🚨 신고된 게시물 {reportCount}개
                 </button>
             </li>
-            <li>🛠️ 2024-02-27 시스템 업데이트 예정</li>
-            <li>⚠️ 서버 응답 지연 발생 (2024-02-25)</li>
+            <li>
+                <button onClick={() => setActiveSection("support")} className="link-button">
+                    📞 문의사항 {inquiryCount}개
+                </button>
+            </li>
         </ul>
     </div>
 );

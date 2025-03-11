@@ -34,8 +34,6 @@ const LoginPage = () => {
         });
         const userData = response.data;
 
-        console.log(response);
-
         const randomPassword = generateRandomPassword();
 
         const userDTO = {
@@ -176,38 +174,39 @@ const LoginPage = () => {
     <div>
       <Header />
       <div className="login-container">
-        <h1>로그인</h1>
-        <div className="login-form">
-          <input
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="login-input"
-          />
-          <input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="login-input"
-          />
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <div className="login-buttons">
-            <button className="loginpagebtn" onClick={handleEmailLogin}>
-              로그인
-            </button>
-            <button className="loginpagebtn signupbtn" onClick={goToSignup}>
-              회원가입
-            </button>
+        <div className="login-wrapper">
+          <h2>로그인</h2>
+          <div className="login-form">
+            <input
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="login-input"
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="login-input"
+            />
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <div className="login-buttons">
+              <button className="common-button" onClick={handleEmailLogin}>
+                로그인
+              </button>
+              <button className="common-button signupbtn" onClick={goToSignup}>
+                회원가입
+              </button>
+            </div>
           </div>
+          <hr />
+          <h2>소셜 로그인</h2>
+          <button className="common-button" onClick={getAccessToken}>
+            스포티파이로 로그인
+          </button>
         </div>
-        <hr />
-        <h2>소셜 로그인</h2>
-        <button className="socialbtn" onClick={getAccessToken}>
-          스포티파이로 로그인
-        </button>
-        {/* {userInfo && <pre>{JSON.stringify(userInfo, null, 2)}</pre>} */}
       </div>
     </div>
   );

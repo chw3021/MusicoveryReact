@@ -73,7 +73,7 @@ const Music = ({ track, isPremium }) => {
     const [playlists, setPlaylists] = useState([]);
     const [selectedPlaylists, setSelectedPlaylists] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { setCurrentTrack } = useContext(TrackContext);
+    const { setCurrentTrack, setIsPlaying, deviceReady } = useContext(TrackContext);
     
     const playlistsLoadedRef = useRef(false);
     const userInfo = useUserInfo();
@@ -153,7 +153,15 @@ const Music = ({ track, isPremium }) => {
         if (isPremium) {
             try {
                 setCurrentTrack(track); // 선택한 트랙을 Context를 통해 전달
-                
+                if (deviceReady) {
+                    setIsPlaying(true);
+                } else {
+                    if(!deviceReady){
+                        setTimeout(() => {
+                            setIsPlaying(true);
+                        }, 1000);
+                    }
+                }
             } catch (error) {
                 console.error("트랙 재생 중 오류:", error);
                 if (error.response?.status === 403) {

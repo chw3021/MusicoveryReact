@@ -3,9 +3,9 @@
     align-items: center;
     width: 86%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #222222;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #252726;
 }
 
 .track-info {
@@ -18,7 +18,7 @@
 
 .track-info h4 {
     margin: 0;
-    color: #000000;
+    color: #ececec;
     font-size: 0.9rem;
     overflow: hidden;
     white-space: nowrap;
@@ -42,7 +42,7 @@
 .tooltip {
     visibility: hidden;
     opacity: 0;
-    width: 200px;
+    max-width: 800px;
     background-color: #333;
     color: #fff;
     text-align: center;
@@ -50,8 +50,8 @@
     padding: 5px;
     position: fixed; /* fixed로 변경 */
     z-index: 1;
-    left: 50%; /* 중앙 정렬 */
-    transform: translateX(-50%) translateY(-50%); /* 중앙 정렬 및 위로 이동 */
+    left: 80%; /* 중앙 정렬 */
+    transform: translateX(-20%) translateY(-50%); /* 중앙 정렬 및 위로 이동 */
     transition: opacity 0.3s;
 }
 

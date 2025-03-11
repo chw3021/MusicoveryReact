@@ -31,7 +31,7 @@
     padding-left: 20px;
 }
 
-.playlistPhoto {
+.playlist-detail-photo {
     width: 100%;
     max-width: 150px;
     max-height: 150px;
@@ -49,10 +49,11 @@
 .playlist-tracks-container {
     display: flex;
     flex-direction: row;
+    width: 90%;
 }
 
 .playlist-tracks {
-    max-height: 300px; /* Adjust as needed */
+    max-height: 600px; /* Adjust as needed */
     overflow-y: auto;
     flex: 1;
 }

@@ -6,6 +6,7 @@ import "../../styles/CustomerSupport.css";
 const CustomerSupport = () => {
     const [question, setQuestion] = useState("");
     const [inquiries, setInquiries] = useState([]);
+    const [expandedInquiries, setExpandedInquiries] = useState({}); // 답변 표시 상태 관리
     const userInfo = useUserInfo();
 
     useEffect(() => {
@@ -48,6 +49,14 @@ const CustomerSupport = () => {
         }
     };
 
+    // 문의사항 클릭 이벤트 처리
+    const toggleResponse = (inquiryId) => {
+        setExpandedInquiries(prev => ({
+            ...prev,
+            [inquiryId]: !prev[inquiryId]
+        }));
+    };
+
     return (
         <div className="customer-support-container">
             <h1>문의사항</h1>
@@ -71,14 +80,25 @@ const CustomerSupport = () => {
                 <div className="inquiry-list">
                     {inquiries.map((inquiry) => (
                         <div key={inquiry.id} className="inquiry-item">
-                            <p>
-                                <strong>문의 내용:</strong> {inquiry.question}
-                            </p>
-                            <p>
-                                <strong>작성일:</strong> {new Date(inquiry.createdAt).toLocaleString()}
-                            </p>
-                            {inquiry.response && (
-                                <p>답변: {typeof inquiry.response === "string" ? JSON.parse(inquiry.response).response : inquiry.response}</p>
+                            <div 
+                                className="inquiry-item-content"
+                                onClick={() => toggleResponse(inquiry.id)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <div className="inquiry-item-content-item"><strong>문의 내용:</strong> {inquiry.question}</div>
+                                <div className="inquiry-item-content-item"><strong>작성일:</strong> {new Date(inquiry.createdAt).toLocaleString()}</div>
+                                {inquiry.response ? (
+                                    <div className="inquiry-item-toggle-hint">
+                                        {expandedInquiries[inquiry.id] ? '▲ 답변 숨기기' : '▼ 답변 보기'}
+                                    </div>
+                                ) : (
+                                    <div className="inquiry-item-toggle-hint">답변 대기 중</div>
+                                )}
+                            </div>
+                            {inquiry.response && expandedInquiries[inquiry.id] && (
+                                <div className="inquiry-item-content-response">
+                                    <p><strong>답변:</strong> {typeof inquiry.response === "string" ? JSON.parse(inquiry.response).response : inquiry.response}</p>
+                                </div>
                             )}
                         </div>
                     ))}

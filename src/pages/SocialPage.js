@@ -15,7 +15,6 @@ const SocialPage = () => {
     const fetchLiveStreams = () => {
         axiosInstance.get("/api/streaming/live")
             .then(response => {
-                console.log("📡 API 응답 데이터:", response.data);
                 // 임시로 모든 스트리밍 항목의 public 필드를 true로 설정
                 const modifiedData = response.data.map(stream => ({ ...stream, public: true }));
                 setLiveStreams(modifiedData);
@@ -23,10 +22,10 @@ const SocialPage = () => {
             .catch(error => console.error("❌ 스트리밍 목록 불러오기 실패:", error));
     };
 
-    // ✅ 5초마다 스트리밍 목록 갱신 (자동 새로고침)
+    // ✅ 20초마다 스트리밍 목록 갱신 (자동 새로고침)
     useEffect(() => {
         fetchLiveStreams(); // 최초 실행
-        const interval = setInterval(fetchLiveStreams, 5000); // 5초마다 갱신
+        const interval = setInterval(fetchLiveStreams, 40000); // 20초마다 갱신
         return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
     }, []);
 

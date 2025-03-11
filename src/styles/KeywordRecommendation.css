@@ -32,30 +32,30 @@
     /* height: 100%; */    
 
 }
-.form-group2 {
-
-}
 .form-group {
     display: flex;
-    align-items: center;
     gap: 10px;
 }
 
+.form-group-button {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
 
-.form-group select {
-    width: 100%;
+.form-group > select {
+    width: 50%;
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
 }
 
 .form-group label {
-    width: 150px;
     font-weight: bold;
 }
 
 .bpm-form-input {
-    width: 100%;
+    width: 50%;
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
@@ -91,7 +91,7 @@
 }
 
 .keyword-recommendations {
-    max-height: 15rem; /* 최대 높이 설정 */
+    max-height: 40rem; /* 최대 높이 설정 */
     overflow-y: auto; /* 스크롤바 적용 */
 }
 

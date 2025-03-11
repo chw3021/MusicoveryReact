@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/Header.module.css";
 import useUserInfo from "../../hooks/useUserInfo";
-import { getImageUrl } from "../../utils/imageUtils";
+import { logout } from "../auth/auth";
 
+import informationImg from "../../assets/information.png";
 import logoImage from "../../assets/logo.png"; // 이미지 import
 import "animate.css";
 
@@ -74,6 +75,15 @@ const Header = ({ isHomePage = false }) => {
     navigate(link);
   };
 
+  const goToMypage = () => {
+    navigate("/mypage");
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -121,18 +131,17 @@ const Header = ({ isHomePage = false }) => {
       <div className={styles.userInfo}>
         {userInfo ? (
           <div className={styles.userDetails}>
-            {userInfo.profileImageUrl && (
-              <img
-                src={getImageUrl(userInfo.profileImageUrl)}
-                alt="Profile"
-                className={styles.profileImage}
-              />
-            )}
-            <div className={styles.userText}>
-              <div>스포티파이 닉네임: {userInfo.nickname}</div>
-              <div>이메일: {userInfo.email}</div>
-              <div>아이디: {userInfo.userId}</div>
-            </div>
+            {/* <button className="" onClick={goToMypage}> */}
+            <img
+              className={styles.mypageBtn}
+              src={informationImg}
+              alt="mypage"
+              onClick={goToMypage}
+            ></img>
+            {/* </button> */}
+            <button className={styles.ctaButton} onClick={handleLogoutClick}>
+              로그아웃
+            </button>
           </div>
         ) : (
           <div className={styles.userText}>로그인되지 않음</div>
