@@ -9,7 +9,7 @@ const UserManagement = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10; // 한 페이지당 최대 10명
+    const usersPerPage = 5; // 한 페이지당 최대 10명
 
     useEffect(() => {
         fetchUsers();
