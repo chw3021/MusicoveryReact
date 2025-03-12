@@ -7,7 +7,7 @@ const ReportManagement = () => {
     const [selectedReport, setSelectedReport] = useState(null);
 
     useEffect(() => {
-        axiosInstance.get("http://localhost:8080/api/userreport/reportsAll")
+        axiosInstance.get("/api/userreport/reportsAll")
             .then(response => {
                 console.log("🚀 신고 목록 데이터:", response.data);
                 setUserReports(response.data);
@@ -37,7 +37,7 @@ const ReportManagement = () => {
 
         try {
             await axiosInstance.put(
-                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  
+                `/api/userreport/status/${selectedReport.id}`,  
                 { status: newStatus },  
                 { headers: { "Content-Type": "application/json" } }  
             );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import useUserInfo from "../../hooks/useUserInfo";
 import "../../styles/DeleteAccount.css";
@@ -25,7 +25,7 @@ function DeleteAccount() {
     }
 
     try {
-      await axios.delete("http://localhost:8080/auth/delete", {
+      await axiosInstance.delete("/auth/delete", {
         data: { id: userInfo.id, password },
       });
 
