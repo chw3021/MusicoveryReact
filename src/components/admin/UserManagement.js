@@ -9,7 +9,7 @@ const UserManagement = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 5; // 한 페이지당 최대 10명
+    const usersPerPage = 5; // 한 페이지당 최대 5명
 
     useEffect(() => {
         fetchUsers();
@@ -20,7 +20,7 @@ const UserManagement = () => {
         setLoading(true);
         try {
             const { data } = await axios.get("http://localhost:8080/admin/users", {
-                params: { search: searchTerm, sort: sortBy }  // ✅ API 파라미터 일치
+                params: { search: searchTerm, sort: sortBy }
             });
             setUsers(data || []);
             setCurrentPage(1);
@@ -34,8 +34,13 @@ const UserManagement = () => {
     // 유저 상태 변경 (정지 <-> 활성화)
     const handleToggleUserStatus = async (userId) => {
         if (!window.confirm("해당 유저의 상태를 변경하시겠습니까?")) return;
+    
         try {
-            await axios.put(`http://localhost:8080/admin/users/${userId}/status`);
+            console.log("🚀 정지 API 호출:", `http://localhost:8080/admin/users/${userId}/status`);
+    
+            const response = await axios.put(`http://localhost:8080/admin/users/${userId}/status`);
+            
+            console.log("응답 데이터:", response.data);
             alert("유저 상태가 변경되었습니다.");
             fetchUsers();
         } catch (error) {
@@ -43,7 +48,7 @@ const UserManagement = () => {
             alert("유저 상태 변경에 실패했습니다.");
         }
     };
-
+    
     // 유저 삭제
     const handleDeleteUser = async (userId) => {
         if (!window.confirm("해당 유저를 삭제하시겠습니까?")) return;
