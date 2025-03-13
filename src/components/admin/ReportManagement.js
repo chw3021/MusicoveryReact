@@ -5,9 +5,17 @@ import "../../styles/ReportManagement.css";
 const ReportManagement = () => {
     const [userReports, setUserReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const reportsPerPage = 5;
 
+    // ✅ 신고 목록 불러오기
     useEffect(() => {
-        axiosInstance.get("http://localhost:8080/api/userreport/reportsAll")
+        fetchReports();
+    }, [currentPage]);
+
+    const fetchReports = () => {
+        axiosInstance.get(`http://localhost:8080/api/userreport/reportsAll?page=${currentPage}&size=${reportsPerPage}`)
+        axiosInstance.get("/api/userreport/reportsAll")
             .then(response => {
                 console.log("🚀 신고 목록 데이터:", response.data);
                 setUserReports(response.data);
@@ -15,11 +23,10 @@ const ReportManagement = () => {
             .catch(error => {
                 console.error("Error fetching user reports:", error);
             });
-    }, []);
+    };
 
-    const selectReport = (index) => {
-        const report = userReports[index];
-        console.log("✅ 선택된 신고 데이터:", report);
+    const selectReport = (reportId) => {
+        const report = userReports.find(r => r.id === reportId);
         if (!report) {
             console.error("🚨 오류: 선택된 신고 데이터가 없습니다!");
             return;
@@ -27,6 +34,7 @@ const ReportManagement = () => {
         setSelectedReport(report);
     };
 
+    // ✅ 신고 상태 변경 (DB 반영 후 상태 업데이트)
     const handleUpdateStatus = async (newStatus) => {
         if (!selectedReport) {
             alert("🚨 신고된 사용자를 선택해주세요.");
@@ -36,29 +44,47 @@ const ReportManagement = () => {
         if (!window.confirm(`🚨 해당 유저의 상태를 '${newStatus}'로 변경하시겠습니까?`)) return;
 
         try {
-            await axiosInstance.put(
-                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,  
-                { status: newStatus },  
-                { headers: { "Content-Type": "application/json" } }  
+            const response = await axiosInstance.put(
+                `http://localhost:8080/api/userreport/status/${selectedReport.id}`,
+                { status: newStatus },
+                { headers: { "Content-Type": "application/json" } }
             );
 
-            setUserReports(prevReports =>
-                prevReports.map(report =>
-                    report.id === selectedReport.id ? { ...report, status: newStatus } : report
-                )
-            );
+            if (response.status === 200) {
+                alert(`🚨 유저 상태가 '${newStatus}'로 변경되었습니다.`);
 
-            setSelectedReport(prev => ({
-                ...prev,
-                status: newStatus
-            }));
+                // ✅ 선택된 신고 데이터 상태 업데이트
+                setSelectedReport(prev => ({
+                    ...prev,
+                    status: newStatus
+                }));
 
-            alert(`🚨 유저 상태가 '${newStatus}'로 변경되었습니다.`);
+                // ✅ 전체 신고 목록에서도 상태 업데이트
+                setUserReports(prevReports =>
+                    prevReports.map(report =>
+                        report.id === selectedReport.id ? { ...report, status: newStatus } : report
+                    )
+                );
+            } else {
+                alert("🚨 유저 상태 변경 실패");
+            }
         } catch (error) {
             console.error("🚨 유저 상태 변경 실패:", error);
             alert("🚨 유저 상태 변경에 실패했습니다.");
         }
     };
+
+    // ✅ 상태 색상 적용
+    const getStatusClass = (status) => {
+        if (status === "BANNED") return "banned-report"; // 🔴 빨강
+        if (status === "UNBANNED" || status === "사유 불충분") return "resolved-report"; // 🟢 초록
+        return "pending-report"; // 🟠 주황
+    };
+
+    // ✅ 현재 페이지의 신고 목록만 필터링
+    const indexOfLastReport = currentPage * reportsPerPage;
+    const currentReports = userReports.slice(indexOfLastReport - reportsPerPage, indexOfLastReport);
+    const totalPages = Math.ceil(userReports.length / reportsPerPage);
 
     return (
         <div className="report-management">
@@ -68,14 +94,11 @@ const ReportManagement = () => {
                 <div className="report-list">
                     <h3>📋 신고된 사용자 목록</h3>
                     <ul>
-                        {userReports.map((report, index) => (
-                            <li key={index}
-                                className={`report-item 
-                                    ${report.status === "신고 접수" ? "pending-report" : ""} 
-                                    ${report.status === "사유 불충분" ? "resolved-report" : ""} 
-                                    ${report.status.includes("정지") ? "banned-report" : ""} 
+                        {currentReports.map((report) => (
+                            <li key={report.id}
+                                className={`report-item ${getStatusClass(report.status)} 
                                     ${selectedReport?.id === report.id ? "selected" : ""}`}
-                                onClick={() => selectReport(index)}
+                                onClick={() => selectReport(report.id)}
                             >
                                 <span className="report-user">
                                     {report.reportedUserNickname || "알 수 없음"} 
@@ -87,6 +110,21 @@ const ReportManagement = () => {
                             </li>
                         ))}
                     </ul>
+
+                    {/* ✅ 페이지네이션 */}
+                    <div className="pagination">
+                        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>◀</button>
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button 
+                                key={i} 
+                                onClick={() => setCurrentPage(i + 1)} 
+                                className={currentPage === i + 1 ? "active" : ""}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                        <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>▶</button>
+                    </div>
                 </div>
 
                 <div className="report-detail">
@@ -101,7 +139,6 @@ const ReportManagement = () => {
                                 <p><strong>상태:</strong> {selectedReport.status}</p>
                             </div>
 
-                            {/* ✅ 신고된 게시글 표시 */}
                             {selectedReport.postTitle ? (
                                 <div className="post-info">
                                     <h3>📌 신고된 게시글</h3>
@@ -113,8 +150,8 @@ const ReportManagement = () => {
                             )}
 
                             <div className="report-actions">
-                                <button className="ban-button" onClick={() => handleUpdateStatus("정지됨")}>🚫 유저 정지</button>
-                                <button className="unban-button" onClick={() => handleUpdateStatus("정지 해제")}>✅ 정지 해제</button>
+                                <button className="ban-button" onClick={() => handleUpdateStatus("BANNED")}>🚫 유저 정지</button>
+                                <button className="unban-button" onClick={() => handleUpdateStatus("UNBANNED")}>✅ 정지 해제</button>
                                 <button className="insufficient-reason-button" onClick={() => handleUpdateStatus("사유 불충분")}>❌ 사유 불충분</button>
                             </div>
                         </>
