@@ -40,7 +40,7 @@
 
 .list-track-item {
     display: flex;
-    width: 100%;
+    width: 95%;
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
@@ -65,4 +65,52 @@
 
 .music-search-container {
     width: 50%;
+}
+
+.playlist-play-all-button{
+    margin-bottom: 50px;
+    padding: 10px 25px 15px;
+    background-color: #1db954;
+    color: white;
+    font-size: 40px;
+    border-radius: 20px;
+}
+
+.playlist-play-all-button:hover {
+    background-color: #1ed760;
+}
+
+.playlist-detail-title-input{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    border-bottom: 1px solid #1db954;
+}
+
+.playlist-detail-title{
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+}
+
+
+.playlist-detail-playlistComment-input{
+    padding: 10px;
+    border-radius: 10px;
+    border-bottom: 1px solid #1db954;
+}
+
+.playlist-update-track-remove-button{
+    background-color: #ee3f09;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 3px;
+    margin-left: 10px;
+}
+
+.playlist-update-track-remove-button:hover{
+    background-color: #b18027;
+    cursor: pointer;
 }

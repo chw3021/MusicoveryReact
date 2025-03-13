@@ -73,7 +73,7 @@ const Music = ({ track, isPremium }) => {
     const [playlists, setPlaylists] = useState([]);
     const [selectedPlaylists, setSelectedPlaylists] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { setCurrentTrack, setIsPlaying, deviceReady } = useContext(TrackContext);
+    const { addTrackToList, setIsPlaying, deviceReady } = useContext(TrackContext);
     
     const playlistsLoadedRef = useRef(false);
     const userInfo = useUserInfo();
@@ -152,7 +152,7 @@ const Music = ({ track, isPremium }) => {
     const handlePlayClick = async (track) => {
         if (isPremium) {
             try {
-                setCurrentTrack(track); // 선택한 트랙을 Context를 통해 전달
+                addTrackToList(track); // 트랙을 리스트에 추가
                 if (deviceReady) {
                     setIsPlaying(true);
                 } else {
@@ -180,6 +180,7 @@ const Music = ({ track, isPremium }) => {
     };
 
     return (
+        // 렌더링 부분은 동일하게 유지
         track && track.album && track.album.images && track.album.images[0] ? (
             <div key={track.id} className="track-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <img className="track-album-image-music" src={track.album.images[0].url} alt={track.name} />

@@ -52,6 +52,7 @@ const Create = () => {
         formData.append("isPublic", false);
         formData.append("userId", state.user.userId);
         formData.append("tracks", state.selectedTracks.map(track => track.uri));
+        
         if (state.playlistPhoto) {
             formData.append("playlistPhoto", state.playlistPhoto);
         }

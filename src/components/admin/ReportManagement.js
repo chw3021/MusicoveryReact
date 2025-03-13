@@ -15,6 +15,7 @@ const ReportManagement = () => {
 
     const fetchReports = () => {
         axiosInstance.get(`http://localhost:8080/api/userreport/reportsAll?page=${currentPage}&size=${reportsPerPage}`)
+        axiosInstance.get("/api/userreport/reportsAll")
             .then(response => {
                 console.log("🚀 신고 목록 데이터:", response.data);
                 setUserReports(response.data);

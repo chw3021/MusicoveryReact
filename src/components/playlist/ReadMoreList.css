@@ -20,6 +20,16 @@
     height:10px;
     margin: 0.5% 0 20px 1.5%;
 }
+.form-control{
+    background-color: #ccc;
+    height: 380%;
+    text-align: center;
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    margin-left: 10%;
+    width: 70%;
+}
 
 .searchText input {
     width: 80%;
