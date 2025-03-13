@@ -15,7 +15,6 @@ const SocialPage = () => {
     const fetchLiveStreams = () => {
         axiosInstance.get("/api/streaming/live")
             .then(response => {
-                // 임시로 모든 스트리밍 항목의 public 필드를 true로 설정
                 const modifiedData = response.data.map(stream => ({ ...stream, public: true }));
                 setLiveStreams(modifiedData);
             })
@@ -59,7 +58,7 @@ const SocialPage = () => {
                                         <div className="chat-box">
                                             <p><strong>마지막 채팅:</strong> {stream.lastMessage ? stream.lastMessage : "메시지가 없습니다."}</p>
                                             
-                                            <JoinChat streamId={stream.id} /> {/* ✅ JoinChat 버튼 사용 */}
+                                            <JoinChat streamId={stream.id} />
                                         </div>
                                     </div>
                                 </div>      
