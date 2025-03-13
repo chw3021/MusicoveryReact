@@ -52,11 +52,19 @@ function InfoEdit({ setActiveTab }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 비밀번호 확인 칸이 비어 있으면 경고 메시지를 표시하고 중단
+    if (formData.passwd && !formData.confirmPasswd) {
+      alert("비밀번호 확인을 입력해주세요.");
+      return;
+    }
+
+    // 비밀번호가 일치하지 않는 경우 경고 메시지를 표시하고 중단
     if (passwordMatch === false) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
+    // 비밀번호 조건이 유효하지 않은 경우 경고 메시지를 표시하고 중단
     if (formData.passwd && !passwordValid) {
       alert("비밀번호 조건을 만족하지 않습니다.");
       return;
