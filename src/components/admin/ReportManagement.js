@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import "../../styles/ReportManagement.css";
@@ -76,9 +77,9 @@ const ReportManagement = () => {
 
     // ✅ 상태 색상 적용
     const getStatusClass = (status) => {
-        if (status === "BANNED") return "banned-report"; // 🔴 빨강
-        if (status === "UNBANNED" || status === "사유 불충분") return "resolved-report"; // 🟢 초록
-        return "pending-report"; // 🟠 주황
+        if (status === "BANNED") return "banned-report";
+        if (status === "UNBANNED" || status === "사유 불충분") return "resolved-report";
+        return "pending-report";
     };
 
     // ✅ 현재 페이지의 신고 목록만 필터링
