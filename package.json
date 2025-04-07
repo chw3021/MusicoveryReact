@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@headlessui/react": "^2.2.0",
+    "@headlessui/react": "^2.2.1",
     "@stomp/stompjs": "^7.0.0",
     "animate.css": "^4.1.1",
     "axios": "^1.7.9",
     "chart.js": "^4.4.8",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cra-template": "1.2.0",
+    "gh-pages": "^6.3.0",
     "gsap": "^3.12.7",
     "http-proxy-middleware": "^3.0.3",
     "react": "^19.0.0",
@@ -27,8 +28,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://chw3021.github.io/MusicoveryReact/",
   "eslintConfig": {
     "extends": [
       "react-app",
