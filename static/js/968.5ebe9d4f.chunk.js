@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmusicovery_front=self.webpackChunkmusicovery_front||[]).push([[968],{6968:(e,s,t)=>{t.r(s),t.d(s,{default:()=>a});var r=t(5043),c=t(1675),n=t(579);const a=()=>{const e=(0,c.Zp)(),s=(0,c.zy)();return(0,r.useEffect)((()=>{const t=new URLSearchParams(s.search).get("token");t&&(localStorage.setItem("MUSICOVERY_ACCESS_TOKEN",t),e("/"))}),[e,s]),(0,n.jsx)("div",{children:"\uc778\uc99d \ucc98\ub9ac \uc911..."})}}}]);
+//# sourceMappingURL=968.5ebe9d4f.chunk.js.map
