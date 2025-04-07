@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import "./App.css";
 
-import { RouterProvider } from "react-router-dom";
+import { HashRouter } from "react-router-dom"; // HashRouter 임포트
 import root from "./router/root";
 import SpotifyPlayerWrapper from './components/common/SpotifyPlayerWrapper';
 import { TrackProvider } from './context/TrackContext';
 import { LoadingProvider, LoadingContext } from './context/LoadingContext';
 import Loading from './components/common/Loading';
+import RootRoutes from "./router/root"; // RootRoutes 임포트
 
 
 function AppInner() {
@@ -16,7 +17,9 @@ function AppInner() {
   return (
     <div className="App">
       {isLoading && <Loading />}
-      <RouterProvider router={root} />
+      <HashRouter>
+        <RootRoutes /> {/* RouterProvider 대신 RootRoutes 사용 */}
+      </HashRouter>
       <SpotifyPlayerWrapper />
     </div>
   );

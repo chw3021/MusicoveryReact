@@ -1,9 +1,5 @@
-import {
-  createBrowserRouter,
-  Route,
-  createRoutesFromElements,
-} from "react-router-dom";
-import { Suspense, lazy } from "react";
+import React, { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import VerifyPage from "../pages/VerifyPage";
@@ -44,228 +40,87 @@ const ChatRoom = lazy(() => import("../components/social/ChatRoom"));
 const AdminMain = lazy(() => import("../pages/AdminPage"));
 // const SpotifyLoginPage = lazy(() => import("../pages/SpotifyLoginPage"));
 
-const root = createBrowserRouter(
-  createRoutesFromElements(
-    <Route
-      path="/"
-      element={
-        <Suspense fallback={Loading}>
-          <Main />
-        </Suspense>
-      }
-    >
-      <Route
-        index
-        element={
-          <Suspense fallback={Loading}>
-            <Home />
-          </Suspense>
-        }
-      />
-      <Route
-        path="post"
-        element={
-          <Suspense fallback={Loading}>
-            <PostPage />
-          </Suspense>
-        }
-      />
-      <Route
-        path="social"
-        element={
-          <Suspense fallback={Loading}>
+function RootRoutes() {
+  return (
+    <Suspense fallback={Loading}>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/post" element={<PostPage />} />
+        <Route
+          path="/social"
+          element={
             <PrivateRoute>
               <SocialPage />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="streaming"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route
+          path="/streaming"
+          element={
             <PrivateRoute>
               <Streaming />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="challenge"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route
+          path="/challenge"
+          element={
             <PrivateRoute>
               <Challenge />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="quiz"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route
+          path="/quiz"
+          element={
             <PrivateRoute>
               <Quiz />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="songquiz"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route
+          path="/songquiz"
+          element={
             <PrivateRoute>
               <SongQuiz />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="userreport"
-        element={
-          <Suspense fallback={Loading}>
-            <UserReport />
-          </Suspense>
-        }
-      />
-      <Route
-        path="customersupport"
-        element={
-          <Suspense fallback={Loading}>
-            <CustomerSupport />
-          </Suspense>
-        }
-      />
-      <Route
-        path="chat/:streamId"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route path="/userreport" element={<UserReport />} />
+        <Route path="/customersupport" element={<CustomerSupport />} />
+        <Route
+          path="/chat/:streamId"
+          element={
             <PrivateRoute>
               <ChatRoom />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-      <Route
-        path="createplaylist"
-        element={
-          <Suspense fallback={Loading}>
-            <PlaylistCreatePage />
-          </Suspense>
-        }
-      />
-      <Route
-        path="PlusMusic"
-        element={
-          <Suspense fallback={Loading}>
-            <PlusMusic />
-          </Suspense>
-        }
-      />
-      <Route
-        path="playlist/:playlistId"
-        element={
-          <Suspense fallback={Loading}>
-            <PlaylistDetail key={window.location.pathname} />
-          </Suspense>
-        }
-      />
-      <Route
-        path="PlaylistPage"
-        element={
-          <Suspense fallback={Loading}>
-            <PlaylistPage />
-          </Suspense>
-        }
-      />
-      <Route
-        path="QuizSOLOPlay"
-        element={
-          <Suspense fallback={Loading}>
-            <QuizSOLOPlay />
-          </Suspense>
-        }
-      />
-      <Route
-        path="QuizMULTIPlay"
-        element={
-          <Suspense fallback={Loading}>
-            <QuizMULTIPlay />
-          </Suspense>
-        }
-      />
-      <Route
-        path="ChallengeSOLOPlay"
-        element={
-          <Suspense fallback={Loading}>
-            <ChallengeSOLOPlay />
-          </Suspense>
-        }
-      />
-      <Route
-        path="ChallengeMULTIPlay"
-        element={
-          <Suspense fallback={Loading}>
-            <ChallengeMULTIPlay />
-          </Suspense>
-        }
-      />
-      <Route
-        path="oauth-callback"
-        element={
-          <Suspense fallback={Loading}>
-            <OAuthCallback />
-          </Suspense>
-        }
-      />
-      <Route
-        path="admin"
-        element={
-          <Suspense fallback={Loading}>
-            <AdminMain />
-          </Suspense>
-        }
-      />
-
-      <Route
-        path="Signup"
-        element={
-          <Suspense fallback={Loading}>
-            <SignupPage />
-          </Suspense>
-        }
-      />
-
-      <Route
-        path="login"
-        element={
-          <Suspense fallback={Loading}>
-            <LoginPage />
-          </Suspense>
-        }
-      />
-
-      <Route
-        path="verify"
-        element={
-          <Suspense fallback={Loading}>
-            <VerifyPage />
-          </Suspense>
-        }
-      />
-
-      <Route
-        path="mypage"
-        element={
-          <Suspense fallback={Loading}>
+          }
+        />
+        <Route path="/createplaylist" element={<PlaylistCreatePage />} />
+        <Route path="/PlusMusic" element={<PlusMusic />} />
+        <Route path="/playlist/:playlistId" element={<PlaylistDetail key={window.location.pathname} />} />
+        <Route path="/PlaylistPage" element={<PlaylistPage />} />
+        <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
+        <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />
+        <Route path="/ChallengeSOLOPlay" element={<ChallengeSOLOPlay />} />
+        <Route path="/ChallengeMULTIPlay" element={<ChallengeMULTIPlay />} />
+        <Route path="/oauth-callback" element={<OAuthCallback />} />
+        <Route path="/admin" element={<AdminMain />} />
+        <Route path="/Signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/verify" element={<VerifyPage />} />
+        <Route
+          path="/mypage"
+          element={
             <PrivateRoute>
               <MyPage />
             </PrivateRoute>
-          </Suspense>
-        }
-      />
-    </Route>
-  )
-);
+          }
+        />
+      </Routes>
+    </Suspense>
+  );
+}
 
-export default root;
+export default RootRoutes;
