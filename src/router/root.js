@@ -44,80 +44,66 @@ function RootRoutes() {
   return (
     <Suspense fallback={Loading}>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/post" element={<PostPage />} />
-        <Route
-          path="/social"
-          element={
-            <PrivateRoute>
-              <SocialPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/streaming"
-          element={
+        <Route path="/" element={<Main />}>
+          <Route index element={<Home />} />
+          <Route path="post" element={<PostPage />} />
+          <Route
+            path="social"
+            element={
+              <PrivateRoute>
+                <SocialPage />
+              </PrivateRoute>
+            }
+          />
+          {/* ... 다른 라우트들도 동일한 패턴으로 ... */}
+          <Route path="streaming" element={
             <PrivateRoute>
               <Streaming />
             </PrivateRoute>
-          }
-        />
-        <Route
-          path="/challenge"
-          element={
+          } />
+          <Route path="challenge" element={
             <PrivateRoute>
               <Challenge />
             </PrivateRoute>
-          }
-        />
-        <Route
-          path="/quiz"
-          element={
+          } />
+          <Route path="quiz" element={
             <PrivateRoute>
               <Quiz />
             </PrivateRoute>
-          }
-        />
-        <Route
-          path="/songquiz"
-          element={
+          } />
+          <Route path="songquiz" element={
             <PrivateRoute>
               <SongQuiz />
             </PrivateRoute>
-          }
-        />
-        <Route path="/userreport" element={<UserReport />} />
-        <Route path="/customersupport" element={<CustomerSupport />} />
-        <Route
-          path="/chat/:streamId"
-          element={
+          } />
+          <Route path="userreport" element={<UserReport />} />
+          <Route path="customersupport" element={<CustomerSupport />} />
+          <Route path="chat/:streamId" element={
             <PrivateRoute>
               <ChatRoom />
             </PrivateRoute>
-          }
-        />
-        <Route path="/createplaylist" element={<PlaylistCreatePage />} />
-        <Route path="/PlusMusic" element={<PlusMusic />} />
-        <Route path="/playlist/:playlistId" element={<PlaylistDetail key={window.location.pathname} />} />
-        <Route path="/PlaylistPage" element={<PlaylistPage />} />
-        <Route path="/QuizSOLOPlay" element={<QuizSOLOPlay />} />
-        <Route path="/QuizMULTIPlay" element={<QuizMULTIPlay />} />
-        <Route path="/ChallengeSOLOPlay" element={<ChallengeSOLOPlay />} />
-        <Route path="/ChallengeMULTIPlay" element={<ChallengeMULTIPlay />} />
-        <Route path="/oauth-callback" element={<OAuthCallback />} />
-        <Route path="/admin" element={<AdminMain />} />
-        <Route path="/Signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/verify" element={<VerifyPage />} />
-        <Route
-          path="/mypage"
-          element={
+          } />
+          <Route path="createplaylist" element={<PlaylistCreatePage />} />
+          <Route path="PlusMusic" element={<PlusMusic />} />
+          <Route path="playlist/:playlistId" element={
+            <PlaylistDetail key={window.location.pathname} />
+          } />
+          <Route path="PlaylistPage" element={<PlaylistPage />} />
+          <Route path="QuizSOLOPlay" element={<QuizSOLOPlay />} />
+          <Route path="QuizMULTIPlay" element={<QuizMULTIPlay />} />
+          <Route path="ChallengeSOLOPlay" element={<ChallengeSOLOPlay />} />
+          <Route path="ChallengeMULTIPlay" element={<ChallengeMULTIPlay />} />
+          <Route path="oauth-callback" element={<OAuthCallback />} />
+          <Route path="admin" element={<AdminMain />} />
+          <Route path="Signup" element={<SignupPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="verify" element={<VerifyPage />} />
+          <Route path="mypage" element={
             <PrivateRoute>
               <MyPage />
             </PrivateRoute>
-          }
-        />
+          } />
+        </Route>
       </Routes>
     </Suspense>
   );
